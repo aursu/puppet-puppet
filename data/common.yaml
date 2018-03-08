@@ -7,3 +7,4 @@ puppet::hosts_update: false
 puppet::master: true
 puppet::environment: 'production'
 puppet::puppet_agent_ensure: 'latest'
+puppet::puppet_server_ensure: 'latest'
