@@ -7,10 +7,10 @@
 # @example
 #   include puppet::repo
 class puppet::repo (
-    String $package_name        = $puppet5::params::package_name,
-    String $package_filename    = $puppet5::params::package_filename,
-    String $package_provider    = $puppet5::params::package_provider,
-    String $platform_repository = $puppet5::params::platform_repository,
+    String $package_name        = $puppet::params::package_name,
+    String $package_filename    = $puppet::params::package_filename,
+    String $package_provider    = $puppet::params::package_provider,
+    String $platform_repository = $puppet::params::platform_repository,
 ) inherits puppet::params
 {
     exec { 'download-release-package':
