@@ -13,7 +13,7 @@ class puppet::repo (
     $platform_repository = $puppet5::params::platform_repository,
 ) inherits puppet::params
 {
-    exec { 'download-release--package':
+    exec { 'download-release-package':
         command => "curl ${platform_repository} -s -o ${package_filename}",
         cwd     => '/tmp',
         path    => '/bin:/usr/bin',
