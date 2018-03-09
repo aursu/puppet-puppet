@@ -14,8 +14,10 @@ class puppet::install (
     String  $server_version      = $puppet::server_version,
     Boolean $r10k                = $puppet::r10k_deployment,
     String  $r10k_package_name   = $puppet::params::r10k_package_name,
-    String  $gem_path            = $puppet::params::gem_path,
-    String  $r10k_path           = $puppet::params::r10k_path,
+    Stdlib::Absolutepath  
+            $gem_path            = $puppet::params::gem_path,
+    Stdlib::Absolutepath
+            $r10k_path           = $puppet::params::r10k_path,
 ) inherits puppet::params
 {
     include puppet::repo
