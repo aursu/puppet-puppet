@@ -1,10 +1,10 @@
 ---
-# default server name is 'puppet'
 puppet::server: 'puppet'
 puppet::server_aliases: ~
 puppet::server_ipaddress: '127.0.0.1'
 puppet::hosts_update: false
 puppet::master: true
 puppet::environment: 'production'
-puppet::puppet_agent_ensure: 'latest'
-puppet::puppet_server_ensure: 'latest'
+puppet::agent_version: 'latest'
+puppet::server_version: 'latest'
+puppet::r10k_deployment: true
