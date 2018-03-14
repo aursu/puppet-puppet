@@ -34,13 +34,13 @@ class puppet::install (
             name    => $server_package_name,
             require => Package['puppet-agent'],
         }
-    }
 
-    if $r10k_deployment {
-        exec { 'r10k-installation':
-            command => "${gem_path} install ${r10k_package_name}",
-            creates => $r10k_path,
-            require => Package['puppet-agent'],
+        if $r10k {
+            exec { 'r10k-installation':
+                command => "${gem_path} install ${r10k_package_name}",
+                creates => $r10k_path,
+                require => Package['puppet-agent'],
+            }
         }
     }
 }
