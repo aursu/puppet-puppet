@@ -8,3 +8,5 @@ puppet::environment: 'production'
 puppet::agent_version: 'latest'
 puppet::server_version: 'latest'
 puppet::r10k_deployment: true
+puppet::server_service_ensure: 'running'
+puppet::server_service_enable: true
