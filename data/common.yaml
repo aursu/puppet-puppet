@@ -2,7 +2,7 @@
 puppet::server: 'puppet'
 puppet::server_aliases: ~
 puppet::server_ipaddress: '127.0.0.1'
-puppet::hosts_update: false
+puppet::hosts_update: true
 puppet::master: true
 puppet::environment: 'production'
 puppet::agent_version: 'latest'
