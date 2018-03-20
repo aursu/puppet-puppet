@@ -137,7 +137,7 @@ class puppet::config (
             $basemodulepath         = $puppet::basemodulepath,
     Optional[Array[String]]
             $dns_alt_names          = $puppet::dns_alt_names,
-    Puppet::Srictness
+    Puppet::Strictness
             $strict                 = $puppet::strict,
     Boolean $strict_variables       = $puppet::strict_variables,
     Boolean $daemonize              = $puppet::daemonize,
