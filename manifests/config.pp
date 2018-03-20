@@ -152,7 +152,7 @@ class puppet::config (
             $external_nodes         = $puppet::params::external_nodes,
 ) inherits puppet::params
 {
-    include puppet::install
+    include puppet::install::agent
 
     file { 'puppet-config':
         path    => $puppet_config,
