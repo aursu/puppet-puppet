@@ -19,7 +19,6 @@ class puppet (
     String  $agent_version,
     Boolean $master,
     String  $server_version,
-    Boolean $r10k_deployment,
     String  $server_service_ensure,
     Boolean $server_service_enable,
     Boolean $use_common_env,
@@ -48,8 +47,7 @@ class puppet (
 )
 {
     include puppet::repo
-    include puppet::install
+    include puppet::install::agent
     include puppet::config
     include puppet::setup
-    include puppet::service
 }
