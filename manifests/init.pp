@@ -44,7 +44,6 @@ class puppet (
     Boolean $sameca,
     Boolean $allow_duplicate_certs,
     Boolean $use_enc,
-    Boolean $trusted_server_facts,
     Boolean $use_puppetdb,
 )
 {

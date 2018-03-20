@@ -110,18 +110,6 @@
 # Boolean. Default is true. When enabled, Puppet will use external nodes
 # classifier script which defined in puppet::params::external_nodes variable
 #
-# [*trusted_server_facts*]
-#
-# Boolean. Default is false. When enabled, Puppet creates a protected top-scope
-# variable called $server_facts. This variable name can’t be re-used in any
-# local scope, and can’t be overridden by agent-provided facts.
-# The $server_facts variable is a hash, containing server-provided information
-# like the current node’s environment and the version of Puppet running on the
-# server.
-# If flag `use_enc` is set to true - this setting will be mandatory set to true
-# as well.
-# Default: false
-#
 # @summary A short summary of the purpose of this class
 #
 # @example
@@ -155,7 +143,6 @@ class puppet::config (
             $autosign               = $puppet::autosign,
     Boolean $allow_duplicate_certs  = $puppet::allow_duplicate_certs,
     Boolean $use_enc                = $puppet::use_enc,
-    Boolean $trusted_server_facts   = $puppet::trusted_server_facts,
     Boolean $use_puppetdb           = $puppet::use_puppetdb,
     # predefined via params
     Stdlib::Absolutepath

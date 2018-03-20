@@ -70,10 +70,6 @@ ca = false
 node_terminus = exec
 external_nodes = <%= @external_nodes %>
 <% end -%>
-<% if @use_enc or @trusted_server_facts -%>
-<%# Default: false -%>
-trusted_server_facts = true
-<% end -%>
 <% if @use_puppetdb -%>
 storeconfigs = true
 storeconfigs_backend = puppetdb
