@@ -13,7 +13,7 @@ class puppet::setup (
     Optional[String]
             $server_ipaddress    = $puppet::server_ipaddress,
     Optional[Array[String]]
-            $server_aliases      = $puppet::server_aliases,
+            $dns_alt_names       = $puppet::dns_alt_names,
     Stdlib::Absolutepath
             $r10k_path           = $puppet::params::r10k_path,
     Boolean $r10k                = $puppet::r10k_deployment,
@@ -23,7 +23,7 @@ class puppet::setup (
         host { $server_name:
             ensure       => 'present',
             ip           => $server_ipaddress,
-            host_aliases => $server_aliases,
+            host_aliases => $dns_alt_names,
         }
     }
 
