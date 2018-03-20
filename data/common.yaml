@@ -4,11 +4,10 @@ puppet::ca_server: ~
 puppet::dns_alt_names: ~
 puppet::server_ipaddress: '127.0.0.1'
 puppet::hosts_update: true
-puppet::master: true
+puppet::master: false
 puppet::environment: 'production'
 puppet::agent_version: 'latest'
 puppet::server_version: 'latest'
-puppet::r10k_deployment: true
 puppet::server_service_ensure: 'running'
 puppet::server_service_enable: true
 puppet::use_common_env: true
