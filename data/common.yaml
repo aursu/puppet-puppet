@@ -1,7 +1,7 @@
 ---
 puppet::server: 'puppet'
 puppet::ca_server: ~
-puppet::server_aliases: ~
+puppet::dns_alt_names: ~
 puppet::server_ipaddress: '127.0.0.1'
 puppet::hosts_update: true
 puppet::master: true
