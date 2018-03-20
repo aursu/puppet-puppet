@@ -1,5 +1,6 @@
 ---
 puppet::server: 'puppet'
+puppet::ca_server: ~
 puppet::server_aliases: ~
 puppet::server_ipaddress: '127.0.0.1'
 puppet::hosts_update: true
@@ -10,3 +11,21 @@ puppet::server_version: 'latest'
 puppet::r10k_deployment: true
 puppet::server_service_ensure: 'running'
 puppet::server_service_enable: true
+puppet::use_common_env: true
+puppet::common_envname: 'common'
+puppet::basemodulepath: ~
+puppet::strict: warning
+puppet::strict_variables: true
+puppet::daemonize: false
+puppet::http_read_timeout: 120
+puppet::onetime: true
+puppet::ordering: 'random'
+puppet::priority: ~
+puppet::usecacheonfailure: false
+puppet::autosign: false
+puppet::environment_timeout: 0
+puppet::sameca: true
+puppet::allow_duplicate_certs: false
+puppet::use_enc: true
+puppet::trusted_server_facts: false
+puppet::use_puppetdb: true

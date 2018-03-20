@@ -6,16 +6,78 @@
 # - https://docs.puppetlabs.com/puppet/latest/reference/configuration.html
 [main]
 environment = <%= @environment %>
-<% if @server_aliases.is_a?(Array) -%>
-dns_alt_names = <%= @server_aliases.join(',') %>
+<% if @puppet_master -%>
+strict = <%= @strict %>
+<% if @basemodulepath -%>
+basemodulepath = <%= @basemodulepath %>
+<% elsif @use_common_env -%>
+basemodulepath = <%= [ @environmentpath, @common_envname, 'modules'].join('/') %>
+<% end -%>
+<% if @dns_alt_names.is_a?(Array) -%>
+dns_alt_names = <%= @dns_alt_names.join(',') %>
+<% end -%>
+<% if @strict_variables -%>
+<%# Default: false -%>
+strict_variables = true
+<% end -%>
 <% end -%>
 
 [agent]
 server = <%= @server %>
+http_read_timeout = <%= @http_read_timeout %>
+ordering = <%= @ordering %>
+<% if @ca_server -%>
+ca_server = <%= @ca_server %>
+<% end -%>
+<% unless @daemonize -%>
+<%# Default: true -%>
+daemonize = false
+<% end -%>
+<% if @onetime -%>
+<%# Default: false -%>
+onetime = true
+<% end -%>
+<% if @priopity -%>
+priority = <%= @priority %>
+<% end -%>
+<% unless @usecacheonfailure -%>
+<%# Default: true -%>
+usecacheonfailure = false
+<% end -%>
 
+<% if @puppet_master -%>
 [master]
 vardir = /opt/puppetlabs/server/data/puppetserver
 logdir = /var/log/puppetlabs/puppetserver
 rundir = /var/run/puppetlabs/puppetserver
 pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
 codedir = /etc/puppetlabs/code
+
+environment_timeout = <%= @environment_timeout %>
+<% if @allow_duplicate_certs -%>
+<%# Default: false -%>
+allow_duplicate_certs = true
+<% end -%>
+<% unless @autosign.nil? -%>
+autosign = <%= @autosign %>
+<% end -%>
+<% unless @sameca -%>
+<%# Default: true -%>
+ca = false
+<% end -%>
+<% if @use_enc -%>
+# ENC
+node_terminus = exec
+external_nodes = <%= @external_nodes %>
+<% end -%>
+<% if @use_enc or @trusted_server_facts -%>
+<%# Default: false -%>
+trusted_server_facts = true
+<% end -%>
+<% if @use_puppetdb -%>
+storeconfigs = true
+storeconfigs_backend = puppetdb
+report = true
+reports = puppetdb
+<% end -%>
+<% end -%>
