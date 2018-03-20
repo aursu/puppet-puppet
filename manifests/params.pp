@@ -44,4 +44,41 @@ class puppet::params {
     $gem_path            = '/opt/puppetlabs/puppet/bin/gem'
     $r10k_path           = '/opt/puppetlabs/puppet/bin/r10k'
     $service_name        = 'puppetserver'
+    $puppet_config       = '/etc/puppetlabs/puppet/puppet.conf'
+
+    # dont't change values below - never!
+    $vardir              = '/opt/puppetlabs/server/data/puppetserver'
+    $logdir              = '/var/log/puppetlabs/puppetserver'
+    $rundir              = '/var/run/puppetlabs/puppetserver'
+    $pidfile             = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
+    $codedir             = '/etc/puppetlabs/code'
+
+    # environmentpath
+    # A search path for directory environments, as a list of directories
+    # separated by the system path separator character. (The POSIX path
+    # separator is ':', and the Windows path separator is ';'.)
+    # This setting must have a value set to enable directory environments. The
+    # recommended value is $codedir/environments. For more details,
+    # see https://docs.puppet.com/puppet/latest/environments.html
+    # Default: $codedir/environments
+
+    $environmentpath     = "${codedir}/environments"
+
+    # external_nodes
+    # The external node classifier (ENC) script to use for node data. Puppet
+    # combines this data with the main manifest to produce node catalogs.
+    # To enable this setting, set the node_terminus setting to exec.
+    # This setting’s value must be the path to an executable command that can
+    # produce node information. The command must:
+    #   * Take the name of a node as a command-line argument.
+    #   * Return a YAML hash with up to three keys:
+    #       - classes — A list of classes, as an array or hash.
+    #       - environment — A string.
+    #       - parameters — A list of top-scope variables to set, as a hash.
+    #   * For unknown nodes, exit with a non-zero exit code.
+    # Generally, an ENC script makes requests to an external data source.
+    # For more info, see the ENC documentation.
+    # Default: none
+
+    $external_nodes      = '/usr/local/bin/puppet_node_classifier'
 }
