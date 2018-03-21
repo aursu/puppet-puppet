@@ -4,7 +4,7 @@ puppet::ca_server: ~
 puppet::dns_alt_names: ~
 puppet::server_ipaddress: '127.0.0.1'
 puppet::hosts_update: true
-puppet::master: false
+puppet::master: true
 puppet::environment: 'production'
 puppet::agent_version: 'latest'
 puppet::server_version: 'latest'
