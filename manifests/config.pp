@@ -154,9 +154,9 @@ class puppet::config (
 {
     include puppet::install::agent
 
-    file { 'puppet-config':
-        path    => $puppet_config,
+    file { $puppet_config:
         content => template('puppet/puppet.conf.erb'),
         require => Package['puppet-agent'],
+        alias   => 'puppet-config',
     }
 }

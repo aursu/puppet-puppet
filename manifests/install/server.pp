@@ -13,9 +13,9 @@ class puppet::install::server (
 {
     include puppet::install::agent
 
-    package { 'puppet-server':
+    package { $server_package_name:
         ensure  => $server_version,
-        name    => $server_package_name,
         require => Package['puppet-agent'],
+        alias   => 'puppet-server',
     }
 }

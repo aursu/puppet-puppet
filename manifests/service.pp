@@ -14,10 +14,10 @@ class puppet::service (
 {
     include puppet::install::server
 
-    service { 'puppet-server':
-        name    => $service_name,
+    service { $service_name:
         ensure  => $server_service_ensure,
         enable  => $server_service_enable,
-        require => Package['puppet-server']
+        require => Package['puppet-server'],
+        alias   => 'puppet-server',
     }
 }
