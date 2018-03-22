@@ -8,7 +8,7 @@
 #   include puppet::install::r10k
 class puppet::install::r10k (
     String  $r10k_package_name   = $puppet::params::r10k_package_name,
-    Stdlib::Absolutepath  
+    Stdlib::Absolutepath
             $gem_path            = $puppet::params::gem_path,
     Stdlib::Absolutepath
             $r10k_path           = $puppet::params::r10k_path,
