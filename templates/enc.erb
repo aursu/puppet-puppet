@@ -1,0 +1,75 @@
+#!<%= @ruby_path %>
+
+# input data - YAML file with extension '.eyaml' or '.yaml' or '.yml'
+# YAML file should be single level YAML hash, For example:
+# ---
+# environment: production
+# classes:
+#     - ntp
+# datacenter: fr
+# role: jenkins
+#
+# Only parameter 'classes' could be an array. All other parameters are strings.
+# Parameter 'environment' is mandatory
+
+# Executable command that can produce node information. The command must:
+#   * Take the name of a node as a command-line argument.
+#   * Return a YAML hash with up to three keys:
+#       - classes       - A list of classes, as an array or hash.
+#       - environment   - A string.
+#       - parameters    - A list of top-scope variables to set, as a hash.
+#   * For unknown nodes, exit with a non-zero exit code.
+
+require 'yaml'
+data = { 'classes' => [], 'environment' => 'production', 'parameters' => {}  }
+
+settings = YAML.safe_load(<<~YAML)
+<% if @enc_data_source -%>
+    encstore: <%= @enc_data_source %>
+<% else -%>
+    encstore: <%= [@environmentpath, @enc_envname].join('/') %>
+<% end -%>
+YAML
+encstore = settings['encstore']
+
+# take the name of a node as a command-line argument
+hostname = ARGV[0]
+
+encdata = nil
+['.eyaml', '.yaml', '.yml'].each do |yext|
+    datafile = encstore + '/' + hostname + yext
+    if File.file?(datafile)
+        begin
+            encdata = YAML.safe_load(File.read(datafile))
+        rescue Exception
+            exit -1
+        end
+    end
+    break unless encdata.nil?
+end
+
+# for unknown nodes, exit with a non-zero exit code.
+if encdata.nil?
+    exit -1
+end
+
+# environment is mandatory
+raise('ENC data must include the environment field.') unless encdata['environment']
+data['environment'] = encdata['environment'].to_s
+
+# classes are optional (must be an array)
+clss = encdata['classes']
+if clss and clss.is_a?(Array)
+    clss.each do |c|
+        data['classes'] << c.to_s
+    end
+end
+
+# parameters are optional (1st level inside ENC YAML data)
+encdata.each do |n, v|
+    unless ['classes', 'environment', 'parameters'].include?(n)
+        data['parameters'][n] = v.to_s
+    end
+end
+
+puts YAML.dump(data)
