@@ -7,8 +7,6 @@
 # @example
 #   include puppet::enc
 class puppet::enc (
-    Boolean $use_enc            = $puppet::use_enc,
-
     String  $enc_template       = $puppet::enc_template,
     Optional[Stdlib::Absolutepath]
             $enc_data_source    = $puppet::enc_data_source,
