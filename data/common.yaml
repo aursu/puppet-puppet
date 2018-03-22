@@ -26,5 +26,9 @@ puppet::environment_timeout: 0
 puppet::sameca: true
 puppet::allow_duplicate_certs: false
 puppet::use_enc: true
+puppet::enc_template: 'puppet/enc.erb'
+puppet::enc_data_source: ~
+puppet::use_enc_env: true
+puppet::enc_envname: 'enc'
 puppet::trusted_server_facts: false
 puppet::use_puppetdb: true
