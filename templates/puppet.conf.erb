@@ -11,7 +11,7 @@ strict = <%= @strict %>
 <% if @basemodulepath -%>
 basemodulepath = <%= @basemodulepath %>
 <% elsif @use_common_env -%>
-basemodulepath = <%= [ @environmentpath, @common_envname, 'modules'].join('/') %>
+basemodulepath = <%= [@environmentpath, @common_envname, 'modules'].join('/') %>
 <% end -%>
 <% if @dns_alt_names.is_a?(Array) -%>
 dns_alt_names = <%= @dns_alt_names.join(',') %>
