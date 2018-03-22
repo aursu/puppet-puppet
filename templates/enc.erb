@@ -42,6 +42,7 @@ encdata = nil
         begin
             encdata = YAML.safe_load(File.read(datafile))
         rescue Exception
+            # found but wrong format
             exit -1
         end
     end
@@ -50,7 +51,10 @@ end
 
 # for unknown nodes, exit with a non-zero exit code.
 if encdata.nil?
-    exit -1
+    # not found - return default puppet agent settings (production environment,
+    # no classes and parameters)
+    puts YAML.dump(data)
+    exit 0
 end
 
 # environment is mandatory
