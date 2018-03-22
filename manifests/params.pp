@@ -8,7 +8,7 @@
 #   include puppet::params
 class puppet::params {
     $platform_name       = 'puppet5'
-    $os_version          = $operatingsystemmajrelease
+    $os_version          = $::operatingsystemmajrelease
     case $::osfamily {
         'RedHat': {
             case $::operatingsystem {
@@ -41,6 +41,7 @@ class puppet::params {
     $agent_package_name  = 'puppet-agent'
     $server_package_name = 'puppetserver'
     $r10k_package_name   = 'r10k'
+    $ruby_path           = '/opt/puppetlabs/puppet/bin/ruby'
     $gem_path            = '/opt/puppetlabs/puppet/bin/gem'
     $r10k_path           = '/opt/puppetlabs/puppet/bin/r10k'
     $service_name        = 'puppetserver'
