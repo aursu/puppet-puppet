@@ -43,6 +43,11 @@ class puppet (
     Boolean $sameca,
     Boolean $allow_duplicate_certs,
     Boolean $use_enc,
+    String  $enc_template,
+    Optional[Stdlib::Absolutepath]
+            $enc_data_source,
+    Boolean $use_enc_env,
+    String  $enc_envname,
     Boolean $use_puppetdb,
 )
 {
