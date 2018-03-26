@@ -22,6 +22,7 @@ class puppet::setup::server (
             $environmentpath    = $puppet::params::environmentpath,
 ) inherits puppet::params
 {
+    include puppet::install::agent
     include puppet::install::r10k
 
     Exec {
@@ -39,6 +40,7 @@ class puppet::setup::server (
     $r10k_config_path = dirname($r10k_config_file)
     exec { "mkdir -p ${r10k_config_path}":
         creates => $r10k_config_path,
+        require => Package['puppet-agent'],
         alias   => 'r10k-confpath-setup',
     }
 
