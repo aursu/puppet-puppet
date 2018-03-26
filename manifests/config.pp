@@ -147,7 +147,8 @@ class puppet::config (
     # predefined via params
     Stdlib::Absolutepath
             $puppet_config          = $puppet::params::puppet_config,
-    String  $environmentpath        = $puppet::params::environmentpath,
+    Stdlib::Absolutepath
+            $environmentpath        = $puppet::params::environmentpath,
     Stdlib::Absolutepath
             $external_nodes         = $puppet::params::external_nodes,
 ) inherits puppet::params
