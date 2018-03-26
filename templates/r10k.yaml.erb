@@ -1,0 +1,21 @@
+---
+# The location to use for storing cached Git repos
+:cachedir: /var/cache/r10k
+
+# A list of git repositories to create
+:sources:
+  # This will clone the git repository and instantiate an environment per
+  # branch in <%= @environmentpath %>
+  :production:
+    remote: "<%= @production_remote %>"
+    basedir: <%= @environmentpath %>
+<% if @use_common_env -%>
+  :common:
+    remote: "<%= @common_remote %>"
+    basedir: <%= @environmentpath %>
+<% end -%>
+<% if @use_enc -%>
+  :enc:
+    remote: "<%= @enc_remote %>"
+    basedir: <%= @environmentpath %>
+<% end -%>
