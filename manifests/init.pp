@@ -8,6 +8,7 @@
 #   include puppet
 class puppet (
     String  $environment,
+    String  $production_remote,
     String  $server,
     Optional[String]
             $ca_server,
@@ -23,6 +24,7 @@ class puppet (
     Boolean $server_service_enable,
     Boolean $use_common_env,
     String  $common_envname,
+    String  $common_remote,
     Optional[Stdlib::Absolutepath]
             $basemodulepath,
     Puppet::Strictness
@@ -48,7 +50,9 @@ class puppet (
             $enc_data_source,
     Boolean $use_enc_env,
     String  $enc_envname,
+    String  $enc_remote,
     Boolean $use_puppetdb,
+    String  $r10k_yaml_template,
 )
 {
     include puppet::repo
