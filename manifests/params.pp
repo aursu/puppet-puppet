@@ -46,6 +46,7 @@ class puppet::params {
     $r10k_path           = '/opt/puppetlabs/puppet/bin/r10k'
     $service_name        = 'puppetserver'
     $puppet_config       = '/etc/puppetlabs/puppet/puppet.conf'
+    $r10k_config_file    = '/etc/puppetlabs/r10k/r10k.yaml'
 
     # dont't change values below - never!
     $vardir              = '/opt/puppetlabs/server/data/puppetserver'
