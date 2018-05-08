@@ -7,7 +7,7 @@
 #
 # @example
 #   include puppet::setup::server
-class puppet::setup::server (
+class puppet::server::setup (
     String  $r10k_yaml_template = $puppet::r10k_yaml_template,
     String  $production_remote  = $puppet::production_remote,
     Boolean $use_common_env     = $puppet::use_common_env,
@@ -22,8 +22,8 @@ class puppet::setup::server (
             $environmentpath    = $puppet::params::environmentpath,
 ) inherits puppet::params
 {
-    include puppet::install::agent
-    include puppet::install::r10k
+    include puppet::agent::install
+    include puppet::r10k::install
 
     Exec {
         path => '/bin:/usr/bin',
@@ -53,11 +53,11 @@ class puppet::setup::server (
         alias   => 'r10k-config',
     }
 
-    exec { 'environment-setup':
-        command => "${r10k_path} deploy environment -p",
+    exec { "${r10k_path} deploy environment -p":
         require => [
             Exec['r10k-installation'],
             Exec['r10k-config'],
         ],
+        alias   => 'environment-setup',
     }
 }
