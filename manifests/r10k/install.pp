@@ -6,7 +6,7 @@
 #
 # @example
 #   include puppet::install::r10k
-class puppet::install::r10k (
+class puppet::r10k::install (
     String  $r10k_package_name   = $puppet::params::r10k_package_name,
     Stdlib::Absolutepath
             $gem_path            = $puppet::params::gem_path,
@@ -14,11 +14,11 @@ class puppet::install::r10k (
             $r10k_path           = $puppet::params::r10k_path,
 ) inherits puppet::params
 {
-    include puppet::install::agent
+    include puppet::agent::install
 
-    exec { 'r10k-installation':
-        command => "${gem_path} install ${r10k_package_name}",
+    exec { "${gem_path} install ${r10k_package_name}":
         creates => $r10k_path,
         require => Package['puppet-agent'],
+        alias   => 'r10k-installation',
     }
 }
