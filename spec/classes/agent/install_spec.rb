@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'puppet::install::agent' do
+describe 'puppet::agent::install' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }

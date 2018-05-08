@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'puppet::install::r10k' do
+describe 'puppet::server::install' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
