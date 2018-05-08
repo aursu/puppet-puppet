@@ -6,12 +6,12 @@
 #
 # @example
 #   include puppet::install::server
-class puppet::install::server (
+class puppet::server::install (
     String  $server_package_name = $puppet::params::server_package_name,
     String  $server_version      = $puppet::server_version,
 ) inherits puppet::params
 {
-    include puppet::install::agent
+    include puppet::agent::install
 
     package { $server_package_name:
         ensure  => $server_version,
