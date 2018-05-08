@@ -12,12 +12,12 @@ class puppet::service (
     String  $service_name           = $puppet::params::service_name,
 ) inherits puppet::params
 {
-    include puppet::install::server
+    include puppet::server::install
 
     service { $service_name:
         ensure  => $server_service_ensure,
         enable  => $server_service_enable,
-        alias   => 'puppet-server',
         require => Package['puppet-server'],
+        alias   => 'puppet-server',
     }
 }

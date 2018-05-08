@@ -13,17 +13,16 @@ class puppet::repo (
     String $platform_repository = $puppet::params::platform_repository,
 ) inherits puppet::params
 {
-    exec { 'download-release-package':
-        command => "curl ${platform_repository} -s -o ${package_filename}",
+    exec { "curl ${platform_repository} -s -o ${package_filename}":
         cwd     => '/tmp',
         path    => '/bin:/usr/bin',
         creates => "/tmp/${package_filename}",
+        alias   => 'download-release-package',
     }
-    package { 'puppet5-repository':
-        name     => $package_name,
+    package { $package_name:
         provider => $package_provider,
         source   => "/tmp/${package_filename}",
-        require  => Exec['download-release-package']
+        require  => Exec['download-release-package'],
+        alias    => 'puppet5-repository',
     }
 }
-

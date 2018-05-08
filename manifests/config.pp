@@ -8,7 +8,7 @@
 # Boolean. Default value is true
 #
 # Flag - if set to true then host will be set up as Puppet Master server
-# 
+#
 # [*basemodulepath*]
 #
 # String. Default value is undef. The search path for global modules. Should be
@@ -153,7 +153,7 @@ class puppet::config (
             $external_nodes         = $puppet::params::external_nodes,
 ) inherits puppet::params
 {
-    include puppet::install::agent
+    include puppet::agent::install
 
     file { $puppet_config:
         content => template('puppet/puppet.conf.erb'),

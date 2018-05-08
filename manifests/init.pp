@@ -54,9 +54,4 @@ class puppet (
     Boolean $use_puppetdb,
     String  $r10k_yaml_template,
 )
-{
-    include puppet::repo
-    include puppet::install::agent
-    include puppet::config
-    include puppet::setup
-}
+{}
