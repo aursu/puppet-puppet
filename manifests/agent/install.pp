@@ -1,12 +1,12 @@
-# puppet::install::agent
+# puppet::agent::install
 #
 # A description of what this class does
 #
 # @summary A short summary of the purpose of this class
 #
 # @example
-#   include puppet::install::agent
-class puppet::install::agent (
+#   include puppet::agent::install
+class puppet::agent::install (
     String  $agent_package_name  = $puppet::params::agent_package_name,
     String  $agent_version       = $puppet::agent_version,
 ) inherits puppet::params
