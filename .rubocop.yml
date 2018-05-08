@@ -56,10 +56,6 @@ Style/TrailingCommaInArguments:
   Description: Prefer always trailing comma on multiline argument lists. This makes
     diffs, and re-ordering nicer.
   EnforcedStyleForMultiline: comma
-Style/TrailingCommaInLiteral:
-  Description: Prefer always trailing comma on multiline literals. This makes diffs,
-    and re-ordering nicer.
-  EnforcedStyleForMultiline: comma
 Style/SymbolArray:
   Description: Using percent style obscures symbolic intent of array's contents.
   EnforcedStyle: brackets
@@ -104,4 +100,8 @@ Style/AsciiComments:
 Style/IfUnlessModifier:
   Enabled: false
 Style/SymbolProc:
+  Enabled: false
+Style/MixinUsage:
+  Enabled: false
+Lint/UnneededCopDisableDirective:
   Enabled: false

@@ -10,7 +10,19 @@ class puppet::params {
     $platform_name       = 'puppet5'
     $os_version          = $::operatingsystemmajrelease
     case $::osfamily {
-        'RedHat': {
+        'Suse': {
+            $repo_urlbase = 'https://yum.puppet.com/puppet5'
+            $os_abbreviation  = 'sles'
+            $version_codename = "${os_abbreviation}-${os_version}"
+            $package_provider = 'rpm'
+        }
+        'Debian': {
+            $repo_urlbase = 'https://apt.puppetlabs.com'
+            $version_codename = $::lsbdistcodename
+            $package_provider = 'dpkg'
+        }
+        # default is RedHat based systems
+        default: {
             case $::operatingsystem {
                 'Fedora': {
                     $os_abbreviation = 'fedora'
@@ -22,17 +34,6 @@ class puppet::params {
             $repo_urlbase = 'https://yum.puppet.com/puppet5'
             $version_codename = "${os_abbreviation}-${os_version}"
             $package_provider = 'rpm'
-        }
-        'Suse': {
-            $repo_urlbase = 'https://yum.puppet.com/puppet5'
-            $os_abbreviation  = 'sles'
-            $version_codename = "${os_abbreviation}-${os_version}"
-            $package_provider = 'rpm'
-        }
-        'Debian': {
-            $repo_urlbase = 'https://apt.puppetlabs.com'
-            $version_codename = $::lsbdistcodename
-            $package_provider = 'dpkg'
         }
     }
     $package_name        = "${platform_name}-release"
