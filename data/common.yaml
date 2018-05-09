@@ -36,3 +36,4 @@ puppet::enc_remote: 'https://github.com/aursu/control-enc.git'
 puppet::trusted_server_facts: false
 puppet::use_puppetdb: true
 puppet::r10k_yaml_template: 'puppet/r10k.yaml.erb'
+puppet::r10k_cachedir: '/var/cache/r10k'

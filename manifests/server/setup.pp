@@ -15,6 +15,8 @@ class puppet::server::setup (
     Boolean $use_enc            = $puppet::use_enc,
     String  $enc_remote         = $puppet::enc_remote,
     Stdlib::Absolutepath
+            $cachedir           = $puppet::r10k_cachedir,
+    Stdlib::Absolutepath
             $r10k_config_file   = $puppet::params::r10k_config_file,
     Stdlib::Absolutepath
             $r10k_path          = $puppet::params::r10k_path,
@@ -38,6 +40,7 @@ class puppet::server::setup (
     }
 
     $r10k_config_path = dirname($r10k_config_file)
+    # exec in order to avoid conflict with r10k module
     exec { "mkdir -p ${r10k_config_path}":
         creates => $r10k_config_path,
         require => Package['puppet-agent'],
