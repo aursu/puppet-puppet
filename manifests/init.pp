@@ -52,6 +52,7 @@ class puppet (
     String  $enc_envname,
     String  $enc_remote,
     Boolean $use_puppetdb,
+    Boolean $r10k_config_setup,
     String  $r10k_yaml_template,
     String  $r10k_cachedir,
 )
