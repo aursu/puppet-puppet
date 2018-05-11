@@ -21,7 +21,7 @@ class puppet::service (
         require => [
             Package['puppet-server'],
             File['enc-script'],
-        ]
+        ],
         alias   => 'puppet-server',
     }
 }
