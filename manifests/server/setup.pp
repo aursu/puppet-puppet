@@ -8,6 +8,7 @@
 # @example
 #   include puppet::setup::server
 class puppet::server::setup (
+    Boolean $r10k_config_setup  = $puppet::r10k_config_setup,
     String  $r10k_yaml_template = $puppet::r10k_yaml_template,
     String  $production_remote  = $puppet::production_remote,
     Boolean $use_common_env     = $puppet::use_common_env,
@@ -37,6 +38,7 @@ class puppet::server::setup (
         mode    => '0600',
         owner   => 'root',
         group   => 'root',
+        notify  => Exec['r10k-config'],
     }
 
     $r10k_config_path = dirname($r10k_config_file)
@@ -47,13 +49,27 @@ class puppet::server::setup (
         alias   => 'r10k-confpath-setup',
     }
 
-    exec { "cp /tmp/r10k.yaml ${r10k_config_file}":
-        creates => $r10k_config_file,
-        require => [
-            File['/tmp/r10k.yaml'],
-            Exec['r10k-confpath-setup'],
-        ],
-        alias   => 'r10k-config',
+    if $r10k_config_setup {
+        # only if /tmp/r10k.yaml just created or changed
+        exec { "cp /tmp/r10k.yaml ${r10k_config_file}":
+            refreshonly => true,
+            require     => [
+                File['/tmp/r10k.yaml'],
+                Exec['r10k-confpath-setup'],
+            ],
+            alias       => 'r10k-config',
+        }
+    }
+    else {
+        # only if config file not exists
+        exec { "cp /tmp/r10k.yaml ${r10k_config_file}":
+            creates => $r10k_config_file,
+            require => [
+                File['/tmp/r10k.yaml'],
+                Exec['r10k-confpath-setup'],
+            ],
+            alias   => 'r10k-config',
+        }
     }
 
     exec { "${r10k_path} deploy environment -p":
