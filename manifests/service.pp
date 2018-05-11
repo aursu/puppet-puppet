@@ -13,11 +13,15 @@ class puppet::service (
 ) inherits puppet::params
 {
     include puppet::server::install
+    include puppet::enc
 
     service { $service_name:
         ensure  => $server_service_ensure,
         enable  => $server_service_enable,
-        require => Package['puppet-server'],
+        require => [
+            Package['puppet-server'],
+            File['enc-script'],
+        ]
         alias   => 'puppet-server',
     }
 }
