@@ -73,6 +73,7 @@ class puppet::server::setup (
     }
 
     exec { "${r10k_path} deploy environment -p":
+        cwd     => '/',
         require => [
             Exec['r10k-installation'],
             Exec['r10k-config'],
