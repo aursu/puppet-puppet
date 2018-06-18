@@ -17,13 +17,13 @@ class puppet::service (
     include puppet::config
 
     service { $service_name:
-        ensure  => $server_service_ensure,
-        enable  => $server_service_enable,
-        require => [
+        ensure    => $server_service_ensure,
+        enable    => $server_service_enable,
+        require   => File['enc-script'],
+        subscribe => [
             Package['puppet-server'],
-            File['puppet-config'],
-            File['enc-script'],
+            File['puppet-config']
         ],
-        alias   => 'puppet-server',
+        alias     => 'puppet-server',
     }
 }
