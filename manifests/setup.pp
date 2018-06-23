@@ -1,8 +1,8 @@
 # puppet::setup
 #
-# A description of what this class does
+# Puppet node environment setup
 #
-# @summary A short summary of the purpose of this class
+# @summary Puppet node environment setup (either agent or server host)
 #
 # @example
 #   include puppet::setup
