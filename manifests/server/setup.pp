@@ -3,7 +3,7 @@
 # This class setup dynamic environments using r10k invocation. If r10k is not
 # configured, than it will setup it from template
 #
-# @summary Setup r10k dynamic environments
+# @summary Puppet server environment setup
 #
 # @example
 #   include puppet::setup::server
@@ -23,6 +23,10 @@ class puppet::server::setup (
             $r10k_path          = $puppet::params::r10k_path,
     Stdlib::Absolutepath
             $environmentpath    = $puppet::params::environmentpath,
+    Stdlib::Absolutepath
+            $eyaml_keys_path    = $puppet::params::eyaml_keys_path,
+    String  $eyaml_public_key   = $puppet::params::eyaml_public_key,
+    String  $eyaml_private_key  = $puppet::params::eyaml_private_key,
 ) inherits puppet::params
 {
     include puppet::agent::install
@@ -79,5 +83,31 @@ class puppet::server::setup (
             Exec['r10k-config'],
         ],
         alias   => 'environment-setup',
+    }
+
+    # Hardening of Hiera Eyaml keys
+    file { $eyaml_keys_path:
+        ensure => directory,
+        owner  => 'puppet',
+        group  => 'puppet',
+        mode   => '0500',
+        require => Package['puppet-agent'],
+    }
+
+    # poka-yoke
+    if '/etc/puppetlabs/puppet/' in $eyaml_keys_path {
+        File <| title == $eyaml_keys_path |> {
+            recurse => true,
+            purge   => true,
+        }
+    }
+
+    [ $eyaml_public_key,
+      $eyaml_private_key ].each |$key| {
+        file { "${eyaml_keys_path}/${key}":
+            owner  => 'puppet',
+            group  => 'puppet',
+            mode   => '0400',
+        }
     }
 }
