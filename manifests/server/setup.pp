@@ -27,6 +27,7 @@ class puppet::server::setup (
             $eyaml_keys_path    = $puppet::params::eyaml_keys_path,
     String  $eyaml_public_key   = $puppet::params::eyaml_public_key,
     String  $eyaml_private_key  = $puppet::params::eyaml_private_key,
+    Boolean $setup_on_each_run  = $puppet::environment_setup_on_each_run,
 ) inherits puppet::params
 {
     include puppet::agent::install
@@ -36,13 +37,22 @@ class puppet::server::setup (
         path => '/bin:/usr/bin',
     }
 
+    # /opt/puppetlabs/puppet/cache/r10k
+    $r10k_vardir = "${facts['puppet_vardir']}/r10k"
+    exec { "mkdir -p ${r10k_vardir}":
+        creates => $r10k_vardir,
+        require => Package['puppet-agent'],
+        alias   => 'r10k-vardir',
+    }
+
     # this should be one time installation
-    file { '/tmp/r10k.yaml':
+    file { "${r10k_vardir}/r10k.yaml":
         content => template($r10k_yaml_template),
         mode    => '0600',
         owner   => 'root',
         group   => 'root',
         notify  => Exec['r10k-config'],
+        require => Exec['r10k-vardir'],
     }
 
     $r10k_config_path = dirname($r10k_config_file)
@@ -54,11 +64,11 @@ class puppet::server::setup (
     }
 
     if $r10k_config_setup {
-        # only if /tmp/r10k.yaml just created or changed
-        exec { "cp /tmp/r10k.yaml ${r10k_config_file}":
+        # only if ${r10k_vardir}/r10k.yaml just created or changed
+        exec { "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}":
             refreshonly => true,
             require     => [
-                File['/tmp/r10k.yaml'],
+                File["${r10k_vardir}/r10k.yaml"],
                 Exec['r10k-confpath-setup'],
             ],
             alias       => 'r10k-config',
@@ -66,10 +76,10 @@ class puppet::server::setup (
     }
     else {
         # only if config file not exists
-        exec { "cp /tmp/r10k.yaml ${r10k_config_file}":
+        exec { "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}":
             creates => $r10k_config_file,
             require => [
-                File['/tmp/r10k.yaml'],
+                File["${r10k_vardir}/r10k.yaml"],
                 Exec['r10k-confpath-setup'],
             ],
             alias   => 'r10k-config',
@@ -77,12 +87,11 @@ class puppet::server::setup (
     }
 
     exec { "${r10k_path} deploy environment -p":
-        cwd     => '/',
-        require => [
-            Exec['r10k-installation'],
-            Exec['r10k-config'],
-        ],
-        alias   => 'environment-setup',
+        cwd         => '/',
+        refreshonly => !$setup_on_each_run,
+        require     => Exec['r10k-installation'],
+        subscribe   => Exec['r10k-config'],
+        alias       => 'environment-setup',
     }
 
     # Hardening of Hiera Eyaml keys
