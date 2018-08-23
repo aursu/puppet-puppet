@@ -96,10 +96,10 @@ class puppet::server::setup (
 
     # Hardening of Hiera Eyaml keys
     file { $eyaml_keys_path:
-        ensure => directory,
-        owner  => 'puppet',
-        group  => 'puppet',
-        mode   => '0500',
+        ensure  => directory,
+        owner   => 'puppet',
+        group   => 'puppet',
+        mode    => '0500',
         require => Package['puppet-agent'],
     }
 
@@ -114,9 +114,9 @@ class puppet::server::setup (
     [ $eyaml_public_key,
       $eyaml_private_key ].each |$key| {
         file { "${eyaml_keys_path}/${key}":
-            owner  => 'puppet',
-            group  => 'puppet',
-            mode   => '0400',
+            owner => 'puppet',
+            group => 'puppet',
+            mode  => '0400',
         }
     }
 }
