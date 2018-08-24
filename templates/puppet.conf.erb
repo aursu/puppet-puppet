@@ -58,9 +58,6 @@ environment_timeout = <%= @environment_timeout %>
 <%# Default: false -%>
 allow_duplicate_certs = true
 <% end -%>
-<% unless @autosign.nil? -%>
-autosign = <%= @autosign %>
-<% end -%>
 <% unless @sameca -%>
 <%# Default: true -%>
 ca = false
