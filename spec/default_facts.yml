@@ -6,3 +6,22 @@ concat_basedir: "/tmp"
 ipaddress: "172.16.254.254"
 is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"
+puppet_sslpaths:
+  privatedir:
+    path: /etc/puppetlabs/puppet/ssl/private
+    path_exists: true
+  privatekeydir:
+    path: /etc/puppetlabs/puppet/ssl/private_keys
+    path_exists: true
+  publickeydir:
+    path: /etc/puppetlabs/puppet/ssl/public_keys
+    path_exists: true
+  certdir:
+    path: /etc/puppetlabs/puppet/ssl/certs
+    path_exists: true
+  requestdir:
+    path: /etc/puppetlabs/puppet/ssl/certificate_requests
+    path_exists: true
+  hostcrl:
+    path: /etc/puppetlabs/puppet/ssl/crl.pem
+    path_exists: true

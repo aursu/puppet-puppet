@@ -4,3 +4,4 @@
 fixtures:
   forge_modules:
      stdlib: "puppetlabs/stdlib"
+     puppet_agent: "puppetlabs/puppet_agent"
