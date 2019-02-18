@@ -11,7 +11,7 @@ class puppet::params {
     $os_version          = $::operatingsystemmajrelease
     case $::osfamily {
         'Suse': {
-            $repo_urlbase = 'https://yum.puppet.com/puppet5'
+            $repo_urlbase = "https://yum.puppet.com/${platform_name}"
             $os_abbreviation  = 'sles'
             $version_codename = "${os_abbreviation}-${os_version}"
             $package_provider = 'rpm'
@@ -31,7 +31,7 @@ class puppet::params {
                     $os_abbreviation = 'el'
                 }
             }
-            $repo_urlbase = 'https://yum.puppet.com/puppet5'
+            $repo_urlbase = "https://yum.puppet.com/${platform_name}"
             $version_codename = "${os_abbreviation}-${os_version}"
             $package_provider = 'rpm'
         }
@@ -87,4 +87,12 @@ class puppet::params {
     # Default: none
 
     $external_nodes      = '/usr/local/bin/puppet_node_classifier'
+
+    # Client authentication
+    $certdir       = $::puppet_sslpaths['certdir']['path']
+    $privatekeydir = $::puppet_sslpaths['privatekeydir']['path']
+    $localcacert   = "${certdir}/ca.pem"
+    # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
+    $hostcert      = "${certdir}/${::clientcert}.pem"
+    $hostprivkey   = "${privatekeydir}/${::clientcert}.pem"
 }
