@@ -3,7 +3,8 @@ plan puppet::bootstrap (
   Stdlib::Fqdn
             $master,
 ) {
-  run_plan('puppet::agent5::install', $targets)
+  run_plan(puppet::agent5::install, $targets)
+  run_plan(facts, nodes => $targets)
 
   apply($targets) {
     class { 'puppet::agent::config':
