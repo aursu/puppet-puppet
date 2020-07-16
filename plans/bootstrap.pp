@@ -4,4 +4,10 @@ plan puppet::bootstrap (
             $master,
 ) {
   run_plan('puppet::agent5::install', $targets)
+
+  apply($targets) {
+    class { 'puppet::agent::config':
+      server => $master,
+    }
+  }
 }
