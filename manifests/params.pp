@@ -91,10 +91,24 @@ class puppet::params {
     $external_nodes      = '/usr/local/bin/puppet_node_classifier'
 
     # Client authentication
-    $certdir       = $::puppet_sslpaths['certdir']['path']
-    $privatekeydir = $::puppet_sslpaths['privatekeydir']['path']
+    if $::puppet_sslpaths {
+        $certdir       = $::puppet_sslpaths['certdir']['path']
+        $privatekeydir = $::puppet_sslpaths['privatekeydir']['path']
+    }
+    else {
+        # fallback to predefined
+        $certdir       = '/etc/puppetlabs/puppet/ssl/certs'
+        $privatekeydir = '/etc/puppetlabs/puppet/ssl/private_keys'
+    }
     $localcacert   = "${certdir}/ca.pem"
     # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
-    $hostcert      = "${certdir}/${::clientcert}.pem"
-    $hostprivkey   = "${privatekeydir}/${::clientcert}.pem"
+    if $::clientcert {
+        $hostcert      = "${certdir}/${::clientcert}.pem"
+        $hostprivkey   = "${privatekeydir}/${::clientcert}.pem"
+    }
+    else {
+        # fallback to fqdn
+        $hostcert      = "${certdir}/${::fqdn}.pem"
+        $hostprivkey   = "${privatekeydir}/${::fqdn}.pem"
+    }
 }
