@@ -20,6 +20,7 @@ puppet::strict_variables: true
 puppet::daemonize: false
 puppet::http_read_timeout: 120
 puppet::onetime: true
+puppet::runtimeout: ~
 puppet::ordering: 'random'
 puppet::priority: ~
 puppet::usecacheonfailure: false

@@ -129,6 +129,7 @@ class puppet::config (
             $strict                 = $puppet::strict,
     Boolean $strict_variables       = $puppet::strict_variables,
     Boolean $daemonize              = $puppet::daemonize,
+    Boolean $onetime                = $puppet::onetime,
     Puppet::TimeUnit
             $http_read_timeout      = $puppet::http_read_timeout,
     Puppet::Ordering
@@ -151,6 +152,10 @@ class puppet::config (
             $environmentpath        = $puppet::params::environmentpath,
     Stdlib::Absolutepath
             $external_nodes         = $puppet::params::external_nodes,
+    Optional[String]
+            $node_environment       = undef,
+    Optional[Puppet::TimeUnit]
+            $runtimeout             = $puppet::runtimeout,
 ) inherits puppet::params
 {
     include puppet::agent::install

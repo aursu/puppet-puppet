@@ -8,6 +8,11 @@ describe 'puppet::config' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
+
+      it {
+        is_expected.to contain_file('/etc/puppetlabs/puppet/puppet.conf')
+          .with_content(%r{basemodulepath = /etc/puppetlabs/code/environments/common/modules})
+      }
     end
   end
 end

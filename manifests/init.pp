@@ -31,6 +31,9 @@ class puppet (
             $strict,
     Boolean $strict_variables,
     Boolean $daemonize,
+    Boolean $onetime,
+    Optional[Puppet::TimeUnit]
+            $runtimeout,
     Puppet::TimeUnit
             $http_read_timeout,
     Puppet::Ordering
