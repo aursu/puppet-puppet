@@ -4,7 +4,6 @@ plan puppet::bootstrap (
             $master,
 ) {
   run_plan(puppet::agent5::install, $targets)
-  run_plan(facts, $targets)
 
   apply($targets) {
     class { 'puppet::agent::config':
