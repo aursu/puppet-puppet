@@ -47,6 +47,7 @@ class puppet::params {
     $ruby_path           = '/opt/puppetlabs/puppet/bin/ruby'
     $gem_path            = '/opt/puppetlabs/puppet/bin/gem'
     $r10k_path           = '/opt/puppetlabs/puppet/bin/r10k'
+    $puppet_path         = '/opt/puppetlabs/puppet/bin/puppet'
     $service_name        = 'puppetserver'
     $puppet_config       = '/etc/puppetlabs/puppet/puppet.conf'
     $r10k_config_file    = '/etc/puppetlabs/r10k/r10k.yaml'
@@ -94,21 +95,27 @@ class puppet::params {
     if $::puppet_sslpaths {
         $certdir       = $::puppet_sslpaths['certdir']['path']
         $privatekeydir = $::puppet_sslpaths['privatekeydir']['path']
+        $requestdir    = $::puppet_sslpaths['requestdir']['path']
+        $publickeydir  = $::puppet_sslpaths['publickeydir']['path']
     }
     else {
         # fallback to predefined
         $certdir       = '/etc/puppetlabs/puppet/ssl/certs'
         $privatekeydir = '/etc/puppetlabs/puppet/ssl/private_keys'
+        $requestdir    = '/etc/puppetlabs/puppet/ssl/certificate_requests'
+        $publickeydir  = '/etc/puppetlabs/puppet/ssl/public_keys'
     }
     $localcacert   = "${certdir}/ca.pem"
     # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
     if $::clientcert {
         $hostcert      = "${certdir}/${::clientcert}.pem"
         $hostprivkey   = "${privatekeydir}/${::clientcert}.pem"
+        $hostpubkey    = "${publickeydir}/${::clientcert}.pem"
     }
     else {
         # fallback to fqdn
         $hostcert      = "${certdir}/${::fqdn}.pem"
         $hostprivkey   = "${privatekeydir}/${::fqdn}.pem"
+        $hostpubkey    = "${publickeydir}/${::fqdn}.pem"
     }
 }
