@@ -5,3 +5,8 @@ fixtures:
   forge_modules:
      stdlib: "puppetlabs/stdlib"
      puppet_agent: "puppetlabs/puppet_agent"
+  repositories:
+    host_core:
+      repo: https://github.com/puppetlabs/puppetlabs-host_core.git
+      ref: "tags/1.0.3"
+      puppet_version: ">= 6.0.0"

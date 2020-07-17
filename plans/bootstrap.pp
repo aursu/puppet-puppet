@@ -11,5 +11,8 @@ plan puppet::bootstrap (
     class { 'puppet::agent::config':
       server => $master,
     }
+    class { 'puppet::agent::bootstrap':
+      require => Class['puppet::agent::config'],
+    }
   }
 }
