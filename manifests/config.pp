@@ -168,7 +168,7 @@ class puppet::config (
 
     # https://blog.example42.com/2018/10/08/puppet6-ca-upgrading/
     if $puppet_master {
-      if ca_server {
+      if $ca_server {
         $ca_server_allow = [$ca_server]
       }
       else {
