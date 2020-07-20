@@ -1,4 +1,4 @@
-plan puppet::agent::clean (
+plan puppet::agent5::clean (
   TargetSpec $targets,
 ) {
   run_plan(puppet::agent5::install, $targets)

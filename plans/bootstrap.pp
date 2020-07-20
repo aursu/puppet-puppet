@@ -1,7 +1,7 @@
 plan puppet::bootstrap (
   TargetSpec $targets,
   Stdlib::Fqdn
-            $master,
+            $server,
 ) {
   run_plan(puppet::agent5::install, $targets)
   run_plan(facts, $targets)
@@ -9,7 +9,7 @@ plan puppet::bootstrap (
   apply($targets) {
     include puppet
     class { 'puppet::agent::config':
-      server => $master,
+      server => $server,
     }
     class { 'puppet::agent::bootstrap':
       require => Class['puppet::agent::config'],
