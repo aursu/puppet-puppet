@@ -57,10 +57,13 @@ class puppet::params {
 
     # dont't change values below - never!
     $vardir              = '/opt/puppetlabs/server/data/puppetserver'
+    $puppet_server       = '/opt/puppetlabs/bin/puppetserver'
     $logdir              = '/var/log/puppetlabs/puppetserver'
     $rundir              = '/var/run/puppetlabs/puppetserver'
     $pidfile             = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
     $codedir             = '/etc/puppetlabs/code'
+    $csrdir              = '/etc/puppetlabs/puppet/ssl/ca/requests'
+    $signeddir           = '/etc/puppetlabs/puppet/ssl/ca/signed'
 
     # environmentpath
     # A search path for directory environments, as a list of directories
@@ -111,11 +114,13 @@ class puppet::params {
         $hostcert      = "${certdir}/${::clientcert}.pem"
         $hostprivkey   = "${privatekeydir}/${::clientcert}.pem"
         $hostpubkey    = "${publickeydir}/${::clientcert}.pem"
+        $hostreq       = "${requestdir}/${::clientcert}.pem"
     }
     else {
         # fallback to fqdn
         $hostcert      = "${certdir}/${::fqdn}.pem"
         $hostprivkey   = "${privatekeydir}/${::fqdn}.pem"
         $hostpubkey    = "${publickeydir}/${::fqdn}.pem"
+        $hostreq       = "${requestdir}/${::fqdn}.pem"
     }
 }
