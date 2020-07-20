@@ -1,5 +1,6 @@
+#
 Puppet::Type.newtype(:puppet_auth_rule) do
-
+  #
   class ACLProperty < Puppet::Property
     def acl_validate(value)
       # The string values can contain
@@ -72,7 +73,7 @@ Puppet::Type.newtype(:puppet_auth_rule) do
     newvalues(:regex, :path)
   end
 
-  newproperty(:match_request_method, :array_matching => :all) do
+  newproperty(:match_request_method, array_matching: :all) do
     desc <<-PUPPET
       Puppet Server applies that rule only to requests that use its value's
       listed HTTP methods.
@@ -93,14 +94,14 @@ Puppet::Type.newtype(:puppet_auth_rule) do
     end
   end
 
-  newproperty(:allow, :array_matching => :all, :parent => ACLProperty) do
+  newproperty(:allow, array_matching: :all, parent: ACLProperty) do
     desc <<-PUPPET
       If the request's authenticated name matches the parameter's value, Puppet
       Server allows it.
     PUPPET
   end
 
-  newproperty(:deny, :array_matching => :all, :parent => ACLProperty) do
+  newproperty(:deny, array_matching: :all, parent: ACLProperty) do
     desc <<-PUPPET
       Refuses the request if the authenticated name matches - even if the rule
       contains an allow value that also matches.
@@ -138,8 +139,8 @@ Puppet::Type.newtype(:puppet_auth_rule) do
 
     if allow_unset && deny_unset
       raise(Puppet::Error, "Each rule's match-request section must have an allow, allow-unauthenticated, or deny parameter") unless [:true, :false].include?(self[:allow_unauthenticated])
-    else
-      raise(Puppet::Error, "A rule with allow-unauthenticated parameter set to true can't also contain the allow or deny parameters.") if self[:allow_unauthenticated] == :true
+    elsif self[:allow_unauthenticated] == :true
+      raise(Puppet::Error, "A rule with allow-unauthenticated parameter set to true can't also contain the allow or deny parameters.")
     end
 
     raise(Puppet::Error, "A match-request rule must have a 'path' and 'type' parameters") unless self[:match_request_path] && self[:match_request_type]

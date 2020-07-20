@@ -29,8 +29,7 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
         'type': 'path'
       },
       'name': 'puppetlabs deny all',
-      'sort-order': 999
-    }
+      'sort-order': 999 }
   end
 
   def self.base_conf_object
@@ -148,8 +147,8 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
     deny                      = @resource.value(:deny) unless @resource.value(:deny).to_s.empty?
     allow_unauthenticated     = @resource.value(:allow_unauthenticated) unless @resource.value(:allow_unauthenticated).to_s.empty?
 
-    allow = allow[0] if allow and allow.size == 1
-    deny  = deny[0] if deny and deny.size == 1
+    allow = allow[0] if allow && allow.size == 1
+    deny  = deny[0] if deny && deny.size == 1
     if match_request_method
       match_request_method = if match_request_method.size == 1
                                match_request_method[0].to_s
@@ -186,7 +185,7 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
       @property_hash[p] = v if v
     end
 
-    ['path', 'type', 'method'].each do |k|
+    %w[path type method].each do |k|
       p = "match_request_#{k}".to_sym
       v = rule['match-request'][k]
       @property_hash[p] = v if v
