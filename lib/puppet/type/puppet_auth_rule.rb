@@ -46,7 +46,7 @@ Puppet::Type.newtype(:puppet_auth_rule) do
 
     munge do |value|
       extensions = value['extensions'] if value.is_a?(Hash)
-      value['extensions'] = extensions.map { |k, v| [k, v.to_s ] }.to_h if extensions
+      value['extensions'] = extensions.map { |k, v| [k, v.to_s] }.to_h if extensions
       value
     end
   end

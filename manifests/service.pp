@@ -22,8 +22,10 @@ class puppet::service (
         require   => File['enc-script'],
         subscribe => [
             Package['puppet-server'],
-            Class['puppet::config']
+            File['puppet-config'],
         ],
         alias     => 'puppet-server',
     }
+
+    Class['puppet::server::ca::allow'] ~> Service[$service_name]
 }
