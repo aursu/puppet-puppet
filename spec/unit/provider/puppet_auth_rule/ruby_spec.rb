@@ -82,7 +82,7 @@ describe Puppet::Type.type(:puppet_auth_rule).provider(:ruby) do
     it {
       expect(provider.resource_rule).to eq(
         'match-request' => { 'path' => '/puppet-ca/v1/certificate_status', 'type' => 'path' },
-        'allow' => { 'extensions' => { 'pp_cli_auth' => true } },
+        'allow' => { 'extensions' => { 'pp_cli_auth' => 'true' } },
         'sort-order' => 500,
         'name' => resource_name,
       )
@@ -111,7 +111,7 @@ describe Puppet::Type.type(:puppet_auth_rule).provider(:ruby) do
     it {
       expect(provider.resource_rule).to eq(
         'match-request' => { 'method' => 'get', 'path' => '/puppet-ca/v1/certificate_status', 'type' => 'path' },
-        'allow' => { 'extensions' => { 'pp_cli_auth' => true } },
+        'allow' => { 'extensions' => { 'pp_cli_auth' => 'true' } },
         'sort-order' => 500,
         'name' => resource_name,
       )
@@ -121,11 +121,32 @@ describe Puppet::Type.type(:puppet_auth_rule).provider(:ruby) do
       provider.create
       expect(described_class.auth_rules[resource_name]).to eq(
         'match-request' => { 'method' => 'get', 'path' => '/puppet-ca/v1/certificate_status', 'type' => 'path' },
-        'allow' => { 'extensions' => { 'pp_cli_auth' => true } },
+        'allow' => { 'extensions' => { 'pp_cli_auth' => 'true' } },
         'sort-order' => 500,
         'name' => resource_name,
       )
       expect(File.read(tmppath)).to match(%r{"match-request": \{\n\s+"method": "get",\n\s+"path": "/puppet-ca/v1/certificate_status",\n\s+"type": "path"\n\s+\}})
+    }
+  end
+
+  context 'check non-array allow value' do
+    let(:resource_name) { 'puppetlabs cert statuses' }
+    let(:resource) do
+      Puppet::Type.type(:puppet_auth_rule).new(
+        name: resource_name,
+        ensure: :present,
+        match_request_path: '/puppet-ca/v1/certificate_statuses',
+        match_request_type: 'path',
+        match_request_method: :get,
+        allow: { 'extensions' => { 'pp_cli_auth' => true } },
+        provider: 'ruby',
+      )
+    end
+    let(:property) { resource.property(:match_request_method) }
+
+    it {
+      auth_rules = described_class.auth_rules
+      expect(property).to be_insync(auth_rules[resource_name]['match-request']['method'])
     }
   end
 
@@ -145,7 +166,7 @@ describe Puppet::Type.type(:puppet_auth_rule).provider(:ruby) do
     it {
       expect(provider.resource_rule).to eq(
         'match-request' => { 'method' => %w[delete put get], 'path' => '/puppet-ca/v1/certificate_status', 'type' => 'path' },
-        'allow' => [{ 'extensions' => { 'pp_cli_auth' => true } }, 'puppet1.domain.tld'],
+        'allow' => [{ 'extensions' => { 'pp_cli_auth' => 'true' } }, 'puppet1.domain.tld'],
         'sort-order' => 500,
         'name' => resource_name,
       )
@@ -155,11 +176,11 @@ describe Puppet::Type.type(:puppet_auth_rule).provider(:ruby) do
       provider.create
       expect(described_class.auth_rules[resource_name]).to eq(
         'match-request' => { 'method' => %w[delete put get], 'path' => '/puppet-ca/v1/certificate_status', 'type' => 'path' },
-        'allow' => [{ 'extensions' => { 'pp_cli_auth' => true } }, 'puppet1.domain.tld'],
+        'allow' => [{ 'extensions' => { 'pp_cli_auth' => 'true' } }, 'puppet1.domain.tld'],
         'sort-order' => 500,
         'name' => resource_name,
       )
-      expect(File.read(tmppath)).to match(%r{"allow": \[\n\s+\{\n\s+"extensions": \{\n\s+"pp_cli_auth": true\n\s+\}\n\s+\},\n\s+"puppet1.domain.tld"\n\s+\],})
+      expect(File.read(tmppath)).to match(%r{"allow": \[\n\s+\{\n\s+"extensions": \{\n\s+"pp_cli_auth": "true"\n\s+\}\n\s+\},\n\s+"puppet1.domain.tld"\n\s+\],})
     }
   end
 end

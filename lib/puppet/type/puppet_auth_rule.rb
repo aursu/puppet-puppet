@@ -43,11 +43,18 @@ Puppet::Type.newtype(:puppet_auth_rule) do
         acl_validate(value)
       end
     end
+
+    munge do |value|
+      extensions = value['extensions'] if value.is_a?(Hash)
+      value['extensions'] = extensions.map { |k, v| [k, v.to_s ] }.to_h if extensions
+      value
+    end
   end
 
   ensurable do
     desc 'Create or remove the rule.'
 
+    defaultvalues
     defaultto :present
   end
 
@@ -85,7 +92,7 @@ Puppet::Type.newtype(:puppet_auth_rule) do
       # is == :absent in case of non-existing match-request method
       return @should == [:absent] if is.nil? || is == []
 
-      is.flatten.map { |m| m.to_s }.sort == should.flatten.map { |m| m.to_s }.sort
+      [is].flatten.map { |m| m.to_s }.sort == [should].flatten.map { |m| m.to_s }.sort
     end
 
     validate do |value|
