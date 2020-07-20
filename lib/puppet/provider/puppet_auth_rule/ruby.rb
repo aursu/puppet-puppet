@@ -23,13 +23,13 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
   end
 
   def self.base_auth_rule
-    { 'deny': '*',
-      'match-request': {
-        'path': '/',
-        'type': 'path'
+    { 'deny' => '*',
+      'match-request' => {
+        'path' => '/',
+        'type' => 'path'
       },
-      'name': 'puppetlabs deny all',
-      'sort-order': 999 }
+      'name' => 'puppetlabs deny all',
+      'sort-order' => 999 }
   end
 
   def self.base_conf_object
