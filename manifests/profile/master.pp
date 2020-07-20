@@ -39,6 +39,7 @@
 # management
 #
 class puppet::profile::master (
+    String  $server                     = 'puppet',
     Boolean $use_puppetdb               = true,
     String  $puppetdb_server            = 'puppet',
     Boolean $manage_puppet_config       = false,
@@ -49,9 +50,9 @@ class puppet::profile::master (
     Boolean $manage_puppetdb_firewall   = false,
     String  $r10k_cachedir              = '/var/cache/r10k',
 ) {
-
     class { 'puppet':
-        use_puppetdb => $use_puppetdb,
+      server       => $server,
+      use_puppetdb => $use_puppetdb,
     }
 
     class { 'puppet::server::install': }

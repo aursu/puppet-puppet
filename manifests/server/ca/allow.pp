@@ -33,7 +33,7 @@ class puppet::server::ca::allow (
 
     # Forbidden request: puppet1.domain.tld(192.168.0.1) access to /puppet-ca/v1/certificate_statuses/any_key
     # (method :get) (authenticated: true) denied by rule 'puppetlabs cert status'.
-    puppet_auth_rule { 'ppuppetlabs cert status':
+    puppet_auth_rule { 'puppetlabs cert status':
       ensure               => present,
       match_request_path   => '/puppet-ca/v1/certificate_status',
       match_request_type   => path,
