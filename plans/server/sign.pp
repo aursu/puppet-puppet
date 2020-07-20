@@ -15,7 +15,7 @@ plan puppet::server::sign (
 ) {
   run_plan(facts, $targets)
 
-  apply($targets) {
+  return apply($targets) {
     include puppet
     $nodes.each |$node| {
       puppet::server::ca::sign { $node: }
