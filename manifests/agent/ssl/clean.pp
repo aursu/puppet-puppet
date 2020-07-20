@@ -25,5 +25,6 @@ class puppet::agent::ssl::clean (
     $hostpubkey: ;
     $hostcert: ;
     $hostreq: ;
+    $localcacert: ;
   }
 }
