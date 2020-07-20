@@ -165,4 +165,22 @@ class puppet::config (
         require => Package['puppet-agent'],
         alias   => 'puppet-config',
     }
+
+    # https://blog.example42.com/2018/10/08/puppet6-ca-upgrading/
+    if $puppet_master {
+      if ca_server {
+        $ca_server_allow = [$ca_server]
+      }
+      else {
+        $ca_server_allow = []
+      }
+
+      puppet_auth_rule { 'puppetlabs cert status':
+        ensure               => present,
+        match_request_path   => '/puppet-ca/v1/certificate_status',
+        match_request_type   => path,
+        match_request_method => [ delete, put, get],
+        allow                => [{ 'extensions' => {'pp_cli_auth' => true}}, $server] + $ca_server_allow,
+      }
+    }
 }
