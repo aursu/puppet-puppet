@@ -15,15 +15,16 @@ class puppet::agent::bootstrap (
 ) inherits puppet::params
 {
   # /opt/puppetlabs/puppet/bin/puppet agent --test
-  exec { 'puppet-bootstrap-privkey':
-    command => "${puppet_path} agent ${options}",
-    creates => $hostprivkey,
-  }
-
-  # /opt/puppetlabs/puppet/bin/puppet agent --test
-  exec { 'puppet-bootstrap-cert':
-    command => "${puppet_path} agent ${options}",
-    creates => $hostcert,
-    returns => [0, 1, 2, 4, 6],
+  exec {
+    default:
+      command => "${puppet_path} agent ${options}",
+      returns => [0, 1, 2, 4, 6],
+    ;
+    'puppet-bootstrap-privkey':
+      creates => $hostprivkey,
+    ;
+    'puppet-bootstrap-cert':
+      creates => $hostcert,
+    ;
   }
 }
