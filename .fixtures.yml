@@ -3,9 +3,36 @@
 ---
 fixtures:
   forge_modules:
-     stdlib: "puppetlabs/stdlib"
-     puppet_agent: "puppetlabs/puppet_agent"
+    concat:
+      repo: "puppetlabs/concat"
+      ref: "6.2.0"
+    inifile:
+      repo: "puppetlabs/inifile"
+      ref: "4.2.0"
+    postgresql:
+      repo: "puppetlabs/postgresql"
+      ref: "6.6.0"
+    puppet_agent:
+      repo: "puppetlabs/puppet_agent"
+      ref: "4.0.0"
+    puppetdb:
+      repo: "puppetlabs/puppetdb"
+      ref: "7.5.0"
+    r10k:
+      repo: "puppet/r10k"
+      ref: "8.3.0"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "6.3.0"
   repositories:
+    augeas_core:
+      repo: https://github.com/puppetlabs/puppetlabs-augeas_core.git
+      ref: "tags/1.0.5"
+      puppet_version: ">= 6.0.0"
+    cron_core:
+      repo: https://github.com/puppetlabs/puppetlabs-cron_core.git
+      ref: "tags/1.0.4"
+      puppet_version: ">= 6.0.0"
     host_core:
       repo: https://github.com/puppetlabs/puppetlabs-host_core.git
       ref: "tags/1.0.3"
