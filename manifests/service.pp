@@ -22,7 +22,7 @@ class puppet::service (
         require   => File['enc-script'],
         subscribe => [
             Package['puppet-server'],
-            File['puppet-config']
+            Class['puppet::config']
         ],
         alias     => 'puppet-server',
     }
