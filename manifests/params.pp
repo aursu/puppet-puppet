@@ -95,11 +95,11 @@ class puppet::params {
     $external_nodes      = '/usr/local/bin/puppet_node_classifier'
 
     # Client authentication
-    if $::puppet_sslpaths {
-        $certdir       = $::puppet_sslpaths['certdir']['path']
-        $privatekeydir = $::puppet_sslpaths['privatekeydir']['path']
-        $requestdir    = $::puppet_sslpaths['requestdir']['path']
-        $publickeydir  = $::puppet_sslpaths['publickeydir']['path']
+    if $facts['puppet_sslpaths'] {
+        $certdir       = $facts['puppet_sslpaths']['certdir']['path']
+        $privatekeydir = $facts['puppet_sslpaths']['privatekeydir']['path']
+        $requestdir    = $facts['puppet_sslpaths']['requestdir']['path']
+        $publickeydir  = $facts['puppet_sslpaths']['publickeydir']['path']
     }
     else {
         # fallback to predefined
@@ -110,17 +110,19 @@ class puppet::params {
     }
     $localcacert   = "${certdir}/ca.pem"
     # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
-    if $::clientcert {
-        $hostcert      = "${certdir}/${::clientcert}.pem"
-        $hostprivkey   = "${privatekeydir}/${::clientcert}.pem"
-        $hostpubkey    = "${publickeydir}/${::clientcert}.pem"
-        $hostreq       = "${requestdir}/${::clientcert}.pem"
+    if $facts['clientcert'] {
+        $clientcert    = $facts['clientcert']
+        $hostcert      = "${certdir}/${clientcert}.pem"
+        $hostprivkey   = "${privatekeydir}/${clientcert}.pem"
+        $hostpubkey    = "${publickeydir}/${clientcert}.pem"
+        $hostreq       = "${requestdir}/${clientcert}.pem"
     }
     else {
         # fallback to fqdn
-        $hostcert      = "${certdir}/${::fqdn}.pem"
-        $hostprivkey   = "${privatekeydir}/${::fqdn}.pem"
-        $hostpubkey    = "${publickeydir}/${::fqdn}.pem"
-        $hostreq       = "${requestdir}/${::fqdn}.pem"
+        $fqdn          = $facts['fqdn']
+        $hostcert      = "${certdir}/${fqdn}.pem"
+        $hostprivkey   = "${privatekeydir}/${fqdn}.pem"
+        $hostpubkey    = "${publickeydir}/${fqdn}.pem"
+        $hostreq       = "${requestdir}/${fqdn}.pem"
     }
 }
