@@ -1,8 +1,8 @@
 # puppet::repo
 #
-# A description of what this class does
+# Setup Puppet Platform repository
 #
-# @summary A short summary of the purpose of this class
+# @summary Setup Puppet Platform repository
 #
 # @example
 #   include puppet::repo

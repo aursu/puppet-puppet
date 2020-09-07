@@ -1,8 +1,8 @@
 # puppet::install::r10k
 #
-# A description of what this class does
+# R10K installation on the server
 #
-# @summary A short summary of the purpose of this class
+# @summary R10K installation on the server
 #
 # @example
 #   include puppet::install::r10k

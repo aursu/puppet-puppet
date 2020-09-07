@@ -1,8 +1,8 @@
 # puppet::service
 #
-# A description of what this class does
+# Puppet server service management
 #
-# @summary A short summary of the purpose of this class
+# @summary Puppet server service management
 #
 # @example
 #   include puppet::service

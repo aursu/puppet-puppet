@@ -1,8 +1,8 @@
 # puppet::agent::install
 #
-# A description of what this class does
+# Puppet 5 agent installation
 #
-# @summary A short summary of the purpose of this class
+# @summary Puppet 5 agent installation
 #
 # @example
 #   include puppet::agent::install

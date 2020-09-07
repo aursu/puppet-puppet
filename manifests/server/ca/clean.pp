@@ -1,6 +1,9 @@
-# @summary A short summary of the purpose of this defined type.
+# @summary Puppet certificate cleanup call
 #
-# A description of what this defined type does
+# Puppet certificate cleanup call
+#
+# @param certname
+#   Certificate name for which run `puppetserver ca clean` command
 #
 # @example
 #   puppet::server::ca::clean { 'namevar': }

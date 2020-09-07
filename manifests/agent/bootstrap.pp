@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Puppet bootstrap commands
 #
-# A description of what this class does
+# Puppet bootstrap commands
 #
 # @example
 #   include puppet::agent::bootstrap

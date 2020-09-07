@@ -1,8 +1,8 @@
 # puppet
 #
-# A description of what this class does
+# Puppet 5 installation module
 #
-# @summary A short summary of the purpose of this class
+# @summary Puppet 5 installation module
 #
 # @example
 #   include puppet

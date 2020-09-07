@@ -1,8 +1,8 @@
 # puppet::enc
 #
-# A description of what this class does
+# Install ENC script
 #
-# @summary A short summary of the purpose of this class
+# @summary Install ENC script
 #
 # @example
 #   include puppet::enc

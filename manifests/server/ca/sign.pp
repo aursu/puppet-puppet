@@ -1,6 +1,9 @@
-# @summary A short summary of the purpose of this defined type.
+# @summary Puppet certificate sign
 #
-# A description of what this defined type does
+# Puppet certificate sign
+#
+# @param certname
+#   Certificate name, for which run command `puppetserver ca sign`
 #
 # @example
 #   puppet::server::ca::sign { 'namevar': }

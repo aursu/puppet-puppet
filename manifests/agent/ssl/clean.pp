@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Remove Puppet cerificate and keys on the host
 #
-# A description of what this class does
+# Remove Puppet cerificate and keys on the host
 #
 # @example
 #   include puppet::agent::ssl::clean

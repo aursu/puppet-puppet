@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Adjust Puppet auth.conf to allow 'puppetserver ca' command
 #
-# A description of what this class does
+# Adjust Puppet auth.conf to allow 'puppetserver ca' command
 #
 # @example
 #   include puppet::server::ca::allow

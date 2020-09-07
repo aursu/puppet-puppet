@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Configure Puppet Agent settings
 #
-# A description of what this class does
+# Configure Puppet Agent settings
 #
 # @example
 #   include puppet::agent::config

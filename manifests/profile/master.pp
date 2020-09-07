@@ -5,38 +5,36 @@
 # @example
 #   include puppet::profile::master
 #
-# Parameters:
+# @param use_puppetdb
+#   Boolean. Default is true. If set puppet.conf will be set to use PuppetDB for
+#   storeconfigs and reports storage. Also PuppetDB will be managed through
+#   puppetlabs-puppetdb module (including PostgreSQL database)
 #
-# [*use_puppetdb*]
-# Boolean. Default is true. If set puppet.conf will be set to use PuppetDB for
-# storeconfigs and reports storage. Also PuppetDB will be managed through
-# puppetlabs-puppetdb module (including PostgreSQL database)
+# @param puppetdb_server
+#   String. Default is 'puppet'. Server name for PuppetDB. Puppetdb::Master::Config
+#   class (from puppetlabs-puppetdb) use ::fqdn for check connection to PuppetDB
+#   server. As ::fqdn could be ot resolvable it is possible to set up server name
+#   via parameter puppetdb_server. Class '::puppet' by default set into /etc/hosts
+#   file record
+#   127.0.0.1 puppet
+#   therefore hostname 'puppet' is resolvable. If you changed this behavior - you
+#   should properly set parameter puppetdb_server as well
 #
-# [*puppetdb_server*]
-# String. Default is 'puppet'. Server name for PuppetDB. Puppetdb::Master::Config
-# class (from puppetlabs-puppetdb) use ::fqdn for check connection to PuppetDB
-# server. As ::fqdn could be ot resolvable it is possible to set up server name
-# via parameter puppetdb_server. Class '::puppet' by default set into /etc/hosts
-# file record
-# 127.0.0.1 puppet
-# therefore hostname 'puppet' is resolvable. If you changed this behavior - you
-# should properly set parameter puppetdb_server as well
+# @param manage_puppet_config
+#   Boolean. Default is false. If set then class Puppetdb::Master::Config will
+#   check puppet.conf (using Ini_setting resources) for proper setup of report/reports
+#   and storeconfigs/storeconfigs_backend directives. By default class Puppet
+#   generates Puppet config from template therefore we do not manage it inside
+#   class Puppetdb::Master::Config.
 #
-# [*manage_puppet_config*]
-# Boolean. Default is false. If set then class Puppetdb::Master::Config will
-# check puppet.conf (using Ini_setting resources) for proper setup of report/reports
-# and storeconfigs/storeconfigs_backend directives. By default class Puppet
-# generates Puppet config from template therefore we do not manage it inside
-# class Puppetdb::Master::Config.
+# @param postgres_local
+#   Boolean. Default is true. If set then class Puppetdb will use puppetlabs/postgresql
+#   for Postgres database server management and PuppetDB database setup
 #
-# [*manage_postgres_dbserver*]
-# Boolean. Default is true. If set then class Puppetdb will use puppetlabs/postgresql
-# for Postgres database server management and PuppetDB database setup
-#
-# [*manage_puppetdb_firewall*]
-# Boolean. Default is false. If set than class Puppetdb::Server will use
-# puppetlabs/firewall for firewall rules setup, iptables/ip6tables services
-# management
+# @param manage_puppetdb_firewall
+#   Boolean. Default is false. If set than class Puppetdb::Server will use
+#   puppetlabs/firewall for firewall rules setup, iptables/ip6tables services
+#   management
 #
 class puppet::profile::master (
     String  $server                     = 'puppet',

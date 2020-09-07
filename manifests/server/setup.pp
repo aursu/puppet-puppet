@@ -33,16 +33,13 @@ class puppet::server::setup (
     include puppet::agent::install
     include puppet::r10k::install
 
-    Exec {
-        path => '/bin:/usr/bin',
-    }
-
     # /opt/puppetlabs/puppet/cache/r10k
     $r10k_vardir = "${facts['puppet_vardir']}/r10k"
-    exec { "mkdir -p ${r10k_vardir}":
+    exec { 'r10k-vardir':
+        command => "mkdir -p ${r10k_vardir}",
         creates => $r10k_vardir,
+        path    => '/bin:/usr/bin',
         require => Package['puppet-agent'],
-        alias   => 'r10k-vardir',
     }
 
     # this should be one time installation
@@ -57,41 +54,45 @@ class puppet::server::setup (
 
     $r10k_config_path = dirname($r10k_config_file)
     # exec in order to avoid conflict with r10k module
-    exec { "mkdir -p ${r10k_config_path}":
+    exec { 'r10k-confpath-setup':
+        command => "mkdir -p ${r10k_config_path}",
         creates => $r10k_config_path,
+        path    => '/bin:/usr/bin',
         require => Package['puppet-agent'],
-        alias   => 'r10k-confpath-setup',
     }
 
     if $r10k_config_setup {
         # only if ${r10k_vardir}/r10k.yaml just created or changed
-        exec { "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}":
+        exec { 'r10k-config':
+            command     => "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}",
             refreshonly => true,
+            path        => '/bin:/usr/bin',
             require     => [
                 File["${r10k_vardir}/r10k.yaml"],
                 Exec['r10k-confpath-setup'],
             ],
-            alias       => 'r10k-config',
         }
     }
     else {
         # only if config file not exists
-        exec { "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}":
+        exec { 'r10k-config':
+            command => "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}",
             creates => $r10k_config_file,
+            path    => '/bin:/usr/bin',
             require => [
                 File["${r10k_vardir}/r10k.yaml"],
                 Exec['r10k-confpath-setup'],
             ],
-            alias   => 'r10k-config',
         }
     }
 
-    exec { "${r10k_path} deploy environment -p":
+    exec { 'environment-setup':
+        command     => "${r10k_path} deploy environment -p",
         cwd         => '/',
         refreshonly => !$setup_on_each_run,
+        path        => '/bin:/usr/bin',
         require     => Exec['r10k-installation'],
         subscribe   => Exec['r10k-config'],
-        alias       => 'environment-setup',
     }
 
     # Hardening of Hiera Eyaml keys

@@ -1,8 +1,12 @@
 # puppet::install::server
 #
-# A description of what this class does
+# Puppet server package installation
 #
-# @summary A short summary of the purpose of this class
+# @summary Puppet server package installation
+#
+# @param server_version
+#   puppetserver package version or one of puppet Package resource ensure
+#   parameter values (latest, installed, absent)
 #
 # @example
 #   include puppet::install::server
