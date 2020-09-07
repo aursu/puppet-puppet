@@ -26,7 +26,7 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
     { 'deny' => '*',
       'match-request' => {
         'path' => '/',
-        'type' => 'path'
+        'type' => 'path',
       },
       'name' => 'puppetlabs deny all',
       'sort-order' => 999 }
