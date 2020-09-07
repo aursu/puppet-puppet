@@ -6,6 +6,7 @@
   "license": "Apache-2.0",
   "source": "git@github.com:aursu/puppet-puppet.git",
   "project_page": "https://github.com/aursu/puppet-puppet.git",
+  "issues_url": "https://github.com/aursu/puppet-puppet/issues",
   "dependencies": [
     {
       "name": "puppetlabs/puppet_agent",
