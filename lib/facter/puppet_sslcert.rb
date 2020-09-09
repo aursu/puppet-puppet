@@ -16,7 +16,9 @@ Facter.add('puppet_sslcert') do
             else
               {
                 'certdir' => { 'path' => '/etc/puppetlabs/puppet/ssl/certs' },
-                'privatekeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/private_keys' }
+                'privatekeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/private_keys' },
+                'requestdir' => { 'path' => '/etc/puppetlabs/puppet/ssl/certificate_requests' },
+                'publickeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/public_keys' }
               }
             end
 
@@ -34,7 +36,19 @@ Facter.add('puppet_sslcert') do
     privatekeydir = paths['privatekeydir']['path']
     hostprivkey = "#{privatekeydir}/#{name}.pem"
     if File.exist?(hostprivkey)
-      result['hostprivkey'] = { 'path' => hostprivkey, 'data' => File.read(hostprivkey) }
+      result['hostprivkey'] = { 'path' => hostprivkey }
+    end
+
+    publickeydir = paths['publickeydir']['path']
+    hostpubkey = "#{publickeydir}/#{name}.pem"
+    if File.exist?(hostpubkey)
+      result['hostpubkey'] = { 'path' => hostpubkey, 'data' => File.read(hostpubkey) }
+    end
+
+    requestdir = paths['requestdir']['path']
+    hostreq = "#{requestdir}/#{name}.pem"
+    if File.exist?(hostreq)
+      result['hostreq'] = { 'path' => hostreq, 'data' => File.read(hostreq) }
     end
 
     result
