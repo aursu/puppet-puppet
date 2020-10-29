@@ -6,7 +6,7 @@
 
 ### Classes
 
-* [`puppet`](#puppet): A short summary of the purpose of this class
+* [`puppet`](#puppet): Puppet 5 installation module
 * [`puppet::agent::bootstrap`](#puppetagentbootstrap): Puppet bootstrap commands
 * [`puppet::agent::config`](#puppetagentconfig): Configure Puppet Agent settings
 * [`puppet::agent::install`](#puppetagentinstall): Puppet 5 agent installation
@@ -305,6 +305,12 @@ Data type: `String`
 
 
 ##### `environment_setup_on_each_run`
+
+Data type: `Boolean`
+
+
+
+##### `external_facts_setup`
 
 Data type: `Boolean`
 
@@ -1337,6 +1343,15 @@ include puppet::setup
 #### Parameters
 
 The following parameters are available in the `puppet::setup` class.
+
+##### `external_facts_setup`
+
+Data type: `Boolean`
+
+whether to setup directories for external facts
+see https://puppet.com/docs/puppet/6.18/external_facts.html
+
+Default value: `$puppet::external_facts_setup`
 
 ##### `server_name`
 
