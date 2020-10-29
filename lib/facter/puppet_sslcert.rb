@@ -18,7 +18,7 @@ Facter.add('puppet_sslcert') do
                 'certdir' => { 'path' => '/etc/puppetlabs/puppet/ssl/certs' },
                 'privatekeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/private_keys' },
                 'requestdir' => { 'path' => '/etc/puppetlabs/puppet/ssl/certificate_requests' },
-                'publickeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/public_keys' }
+                'publickeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/public_keys' },
               }
             end
 
