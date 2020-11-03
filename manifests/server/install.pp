@@ -22,4 +22,7 @@ class puppet::server::install (
         require => Package['puppet-agent'],
         alias   => 'puppet-server',
     }
+
+    # https://puppet.com/docs/puppetserver/5.3/configuration.html#enabling-jruby-9k
+    # TODO: jruby upgrade
 }
