@@ -12,7 +12,7 @@ describe 'puppet::setup' do
       context 'with external facts directories management' do
         let(:params) do
           {
-            'external_facts_setup' => true
+            'external_facts_setup' => true,
           }
         end
 
