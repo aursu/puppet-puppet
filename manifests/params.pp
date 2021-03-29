@@ -7,22 +7,17 @@
 # @example
 #   include puppet::params
 class puppet::params {
-    $platform_name       = 'puppet5'
-    $package_name        = "${platform_name}-release"
     $os_version          = $::operatingsystemmajrelease
+
     case $::osfamily {
         'Suse': {
-            $repo_urlbase = "https://yum.puppet.com/${platform_name}"
             $os_abbreviation  = 'sles'
             $version_codename = "${os_abbreviation}-${os_version}"
             $package_provider = 'rpm'
-            $package_filename = "${package_name}-${version_codename}.noarch.rpm"
         }
         'Debian': {
-            $repo_urlbase = 'https://apt.puppetlabs.com'
             $version_codename = $::lsbdistcodename
             $package_provider = 'dpkg'
-            $package_filename = "${package_name}-${version_codename}.deb"
         }
         # default is RedHat based systems
         default: {
@@ -34,13 +29,11 @@ class puppet::params {
                     $os_abbreviation = 'el'
                 }
             }
-            $repo_urlbase = "https://yum.puppet.com/${platform_name}"
             $version_codename = "${os_abbreviation}-${os_version}"
             $package_provider = 'rpm'
-            $package_filename = "${package_name}-${version_codename}.noarch.rpm"
         }
     }
-    $platform_repository = "${repo_urlbase}/${package_filename}"
+
     $agent_package_name  = 'puppet-agent'
     $server_package_name = 'puppetserver'
     $r10k_package_name   = 'r10k'
