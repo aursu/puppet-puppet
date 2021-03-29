@@ -1,4 +1,4 @@
-# puppet::setup::server
+# puppet::server::setup
 #
 # This class setup dynamic environments using r10k invocation. If r10k is not
 # configured, than it will setup it from template
@@ -6,7 +6,7 @@
 # @summary Puppet server environment setup
 #
 # @example
-#   include puppet::setup::server
+#   include puppet::server::setup
 class puppet::server::setup (
     Boolean $r10k_config_setup  = $puppet::r10k_config_setup,
     String  $r10k_yaml_template = $puppet::r10k_yaml_template,
