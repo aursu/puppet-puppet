@@ -146,6 +146,19 @@ class puppet::config (
 ) inherits puppet::params
 {
     include puppet::agent::install
+    include puppet::globals
+
+    $platform_name = $puppet::globals::platform_name
+
+    if $platform_name == 'puppet5' {
+      $server_section = 'master'
+      $server_sameca  = $sameca
+    }
+    else {
+      $server_section = 'server'
+      # we do not want to have 'ca' directive in puppet.conf for Puppet 6+
+      $server_sameca  = true
+    }
 
     file { 'puppet-config':
         path    => $puppet_config,
@@ -156,6 +169,12 @@ class puppet::config (
       puppet_master => $puppet_master,
       server        => $server,
       ca_server     => $ca_server,
+    }
+
+    # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
+    file {  '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
+      ensure  => file,
+      content => template('puppet/services.ca.cfg.erb'),
     }
 
     Class['puppet::agent::install'] -> File['puppet-config']

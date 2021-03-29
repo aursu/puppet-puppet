@@ -30,6 +30,8 @@ puppet::profile::master:
   - puppetdb
   - puppetdb::master::config
   - puppet::config:
+    - include puppet::agent::install
+    - include puppet::globals
     - puppet::server::ca::allow:
       - |
         Puppet_auth_rule['puppetlabs cert statuses']

@@ -1,9 +1,9 @@
 # This file can be used to override the default puppet settings.
 # See the following links for more details on what settings are available:
-# - https://puppet.com/docs/puppet/5.5/config_important_settings.html
-# - https://puppet.com/docs/puppet/5.5/config_about_settings.html
-# - https://puppet.com/docs/puppet/5.5/config_file_main.html
-# - https://puppet.com/docs/puppet/5.5/configuration.html
+# - https://puppet.com/docs/puppet/latest/config_important_settings.html
+# - https://puppet.com/docs/puppet/latest/config_about_settings.html
+# - https://puppet.com/docs/puppet/latest/config_file_main.html
+# - https://puppet.com/docs/puppet/latest/configuration.html
 [main]
 <% if @node_environment -%>
 environment = <%= @node_environment %>
@@ -50,9 +50,10 @@ priority = <%= @priority %>
 <%# Default: true -%>
 usecacheonfailure = false
 <% end -%>
+report = true
 
 <% if @puppet_master -%>
-[master]
+[<%= @server_section %>]
 vardir = /opt/puppetlabs/server/data/puppetserver
 logdir = /var/log/puppetlabs/puppetserver
 rundir = /var/run/puppetlabs/puppetserver
@@ -60,11 +61,15 @@ pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
 codedir = /etc/puppetlabs/code
 
 environment_timeout = <%= @environment_timeout %>
+<% unless @autosign.nil? -%>
+<%# Default: $confdir/autosign.conf -%>
+autosign = <%= @autosign.to_s %>
+<% end -%>
 <% if @allow_duplicate_certs -%>
 <%# Default: false -%>
 allow_duplicate_certs = true
 <% end -%>
-<% unless @sameca -%>
+<% unless @server_sameca -%>
 <%# Default: true -%>
 ca = false
 <% end -%>
@@ -76,7 +81,6 @@ external_nodes = <%= @external_nodes %>
 <% if @use_puppetdb -%>
 storeconfigs = true
 storeconfigs_backend = puppetdb
-report = true
 reports = puppetdb
 <% end -%>
 <% end -%>

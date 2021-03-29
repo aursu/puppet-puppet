@@ -29,6 +29,7 @@ class puppet::setup (
     }
 
     if $external_facts_setup {
+        # https://puppet.com/docs/puppet/7.5/external_facts.html#executable-fact-locations
         file {
             ['/etc/facter',
             '/etc/facter/facts.d',
