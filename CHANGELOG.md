@@ -21,3 +21,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.2.0
+
+**Features**
+
+* Added puppet::globals to support few major versions of Puppet
+
+**Bugfixes**
+
+**Known Issues**
