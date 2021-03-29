@@ -1,0 +1,47 @@
+---
+puppet::profile::master:
+  - puppet
+  - puppet::globals
+  - puppet::agent::install:
+    - include puppet::repo
+    - |
+      Package['puppet-agent']
+  - puppet::server::install:
+    - include puppet::agent::install
+    - |
+      Package['puppet-server']
+  - r10k
+  - puppet::server::setup:
+    - include puppet::agent::install
+    - include puppet::r10k::install:
+      - include puppet::agent::install
+      - |
+        Exec['r10k-installation']
+    - |
+      Exec['r10k-vardir']
+      File["${r10k_vardir}/r10k.yaml"]
+      Exec['r10k-confpath-setup']
+      Exec['r10k-config']
+      Exec['environment-setup']
+      File[$eyaml_keys_path]
+      File["${eyaml_keys_path}/${eyaml_public_key}"]
+      File["${eyaml_keys_path}/${eyaml_private_key}"]
+  - include postgresql::server
+  - puppetdb
+  - puppetdb::master::config
+  - puppet::config:
+    - puppet::server::ca::allow:
+      - |
+        Puppet_auth_rule['puppetlabs cert statuses']
+        Puppet_auth_rule['puppetlabs cert status']
+    - |
+      File['puppet-config']
+  - puppet::service:
+    - include puppet::server::install
+    - include puppet::enc:
+      - |
+        File['enc-script']
+    - include puppet::config
+    - include puppet::server::ca::allow
+    - |
+      Service['puppet-server']
