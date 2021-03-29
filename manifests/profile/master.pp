@@ -37,6 +37,8 @@
 #   management
 #
 class puppet::profile::master (
+    Puppet::Platform
+            $platform_name              = 'puppet7',
     String  $server                     = 'puppet',
     Boolean $use_puppetdb               = true,
     String  $puppetdb_server            = 'puppet',
@@ -48,11 +50,17 @@ class puppet::profile::master (
     Boolean $manage_puppetdb_firewall   = false,
     String  $r10k_cachedir              = '/var/cache/r10k',
 ) {
+    # https://tickets.puppetlabs.com/browse/SERVER-346
     class { 'puppet':
       server       => $server,
       use_puppetdb => $use_puppetdb,
     }
 
+    class { 'puppet::globals':
+      platform_name => $platform_name,
+    }
+
+    class { 'puppet::agent::install': }
     class { 'puppet::server::install': }
 
     # r10k is not optional in our workflow, it should replace initial setup with

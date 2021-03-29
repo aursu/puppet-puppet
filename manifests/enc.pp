@@ -17,11 +17,11 @@ class puppet::enc (
             $external_nodes     = $puppet::params::external_nodes,
 ) inherits puppet::params
 {
-    file { $external_nodes:
+    file { 'enc-script':
+        path    => $external_nodes,
         content => template($enc_template),
         mode    => '0755',
         owner   => 'root',
         group   => 'root',
-        alias   => 'enc-script',
     }
 }

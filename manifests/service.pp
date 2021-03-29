@@ -12,20 +12,19 @@ class puppet::service (
     String  $service_name           = $puppet::params::service_name,
 ) inherits puppet::params
 {
-    include puppet::server::install
-    include puppet::enc
-    include puppet::config
+  include puppet::server::install
+  include puppet::enc
+  include puppet::config
+  include puppet::server::ca::allow
 
-    service { $service_name:
-        ensure    => $server_service_ensure,
-        enable    => $server_service_enable,
-        require   => File['enc-script'],
-        subscribe => [
-            Package['puppet-server'],
-            File['puppet-config'],
-        ],
-        alias     => 'puppet-server',
-    }
+  service { 'puppet-server':
+    ensure => $server_service_ensure,
+    name   => $service_name,
+    enable => $server_service_enable,
+  }
 
-    Class['puppet::server::ca::allow'] ~> Service[$service_name]
+  Class['puppet::server::install'] ~> Service['puppet-server']
+  Class['puppet::config'] ~> Service['puppet-server']
+  Class['puppet::server::ca::allow'] ~> Service['puppet-server']
+  Class['puppet::enc'] -> Service['puppet-server']
 }

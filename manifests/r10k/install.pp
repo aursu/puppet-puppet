@@ -14,11 +14,12 @@ class puppet::r10k::install (
             $r10k_path           = $puppet::params::r10k_path,
 ) inherits puppet::params
 {
-    include puppet::agent::install
+  include puppet::agent::install
 
-    exec { "${gem_path} install ${r10k_package_name}":
-        creates => $r10k_path,
-        require => Package['puppet-agent'],
-        alias   => 'r10k-installation',
-    }
+  exec { 'r10k-installation':
+    command => "${gem_path} install ${r10k_package_name}",
+    creates => $r10k_path,
+  }
+
+  Class['puppet::agent::install'] -> Exec['r10k-installation']
 }

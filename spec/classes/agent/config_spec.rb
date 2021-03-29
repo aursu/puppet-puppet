@@ -12,17 +12,20 @@ describe 'puppet::agent::config' do
       it { is_expected.to compile }
 
       it {
-        is_expected.to contain_file('/etc/puppetlabs/puppet/puppet.conf')
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
           .with_content(%r{usecacheonfailure = false})
       }
 
       it {
-        is_expected.to contain_file('/etc/puppetlabs/puppet/puppet.conf')
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
           .with_content(%r{runtimeout = 10m})
       }
 
       it {
-        is_expected.to contain_file('/etc/puppetlabs/puppet/puppet.conf')
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
           .with_content(%r{onetime = true})
       }
     end

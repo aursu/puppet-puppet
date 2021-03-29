@@ -13,9 +13,10 @@ class puppet::agent::install (
 {
     include puppet::repo
 
-    package { $agent_package_name:
-        ensure  => $agent_version,
-        require => Package['puppet5-repository'],
-        alias   => 'puppet-agent',
+    package { 'puppet-agent':
+      ensure => $agent_version,
+      name   => $agent_package_name,
     }
+
+    Class['puppet::repo'] -> Package['puppet-agent']
 }

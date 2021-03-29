@@ -147,10 +147,9 @@ class puppet::config (
 {
     include puppet::agent::install
 
-    file { $puppet_config:
+    file { 'puppet-config':
+        path    => $puppet_config,
         content => template('puppet/puppet.conf.erb'),
-        require => Package['puppet-agent'],
-        alias   => 'puppet-config',
     }
 
     class { 'puppet::server::ca::allow':
@@ -158,4 +157,6 @@ class puppet::config (
       server        => $server,
       ca_server     => $ca_server,
     }
+
+    Class['puppet::agent::install'] -> File['puppet-config']
 }

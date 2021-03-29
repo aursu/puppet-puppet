@@ -10,7 +10,8 @@ describe 'puppet::config' do
       it { is_expected.to compile }
 
       it {
-        is_expected.to contain_file('/etc/puppetlabs/puppet/puppet.conf')
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
           .with_content(%r{basemodulepath = /etc/puppetlabs/code/environments/common/modules})
       }
     end

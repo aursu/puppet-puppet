@@ -39,7 +39,6 @@ class puppet::server::setup (
         command => "mkdir -p ${r10k_vardir}",
         creates => $r10k_vardir,
         path    => '/bin:/usr/bin',
-        require => Package['puppet-agent'],
     }
 
     # this should be one time installation
@@ -58,7 +57,6 @@ class puppet::server::setup (
         command => "mkdir -p ${r10k_config_path}",
         creates => $r10k_config_path,
         path    => '/bin:/usr/bin',
-        require => Package['puppet-agent'],
     }
 
     if $r10k_config_setup {
@@ -97,11 +95,10 @@ class puppet::server::setup (
 
     # Hardening of Hiera Eyaml keys
     file { $eyaml_keys_path:
-        ensure  => directory,
-        owner   => 'puppet',
-        group   => 'puppet',
-        mode    => '0500',
-        require => Package['puppet-agent'],
+        ensure => directory,
+        owner  => 'puppet',
+        group  => 'puppet',
+        mode   => '0500',
     }
 
     # poka-yoke
@@ -120,4 +117,8 @@ class puppet::server::setup (
             mode  => '0400',
         }
     }
+
+    Class['puppet::agent::install'] -> Exec['r10k-vardir']
+    Class['puppet::agent::install'] -> Exec['r10k-confpath-setup']
+    Class['puppet::agent::install'] -> File[$eyaml_keys_path]
 }
