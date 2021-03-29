@@ -2,8 +2,8 @@
 #
 # Setup Puppet configuration file (puppet.conf)
 #
-# @param puppet_master
-#   Flag - if set to true then host will be set up as Puppet Master server
+# @param puppet_server
+#   Flag - if set to true then host will be set up as Puppet server
 
 # @param basemodulepath
 #   The search path for global modules. Should be specified as a list of
@@ -59,32 +59,32 @@
 #   them are Puppet Server nodes that you want other agents to trust.
 #
 # @param environment_timeout
-#   Puppet::TimeUnit. Default - 0. How long the Puppet master should cache data it
+#   Puppet::TimeUnit. Default - 0. How long the Puppet server should cache data it
 #   loads from an environment. This setting can be a time interval in seconds (30
 #   or 30s), minutes (30m), hours (6h), days (2d), or years (5y). A value of 0
 #   will disable caching. This setting can also be set to unlimited, which will
-#   cache environments until the master is restarted or told to refresh the cache.
+#   cache environments until the server is restarted or told to refresh the cache.
 #   You should change this setting once your Puppet deployment is doing non-
 #   trivial work. We chose the default value of 0 because it lets new users update
 #   their code without any extra steps, but it lowers the performance of your
-#   Puppet master.
+#   Puppet server.
 #   We recommend setting this to unlimited and explicitly refreshing your Puppet
-#   master as part of your code deployment process.
+#   server as part of your code deployment process.
 #     * With Puppet Server, you should refresh environments by calling the
 #       environment-cache API endpoint. See the docs for the Puppet Server
 #       administrative API.
-#     * With a Rack Puppet master, you should restart the web server or the
+#     * With a Rack Puppet server, you should restart the web server or the
 #       application server. Passenger lets you touch a restart.txt file to refresh
 #       an application without restarting Apache; see the Passenger docs for
 #       details.
 #   We don’t recommend using any value other than 0 or unlimited, since most
-#   Puppet masters use a pool of Ruby interpreters which all have their own cache
+#   Puppet servers use a pool of Ruby interpreters which all have their own cache
 #   timers. When these timers drift out of sync, agents can be served inconsistent
 #   catalogs.
 #   Default: 0
 #
 # @param sameca
-#   Whether the master should function as a certificate
+#   Whether the server should function as a certificate
 #   authority.
 #   Default: true
 #
@@ -102,7 +102,7 @@
 # @example
 #   include puppet::config
 class puppet::config (
-    Boolean $puppet_master          = $puppet::master,
+    Boolean $puppet_server          = $puppet::master,
     String  $server                 = $puppet::server,
     Optional[String]
             $ca_server              = $puppet::ca_server,
@@ -165,16 +165,17 @@ class puppet::config (
         content => template('puppet/puppet.conf.erb'),
     }
 
-    class { 'puppet::server::ca::allow':
-      puppet_master => $puppet_master,
-      server        => $server,
-      ca_server     => $ca_server,
-    }
+    if $puppet_server {
+      class { 'puppet::server::ca::allow':
+        server        => $server,
+        ca_server     => $ca_server,
+      }
 
-    # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
-    file {  '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
-      ensure  => file,
-      content => template('puppet/services.ca.cfg.erb'),
+      # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
+      file {  '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
+        ensure  => file,
+        content => template('puppet/services.ca.cfg.erb'),
+      }
     }
 
     Class['puppet::agent::install'] -> File['puppet-config']

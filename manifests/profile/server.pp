@@ -3,7 +3,7 @@
 # Puppet single host installation (Puppet Agent/Server/PuppetDB)
 #
 # @example
-#   include puppet::profile::master
+#   include puppet::profile::server
 #
 # @param use_puppetdb
 #   Boolean. Default is true. If set puppet.conf will be set to use PuppetDB for
@@ -36,10 +36,12 @@
 #   puppetlabs/firewall for firewall rules setup, iptables/ip6tables services
 #   management
 #
-class puppet::profile::master (
+class puppet::profile::server (
     Puppet::Platform
             $platform_name              = 'puppet7',
     String  $server                     = 'puppet',
+    Optional[String]
+            $server_ipaddress           = '127.0.0.1',
     Boolean $use_puppetdb               = true,
     String  $puppetdb_server            = 'puppet',
     Boolean $manage_puppet_config       = false,
@@ -52,8 +54,9 @@ class puppet::profile::master (
 ) {
     # https://tickets.puppetlabs.com/browse/SERVER-346
     class { 'puppet':
-      server       => $server,
-      use_puppetdb => $use_puppetdb,
+      server           => $server,
+      server_ipaddress => $server_ipaddress,
+      use_puppetdb     => $use_puppetdb,
     }
 
     class { 'puppet::globals':
@@ -124,4 +127,5 @@ class puppet::profile::master (
 
     class { 'puppet::config': }
     class { 'puppet::service': }
+    class { 'puppet::setup': }
 }

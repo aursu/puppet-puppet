@@ -10,7 +10,7 @@ environment = <%= @node_environment %>
 <% else -%>
 environment = <%= @environment %>
 <% end -%>
-<% if @puppet_master -%>
+<% if @puppet_server -%>
 strict = <%= @strict %>
 <%   if @basemodulepath -%>
 basemodulepath = <%= @basemodulepath %>
@@ -52,7 +52,7 @@ usecacheonfailure = false
 <% end -%>
 report = true
 
-<% if @puppet_master -%>
+<% if @puppet_server -%>
 [<%= @server_section %>]
 vardir = /opt/puppetlabs/server/data/puppetserver
 logdir = /var/log/puppetlabs/puppetserver

@@ -47,3 +47,9 @@ puppet::profile::master:
     - include puppet::server::ca::allow
     - |
       Service['puppet-server']
+  - puppet::setup:
+    - |
+      Host[$server_name]
+      File['/etc/facter/facts.d']
+      File['/opt/puppetlabs/facter/facts.d']
+      File['/etc/puppetlabs/facter/facts.d']

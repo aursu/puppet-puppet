@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'puppet::profile::master' do
+describe 'puppet::profile::server' do
   let(:pre_condition) do
     <<-PRECOND
     postgresql::server::extension { 'puppetdb-pg_trgm':
