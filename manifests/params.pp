@@ -40,6 +40,7 @@ class puppet::params {
     $ruby_path           = '/opt/puppetlabs/puppet/bin/ruby'
     $gem_path            = '/opt/puppetlabs/puppet/bin/gem'
     $r10k_path           = '/opt/puppetlabs/puppet/bin/r10k'
+    $r10k_cachedir       = '/var/cache/r10k'
     $puppet_path         = '/opt/puppetlabs/puppet/bin/puppet'
     $service_name        = 'puppetserver'
     $puppet_config       = '/etc/puppetlabs/puppet/puppet.conf'
