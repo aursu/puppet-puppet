@@ -26,7 +26,7 @@ puppet::profile::master:
       File[$eyaml_keys_path]
       File["${eyaml_keys_path}/${eyaml_public_key}"]
       File["${eyaml_keys_path}/${eyaml_private_key}"]
-  - include postgresql::server
+  - include lsys::postgres
   - puppetdb
   - puppetdb::master::config
   - puppet::config:
@@ -53,3 +53,5 @@ puppet::profile::master:
       File['/etc/facter/facts.d']
       File['/opt/puppetlabs/facter/facts.d']
       File['/etc/puppetlabs/facter/facts.d']
+  - |
+    Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"]
