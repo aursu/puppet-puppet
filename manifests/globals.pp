@@ -12,6 +12,8 @@ class puppet::globals (
   $package_name     = "${platform_name}-release"
   $version_codename = $puppet::params::version_codename
 
+  $deccomission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release'] - [$package_name]
+
   case $::osfamily {
     'Suse': {
       $repo_urlbase = "https://yum.puppet.com/${platform_name}"
