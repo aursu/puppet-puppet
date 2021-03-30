@@ -7,7 +7,7 @@ puppet::hosts_update: true
 puppet::master: true
 puppet::environment: 'production'
 puppet::production_remote: 'https://github.com/aursu/control-init.git'
-puppet::agent_version: 'latest'
+puppet::agent_version: 'installed'
 puppet::server_version: 'latest'
 puppet::server_service_ensure: 'running'
 puppet::server_service_enable: true

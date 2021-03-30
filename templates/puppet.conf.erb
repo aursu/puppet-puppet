@@ -51,6 +51,7 @@ priority = <%= @priority %>
 usecacheonfailure = false
 <% end -%>
 report = true
+digest_algorithm = md5
 
 <% if @puppet_server -%>
 [<%= @server_section %>]
