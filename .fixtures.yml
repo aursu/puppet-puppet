@@ -3,9 +3,21 @@
 ---
 fixtures:
   forge_modules:
+    augeas_core:
+      repo: "puppetlabs/augeas_core"
+      ref: "1.1.2"
+      puppet_version: ">= 6.0.0"
     concat:
       repo: "puppetlabs/concat"
       ref: "6.2.0"
+    cron_core:
+      repo: "puppetlabs/cron_core"
+      ref: "1.0.5"
+      puppet_version: ">= 6.0.0"
+    host_core:
+      repo: "puppetlabs/host_core"
+      ref: "1.0.3"
+      puppet_version: ">= 6.0.0"
     inifile:
       repo: "puppetlabs/inifile"
       ref: "4.2.0"
@@ -24,16 +36,10 @@ fixtures:
     stdlib:
       repo: "puppetlabs/stdlib"
       ref: "6.3.0"
+    yumrepo_core:
+      repo: "puppetlabs/yumrepo_core"
+      ref: "1.0.7"
+      puppet_version: ">= 6.0.0"
   repositories:
-    augeas_core:
-      repo: https://github.com/puppetlabs/puppetlabs-augeas_core.git
-      ref: "tags/1.0.5"
-      puppet_version: ">= 6.0.0"
-    cron_core:
-      repo: https://github.com/puppetlabs/puppetlabs-cron_core.git
-      ref: "tags/1.0.4"
-      puppet_version: ">= 6.0.0"
-    host_core:
-      repo: https://github.com/puppetlabs/puppetlabs-host_core.git
-      ref: "tags/1.0.3"
-      puppet_version: ">= 6.0.0"
+    lsys:
+      repo: https://github.com/aursu/puppet-lsys.git
