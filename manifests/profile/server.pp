@@ -51,6 +51,7 @@ class puppet::profile::server (
     String  $postgres_database_password = 'puppetdb',
     Boolean $manage_puppetdb_firewall   = false,
     String  $r10k_cachedir              = '/var/cache/r10k',
+    Boolean $hosts_update               = true,
 ) {
     # https://tickets.puppetlabs.com/browse/SERVER-346
     class { 'puppet':
@@ -132,5 +133,8 @@ class puppet::profile::server (
 
     class { 'puppet::config': }
     class { 'puppet::service': }
-    class { 'puppet::setup': }
+
+    class { 'puppet::setup':
+      hosts_update => $hosts_update,
+    }
 }
