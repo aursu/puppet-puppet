@@ -167,8 +167,8 @@ class puppet::config (
 
     if $puppet_server {
       class { 'puppet::server::ca::allow':
-        server        => $server,
-        ca_server     => $ca_server,
+        server    => $server,
+        ca_server => $ca_server,
       }
 
       # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
