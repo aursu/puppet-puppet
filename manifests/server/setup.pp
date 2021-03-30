@@ -16,7 +16,7 @@ class puppet::server::setup (
     Boolean $use_enc            = $puppet::use_enc,
     String  $enc_remote         = $puppet::enc_remote,
     Stdlib::Absolutepath
-            $cachedir           = $puppet::r10k_cachedir,
+            $cachedir           = $puppet::params::r10k_cachedir,
     Stdlib::Absolutepath
             $r10k_config_file   = $puppet::params::r10k_config_file,
     Stdlib::Absolutepath

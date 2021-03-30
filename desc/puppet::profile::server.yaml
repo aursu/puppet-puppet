@@ -10,7 +10,11 @@ puppet::profile::master:
     - include puppet::agent::install
     - |
       Package['puppet-server']
-  - r10k
+  - puppet::r10k::gem_install:
+    - include puppet::agent::install
+    - r10k
+    - |
+      Package['cri']
   - puppet::server::setup:
     - include puppet::agent::install
     - include puppet::r10k::install:

@@ -50,9 +50,11 @@ class puppet::profile::server (
     String  $postgres_database_username = 'puppetdb',
     String  $postgres_database_password = 'puppetdb',
     Boolean $manage_puppetdb_firewall   = false,
-    String  $r10k_cachedir              = '/var/cache/r10k',
+    Stdlib::Unixpath
+            $r10k_cachedir              = $puppet::params::r10k_cachedir,
     Boolean $hosts_update               = true,
-) {
+) inherits puppet::params
+{
     # https://tickets.puppetlabs.com/browse/SERVER-346
     class { 'puppet':
       server           => $server,
@@ -69,10 +71,9 @@ class puppet::profile::server (
 
     # r10k is not optional in our workflow, it should replace initial setup with
     # real infrastructure setup.
-    class { 'r10k':
-      provider          => 'puppet_gem',
-      manage_modulepath => $manage_puppet_config,
-      cachedir          => $r10k_cachedir,
+    class { 'puppet::r10k::gem_install':
+      manage_puppet_config => $manage_puppet_config,
+      r10k_cachedir        => $r10k_cachedir,
     }
 
     class { 'puppet::server::setup':
@@ -80,7 +81,7 @@ class puppet::profile::server (
         cachedir          => $r10k_cachedir,
     }
 
-    Class['r10k'] -> Class['puppet::server::setup']
+    Class['puppet::r10k::gem_install'] -> Class['puppet::server::setup']
 
     # https://puppet.com/docs/puppetdb/5.2/install_via_module.html#step-2-assign-classes-to-nodes
     if $use_puppetdb {
