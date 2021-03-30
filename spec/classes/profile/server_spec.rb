@@ -3,15 +3,6 @@
 require 'spec_helper'
 
 describe 'puppet::profile::server' do
-  let(:pre_condition) do
-    <<-PRECOND
-    postgresql::server::extension { 'puppetdb-pg_trgm':
-      extension => 'pg_trgm',
-      database  => 'puppetdb',
-    }
-    PRECOND
-  end
-
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }

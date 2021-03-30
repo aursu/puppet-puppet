@@ -84,7 +84,12 @@ class puppet::profile::server (
     # https://puppet.com/docs/puppetdb/5.2/install_via_module.html#step-2-assign-classes-to-nodes
     if $use_puppetdb {
         if $postgres_local {
-          include postgresql::server
+          include lsys::postgres
+
+          postgresql::server::extension { "${postgres_database_name}-pg_trgm":
+              extension => 'pg_trgm',
+              database  => $postgres_database_name,
+          }
         }
 
         class { 'puppetdb':

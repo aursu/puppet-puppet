@@ -43,7 +43,7 @@ describe 'puppet::config' do
           .with_content(%r{^puppetlabs.services.ca.certificate-authority-service/certificate-authority-service})
       }
 
-      context "check ca directive in server config for default (Puppet 7) server" do
+      context 'check ca directive in server config for default (Puppet 7) server' do
         let(:params) do
           {
             sameca: false,
@@ -62,7 +62,7 @@ describe 'puppet::config' do
         }
       end
 
-      context "on Puppet 5 platform" do
+      context 'on Puppet 5 platform' do
         let(:pre_condition) do
           <<-PUPPETCODE
           include puppet
