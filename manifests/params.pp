@@ -109,6 +109,8 @@ class puppet::params {
     $external_nodes      = '/usr/local/bin/puppet_node_classifier'
 
     $localcacert   = "${certdir}/ca.pem"
+    $hostcrl       = "${ssldir}/crl.pem"
+
     # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
     if $facts['clientcert'] {
         $clientcert    = $facts['clientcert']

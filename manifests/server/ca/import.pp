@@ -23,8 +23,13 @@ class puppet::server::ca::import (
 {
   include puppet::server::install
   include puppet::globals
+  include puppet::params
 
-  $cacert = $puppet::globals::cacert
+  $localcacert = $puppet::params::localcacert
+  $hostcrl     = $puppet::params::hostcrl
+  $hostcert    = $puppet::params::hostcert
+
+  $cacert      = $puppet::globals::cacert
 
   $import_cakey  = "${import_path}/ca_key.pem"
   $import_cacert = "${import_path}/ca_crt.pem"
@@ -42,6 +47,34 @@ class puppet::server::ca::import (
     Stdlib::Fqdn => "--certname ${certname}",
     true         => "--certname ${::fqdn}",
     default      => '',
+  }
+
+  $import_condition = [
+    "test -f ${import_cakey}",
+    "test -f ${import_cacert}",
+    "test -f ${import_cacrl}",
+  ]
+
+  # These PKI assets shold be cleaned up before CA import
+  $timestamp = Timestamp.new().strftime('%Y%m%dT%H%M%S')
+  exec {
+    default:
+      path    => '/bin:/usr/bin',
+      creates => $cacert,
+      before  => Exec['puppetserver ca import'],
+    ;
+    "backup ${hostcrl}":
+      command => "mv -n ${hostcrl} ${hostcrl}.${timestamp}",
+      onlyif  => [ "test -f ${hostcrl}" ] + $import_condition,
+    ;
+    "backup ${hostcert}":
+      command => "mv -n ${hostcert} ${hostcert}.${timestamp}",
+      onlyif  => [ "test -f ${hostcert}" ] + $import_condition,
+    ;
+    "backup ${localcacert}":
+      command => "mv -n ${localcacert} ${localcacert}.${timestamp}",
+      onlyif  => [ "test -f ${localcacert}" ] + $import_condition,
+    ;
   }
 
   exec { 'puppetserver ca import':
