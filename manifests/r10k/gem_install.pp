@@ -17,6 +17,7 @@ class puppet::r10k::gem_install (
     $cri_ensure = 'installed'
   }
   else {
+    # cri-2.15.10 requires Ruby ~> 2.3
     $cri_ensure = '2.15.10'
   }
 
