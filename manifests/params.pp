@@ -49,6 +49,28 @@ class puppet::params {
     $eyaml_public_key    = 'public_key.pkcs7.pem'
     $eyaml_private_key   = 'private_key.pkcs7.pem'
 
+    if $facts['puppet_ssldir'] {
+        $ssldir = $facts['puppet_ssldir']
+    }
+    else {
+        $ssldir = '/etc/puppetlabs/puppet/ssl'
+    }
+
+    # Client authentication
+    if $facts['puppet_sslpaths'] {
+        $certdir       = $facts['puppet_sslpaths']['certdir']['path']
+        $privatekeydir = $facts['puppet_sslpaths']['privatekeydir']['path']
+        $requestdir    = $facts['puppet_sslpaths']['requestdir']['path']
+        $publickeydir  = $facts['puppet_sslpaths']['publickeydir']['path']
+    }
+    else {
+        # fallback to predefined
+        $certdir       = "${ssldir}/certs"
+        $privatekeydir = "${ssldir}/private_keys"
+        $requestdir    = "${ssldir}/certificate_requests"
+        $publickeydir  = "${ssldir}/public_keys"
+    }
+
     # dont't change values below - never!
     $vardir              = '/opt/puppetlabs/server/data/puppetserver'
     $puppet_server       = '/opt/puppetlabs/bin/puppetserver'
@@ -56,8 +78,6 @@ class puppet::params {
     $rundir              = '/var/run/puppetlabs/puppetserver'
     $pidfile             = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
     $codedir             = '/etc/puppetlabs/code'
-    $csrdir              = '/etc/puppetlabs/puppet/ssl/ca/requests'
-    $signeddir           = '/etc/puppetlabs/puppet/ssl/ca/signed'
 
     # environmentpath
     # A search path for directory environments, as a list of directories
@@ -88,20 +108,6 @@ class puppet::params {
 
     $external_nodes      = '/usr/local/bin/puppet_node_classifier'
 
-    # Client authentication
-    if $facts['puppet_sslpaths'] {
-        $certdir       = $facts['puppet_sslpaths']['certdir']['path']
-        $privatekeydir = $facts['puppet_sslpaths']['privatekeydir']['path']
-        $requestdir    = $facts['puppet_sslpaths']['requestdir']['path']
-        $publickeydir  = $facts['puppet_sslpaths']['publickeydir']['path']
-    }
-    else {
-        # fallback to predefined
-        $certdir       = '/etc/puppetlabs/puppet/ssl/certs'
-        $privatekeydir = '/etc/puppetlabs/puppet/ssl/private_keys'
-        $requestdir    = '/etc/puppetlabs/puppet/ssl/certificate_requests'
-        $publickeydir  = '/etc/puppetlabs/puppet/ssl/public_keys'
-    }
     $localcacert   = "${certdir}/ca.pem"
     # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
     if $facts['clientcert'] {

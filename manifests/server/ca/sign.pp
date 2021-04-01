@@ -11,10 +11,10 @@ define puppet::server::ca::sign (
   String $certname = $name,
 )
 {
-  include puppet::params
+  include puppet::globals
 
-  $csrdir = $puppet::params::csrdir
-  $signeddir = $puppet::params::signeddir
+  $csrdir = $puppet::globals::csrdir
+  $signeddir = $puppet::globals::signeddir
 
   exec { "puppetserver ca sign --certname ${certname}":
     path    => '/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/bin:/usr/bin',
