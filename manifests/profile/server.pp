@@ -44,7 +44,19 @@ class puppet::profile::server (
     Optional[String]
             $server_ipaddress           = '127.0.0.1',
     Boolean $use_puppetdb               = true,
+    Boolean $puppetdb_local             = true,
     String  $puppetdb_server            = 'puppet',
+    Array[String]
+            $puppetdb_ssl_protocols     = ['TLSv1.2'],
+    Array[String]
+            $puppetdb_cipher_suites     = [
+                                            'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
+                                            'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
+                                            'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
+                                            'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',
+                                            'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
+                                            'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256'
+                                          ],
     Boolean $manage_puppet_config       = false,
     Boolean $postgres_local             = true,
     String  $postgres_database_name     = 'puppetdb',
@@ -97,8 +109,8 @@ class puppet::profile::server (
 
     Class['puppet::r10k::gem_install'] -> Class['puppet::server::setup']
 
-    # https://puppet.com/docs/puppetdb/5.2/install_via_module.html#step-2-assign-classes-to-nodes
-    if $use_puppetdb {
+    # https://puppet.com/docs/puppetdb/latest/install_via_module.html#step-2-assign-classes-to-nodes
+    if $puppetdb_local {
         if $postgres_local {
           include lsys::postgres
 
@@ -118,6 +130,8 @@ class puppet::profile::server (
           database_username => $postgres_database_username,
           database_password => $postgres_database_password,
           manage_firewall   => $manage_puppetdb_firewall,
+          ssl_protocols     => join($puppetdb_ssl_protocols, ','),
+          cipher_suites     => join($puppetdb_cipher_suites, ','),
         }
 
         # Notes:
