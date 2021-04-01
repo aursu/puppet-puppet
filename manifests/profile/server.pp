@@ -37,6 +37,7 @@
 #   management
 #
 class puppet::profile::server (
+    Boolean $sameca                     = true,
     Puppet::Platform
             $platform_name              = 'puppet7',
     String  $server                     = 'puppet',
@@ -53,6 +54,8 @@ class puppet::profile::server (
     Stdlib::Unixpath
             $r10k_cachedir              = $puppet::params::r10k_cachedir,
     Boolean $hosts_update               = true,
+    Stdlib::Unixpath
+            $import_path                = '/root/ca',
 ) inherits puppet::params
 {
     # https://tickets.puppetlabs.com/browse/SERVER-346
@@ -60,6 +63,7 @@ class puppet::profile::server (
       server           => $server,
       server_ipaddress => $server_ipaddress,
       use_puppetdb     => $use_puppetdb,
+      sameca           => $sameca,
     }
 
     class { 'puppet::globals':
@@ -68,6 +72,16 @@ class puppet::profile::server (
 
     class { 'puppet::agent::install': }
     class { 'puppet::server::install': }
+    class { 'puppet::config': }
+
+    if $sameca {
+      class { 'puppet::server::ca::import':
+        import_path => $import_path,
+      }
+
+      Class['puppet::server::ca::import'] -> Class['puppetdb']
+      Class['puppet::server::ca::import'] -> Class['puppet::service']
+    }
 
     # r10k is not optional in our workflow, it should replace initial setup with
     # real infrastructure setup.
@@ -92,6 +106,9 @@ class puppet::profile::server (
               extension => 'pg_trgm',
               database  => $postgres_database_name,
           }
+
+          Class['postgresql::server'] -> Class['puppetdb']
+          Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"] -> Class['puppetdb']
         }
 
         class { 'puppetdb':
@@ -122,20 +139,15 @@ class puppet::profile::server (
           puppet_service_name            => 'puppet-server',
         }
 
-        # puppet server in defined configraion requires PuppetDB
-        if $postgres_local {
-          Class['postgresql::server'] -> Class['puppetdb']
-          Class['puppetdb'] -> Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"]
-        }
-
         Class['puppetdb'] -> Class['puppet::service']
         Class['puppetdb::master::config'] -> Class['puppet::service']
     }
 
-    class { 'puppet::config': }
     class { 'puppet::service': }
-
     class { 'puppet::setup':
       hosts_update => $hosts_update,
     }
+
+    Class['puppet::server::ca::import'] -> Class['puppet::service']
+    Class['puppet::server::ca::import'] -> Class['puppetdb']
 }
