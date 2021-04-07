@@ -162,6 +162,12 @@ class puppet::profile::server (
       hosts_update => $hosts_update,
     }
 
+    include puppet::agent::schedule
+
     Class['puppet::server::ca::import'] -> Class['puppet::service']
     Class['puppet::server::ca::import'] -> Class['puppetdb']
+
+    Class['puppet::agent::install']
+      -> Class['puppet::config']
+      -> Class['puppet::agent::schedule']
 }
