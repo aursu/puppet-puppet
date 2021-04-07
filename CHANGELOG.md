@@ -31,3 +31,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.3.0
+
+**Features**
+
+* Added puppet::profile::agent to setup Puppet agent properly
+
+**Bugfixes**
+
+**Known Issues**
