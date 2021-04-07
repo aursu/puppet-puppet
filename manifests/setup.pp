@@ -18,6 +18,7 @@ class puppet::setup (
     Optional[Array[String]]
             $dns_alt_names        = $puppet::dns_alt_names,
     Boolean $external_facts_setup = $puppet::external_facts_setup,
+    Boolean $wrapper_setup        = true,
 ) inherits puppet::params
 {
     if $hosts_update and $server_ipaddress {
@@ -38,6 +39,16 @@ class puppet::setup (
             '/etc/puppetlabs/facter',
             '/etc/puppetlabs/facter/facts.d']:
                 ensure => directory,
+        }
+    }
+
+    if $wrapper_setup {
+        file { '/usr/local/sbin/agentrun':
+            ensure => file,
+            group  => 'root',
+            owner  => 'root',
+            mode   => '0744',
+            source => "puppet:///modules/${module_name}/agentrun",
         }
     }
 }

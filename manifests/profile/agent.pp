@@ -8,7 +8,7 @@ class puppet::profile::agent (
     Puppet::Platform
             $platform_name = 'puppet7',
     String  $server        = 'puppet',
-    Boolean $hosts_update  = true,
+    Boolean $hosts_update  = false,
 ) {
     class { 'puppet':
       server => $server,
@@ -17,6 +17,8 @@ class puppet::profile::agent (
     class { 'puppet::globals':
       platform_name => $platform_name,
     }
+
+    include puppet::agent::schedule
 
     class { 'puppet::agent::install': }
 
@@ -28,4 +30,8 @@ class puppet::profile::agent (
     class { 'puppet::setup':
       hosts_update => $hosts_update,
     }
+
+    Class['puppet::agent::install']
+      -> Class['puppet::agent::config']
+      -> Class['puppet::agent::schedule']
 }

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec /opt/puppetlabs/bin/puppet agent --test "$@"
