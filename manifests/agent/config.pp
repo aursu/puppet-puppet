@@ -11,11 +11,14 @@ class puppet::agent::config (
   Boolean $onetime          = true,
   Puppet::TimeUnit
           $runtimeout       = '10m',
+  Optional[String]
+          $ca_server        = undef,
 )
 {
   class { 'puppet::config':
     puppet_server    => false,
     server           => $server,
+    ca_server        => $ca_server,
     node_environment => $node_environment,
     onetime          => $onetime,
     runtimeout       => $runtimeout,

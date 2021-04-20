@@ -5,13 +5,16 @@
 # @example
 #   include puppet::profile::agent
 class puppet::profile::agent (
-    Puppet::Platform
-            $platform_name = 'puppet7',
-    String  $server        = 'puppet',
-    Boolean $hosts_update  = false,
+  Puppet::Platform
+          $platform_name = 'puppet7',
+  String  $server        = 'puppet',
+  Boolean $hosts_update  = false,
+  Optional[String]
+          $ca_server     = undef,
 ) {
     class { 'puppet':
-      server => $server,
+      server    => $server,
+      ca_server => $ca_server,
     }
 
     class { 'puppet::globals':
@@ -24,6 +27,7 @@ class puppet::profile::agent (
 
     class { 'puppet::agent::config':
       server           => $server,
+      ca_server        => $ca_server,
       node_environment => $::environment,
     }
 
