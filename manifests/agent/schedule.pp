@@ -24,20 +24,22 @@ class puppet::agent::schedule (
   $agent_run_arguments = join($job_arguments, ' ')
 
   cron { $job_name:
-    command  => "/opt/puppetlabs/bin/puppet agent ${agent_run_arguments}",
-    hour     => absent,
-    minute   => $agent_run_minute,
-    month    => absent,
-    monthday => absent,
-    user     => 'root',
-    weekday  => absent,
+    command     => "/opt/puppetlabs/bin/puppet agent ${agent_run_arguments}",
+    hour        => absent,
+    minute      => $agent_run_minute,
+    month       => absent,
+    monthday    => absent,
+    user        => 'root',
+    weekday     => absent,
+    environment => 'PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
   }
 
   if $reboot_job {
     cron { "${job_name} on boot":
-      command => "/opt/puppetlabs/bin/puppet agent ${agent_run_arguments}",
-      special => 'reboot',
-      user    => 'root',
+      command     => "/opt/puppetlabs/bin/puppet agent ${agent_run_arguments}",
+      special     => 'reboot',
+      user        => 'root',
+      environment => 'PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
     }
   }
 
