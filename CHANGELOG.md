@@ -51,3 +51,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.3.2
+
+**Features**
+
+**Bugfixes**
+
+* Added /usr/local/bin into path for Puppet cron jobs
+
+**Known Issues**
