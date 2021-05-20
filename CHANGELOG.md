@@ -61,3 +61,13 @@ All notable changes to this project will be documented in this file.
 * Added /usr/local/bin into path for Puppet cron jobs
 
 **Known Issues**
+
+## Release 0.3.3
+
+**Features**
+
+* Added flag to enable/disable cron jobs
+
+**Bugfixes**
+
+**Known Issues**
