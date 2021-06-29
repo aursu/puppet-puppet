@@ -83,3 +83,13 @@ All notable changes to this project will be documented in this file.
 * Updated dependencies versions
 
 **Known Issues**
+
+## Release 0.3.5
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: wrong parameters count
+
+**Known Issues**
