@@ -71,3 +71,15 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.3.4
+
+**Features**
+
+* Switched from default Puppet 5 to Puppet 7 for Bolt plans
+
+**Bugfixes**
+
+* Updated dependencies versions
+
+**Known Issues**
