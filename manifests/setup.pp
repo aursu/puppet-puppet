@@ -50,5 +50,10 @@ class puppet::setup (
             mode   => '0744',
             source => "puppet:///modules/${module_name}/agentrun",
         }
+
+        file { '/usr/local/sbin/agentrun.now':
+            ensure => link,
+            target => '/usr/local/sbin/agentrun',
+        }
     }
 }
