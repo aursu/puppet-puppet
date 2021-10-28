@@ -10,6 +10,9 @@ environment = <%= @node_environment %>
 <% else -%>
 environment = <%= @environment %>
 <% end -%>
+<% if @ca_server -%>
+ca_server = <%= @ca_server %>
+<% end -%>
 <% if @puppet_server -%>
 strict = <%= @strict %>
 <%   if @basemodulepath -%>
@@ -29,9 +32,6 @@ strict_variables = true
 [agent]
 server = <%= @server %>
 http_read_timeout = <%= @http_read_timeout %>
-<% if @ca_server -%>
-ca_server = <%= @ca_server %>
-<% end -%>
 <% unless @daemonize -%>
 <%# Default: true -%>
 daemonize = false
