@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -45,6 +45,6 @@
     }
   ],
   "pdk-version": "1.18.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#master",
-  "template-ref": "remotes/origin/master-0-ga58fd92"
+  "template-url": "https://github.com/puppetlabs/pdk-templates#1.18.0",
+  "template-ref": "tags/1.18.0-0-095317c"
 }

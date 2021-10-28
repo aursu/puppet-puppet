@@ -93,3 +93,14 @@ All notable changes to this project will be documented in this file.
 * Bugfix: wrong parameters count
 
 **Known Issues**
+
+## Release 0.3.6
+
+**Features**
+
+* Added ability to separate Puppet Server, Puppet CA and PuppetDB
+* Added compiler mode of Puppet Server
+
+**Bugfixes**
+
+**Known Issues**

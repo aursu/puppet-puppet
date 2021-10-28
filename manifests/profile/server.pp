@@ -68,14 +68,22 @@ class puppet::profile::server (
     Boolean $hosts_update               = true,
     Stdlib::Unixpath
             $import_path                = '/root/ca',
+    Boolean $use_common_env             = false,
+    Optional[String]
+            $common_envname             = undef,
+    Optional[Stdlib::Host]
+            $ca_server                  = undef,
 ) inherits puppet::params
 {
     # https://tickets.puppetlabs.com/browse/SERVER-346
     class { 'puppet':
+      master           => true,
       server           => $server,
       server_ipaddress => $server_ipaddress,
       use_puppetdb     => $use_puppetdb,
       sameca           => $sameca,
+      use_common_env   => $use_common_env,
+      common_envname   => $common_envname,
     }
 
     class { 'puppet::globals':
@@ -84,14 +92,20 @@ class puppet::profile::server (
 
     class { 'puppet::agent::install': }
     class { 'puppet::server::install': }
-    class { 'puppet::config': }
+
+    class { 'puppet::config':
+      puppet_server => true,
+      ca_server     => $ca_server,
+    }
 
     if $sameca {
       class { 'puppet::server::ca::import':
         import_path => $import_path,
       }
 
-      Class['puppet::server::ca::import'] -> Class['puppetdb']
+      if $puppetdb_local {
+        Class['puppet::server::ca::import'] -> Class['puppetdb']
+      }
       Class['puppet::server::ca::import'] -> Class['puppet::service']
     }
 
@@ -163,9 +177,6 @@ class puppet::profile::server (
     }
 
     include puppet::agent::schedule
-
-    Class['puppet::server::ca::import'] -> Class['puppet::service']
-    Class['puppet::server::ca::import'] -> Class['puppetdb']
 
     Class['puppet::agent::install']
       -> Class['puppet::config']
