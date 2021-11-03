@@ -16,6 +16,8 @@ class puppet::profile::compiler (
     Boolean $use_common_env             = false,
     Optional[String]
             $common_envname             = undef,
+
+    Boolean $use_puppetdb               = true,
 )
 {
   class { 'puppet::profile::server':
@@ -26,7 +28,7 @@ class puppet::profile::compiler (
     platform_name  => $platform_name,
 
     server         => $server,
-    use_puppetdb   => true,
+    use_puppetdb   => $use_puppetdb,
 
     hosts_update   => false,
 
