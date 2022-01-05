@@ -129,7 +129,7 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
   def self.prefetch(resources)
     entities = instances
     # rubocop:disable Lint/AssignmentInCondition
-    resources.keys.each do |entity_name|
+    resources.each_key do |entity_name|
       if provider = entities.find { |entity| entity.name == entity_name }
         resources[entity_name].provider = provider
       end

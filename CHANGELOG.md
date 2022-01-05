@@ -104,3 +104,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.3.7
+
+**Features**
+
+* Added Bolt plan puppet::agent::hostname to set hostname on target hosts
+* PDK upgrade
+
+**Bugfixes**
+
+**Known Issues**
