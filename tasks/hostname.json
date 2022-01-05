@@ -1,0 +1,12 @@
+{
+    "description": "Set hostname to provided value.",
+    "parameters": {
+        "hostname": {
+            "description": "The hostname to set on the host",
+            "type": "String"
+        }
+    },
+    "implementations": [
+      {"name": "hostname_shell.sh", "requirements": ["shell"], "input_method": "environment"}
+    ]
+  }

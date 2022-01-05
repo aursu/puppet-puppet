@@ -1,0 +1,11 @@
+{
+    "name": "Hostname Linux",
+    "description": "A task to set hostname on linux targets",
+    "private": true,
+    "parameters": {
+        "hostname": {
+            "description": "The hostname to set on the host",
+            "type": "String"
+        }
+    }
+}
