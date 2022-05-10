@@ -10,19 +10,27 @@ class puppet::agent::schedule (
   Array[String]
           $job_arguments        = [
             '--onetime',
-            '--verbose',
             '--no-daemonize',
             '--no-usecacheonfailure',
             '--detailed-exitcodes',
             '--no-splay',
           ],
+  Boolean $verbose              = true,
   Boolean $reboot_job           = true,
   Boolean $file_backups_cleanup = true,
   Integer $file_backups_ttl     = 45,
 )
 {
   $agent_run_minute = fqdn_rand(60, $job_name)
-  $agent_run_arguments = join($job_arguments, ' ')
+
+  if $verbose {
+    $verbose_argument = ['--verbose']
+  }
+  else {
+    $verbose_argument = []
+  }
+
+  $agent_run_arguments = join($job_arguments + $verbose_argument, ' ')
 
   if $enable {
     cron { $job_name:
