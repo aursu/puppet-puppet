@@ -13,7 +13,7 @@
 # @param puppetdb_server
 #   String. Default is 'puppet'. Server name for PuppetDB. Puppetdb::Master::Config
 #   class (from puppetlabs-puppetdb) use ::fqdn for check connection to PuppetDB
-#   server. As ::fqdn could be ot resolvable it is possible to set up server name
+#   server. As ::fqdn could be not resolvable it is possible to set up server name
 #   via parameter puppetdb_server. Class '::puppet' by default set into /etc/hosts
 #   file record
 #   127.0.0.1 puppet
@@ -47,7 +47,7 @@ class puppet::profile::server (
     Boolean $puppetdb_local             = true,
     String  $puppetdb_server            = 'puppet',
     Array[String]
-            $puppetdb_ssl_protocols     = ['TLSv1.2'],
+            $puppetdb_ssl_protocols     = ['TLSv1.2', 'TLSv1.3'],
     Array[String]
             $puppetdb_cipher_suites     = [
                                             'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
@@ -124,51 +124,58 @@ class puppet::profile::server (
     Class['puppet::r10k::gem_install'] -> Class['puppet::server::setup']
 
     # https://puppet.com/docs/puppetdb/latest/install_via_module.html#step-2-assign-classes-to-nodes
-    if $puppetdb_local {
-        if $postgres_local {
-          include lsys::postgres
+    # 1) If you are installing PuppetDB on the same server as your Puppet Server, assign
+    #    the `puppetdb` and `puppetdb::master::config` classes to it.
+    # 2) If you want to run PuppetDB on its own server with a local PostgreSQL
+    #    instance, assign the puppetdb class to it, and assign the puppetdb::master::config
+    #    class to your Puppet Server. Make sure to set the class parameters as necessary.
+    if $use_puppetdb {
+      if $puppetdb_local {
+          if $postgres_local {
+            include lsys::postgres
 
-          postgresql::server::extension { "${postgres_database_name}-pg_trgm":
-              extension => 'pg_trgm',
-              database  => $postgres_database_name,
+            postgresql::server::extension { "${postgres_database_name}-pg_trgm":
+                extension => 'pg_trgm',
+                database  => $postgres_database_name,
+            }
+
+            Class['postgresql::server'] -> Class['puppetdb']
+            Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"] -> Class['puppetdb']
           }
 
-          Class['postgresql::server'] -> Class['puppetdb']
-          Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"] -> Class['puppetdb']
-        }
+          class { 'puppetdb':
+            database          => 'postgres',
+            manage_dbserver   => false,
+            database_name     => $postgres_database_name,
+            database_username => $postgres_database_username,
+            database_password => $postgres_database_password,
+            manage_firewall   => $manage_puppetdb_firewall,
+            ssl_protocols     => join($puppetdb_ssl_protocols, ','),
+            cipher_suites     => join($puppetdb_cipher_suites, ','),
+          }
 
-        class { 'puppetdb':
-          database          => 'postgres',
-          manage_dbserver   => false,
-          database_name     => $postgres_database_name,
-          database_username => $postgres_database_username,
-          database_password => $postgres_database_password,
-          manage_firewall   => $manage_puppetdb_firewall,
-          ssl_protocols     => join($puppetdb_ssl_protocols, ','),
-          cipher_suites     => join($puppetdb_cipher_suites, ','),
-        }
+          Class['puppetdb'] -> Class['puppet::service']
+      }
 
-        # Notes:
-        # 1) as 'puppet' hostname by default is set by class Puppet - use it as
-        # PuppetDB server name (predefined in profile parameters as
-        # puppetdb_server)
-        # 2) By default class Puppet generates Puppet config (puppet.conf) from
-        # template therefore we do not want to manage it inside class
-        # Puppetdb::Master::Config (see 'manage_puppet_config' parameter
-        # description)
-        # 3) Puppet service resource name provided by Puppet::Service class has
-        # alias 'puppet-server'
-        #
-        class { 'puppetdb::master::config':
-          puppetdb_server                => $puppetdb_server,
-          manage_storeconfigs            => $manage_puppet_config,
-          manage_report_processor        => $manage_puppet_config,
-          create_puppet_service_resource => false,
-          puppet_service_name            => 'puppet-server',
-        }
+      # Notes:
+      # 1) as hostname by default is set by class Puppet to `puppet` - use it as
+      # PuppetDB server name as well (predefined with profile parameter `puppetdb_server`)
+      # 2) By default class Puppet generates Puppet config (puppet.conf) from
+      # template therefore we do not want to manage it inside class
+      # Puppetdb::Master::Config (see `manage_puppet_config` parameter
+      # description)
+      # 3) Puppet service resource name provided by Puppet::Service class has
+      # name 'puppet-server'
+      #
+      class { 'puppetdb::master::config':
+        puppetdb_server                => $puppetdb_server,
+        manage_storeconfigs            => $manage_puppet_config,
+        manage_report_processor        => $manage_puppet_config,
+        create_puppet_service_resource => false,
+        puppet_service_name            => 'puppet-server',
+      }
 
-        Class['puppetdb'] -> Class['puppet::service']
-        Class['puppetdb::master::config'] -> Class['puppet::service']
+      Class['puppetdb::master::config'] -> Class['puppet::service']
     }
 
     class { 'puppet::service': }
