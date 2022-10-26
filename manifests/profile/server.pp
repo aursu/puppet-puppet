@@ -27,7 +27,7 @@
 #   generates Puppet config from template therefore we do not manage it inside
 #   class Puppetdb::Master::Config.
 #
-# @param postgres_local
+# @param manage_database
 #   Boolean. Default is true. If set then class Puppetdb will use puppetlabs/postgresql
 #   for Postgres database server management and PuppetDB database setup
 #
@@ -54,7 +54,8 @@ class puppet::profile::server (
     'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256',
   ],
   Boolean $manage_puppet_config = false,
-  Boolean $postgres_local = true,
+  Boolean $manage_database = true,
+  Stdlib::Host $postgres_database_host = 'localhost',
   String  $postgres_database_name = 'puppetdb',
   String  $postgres_database_username = 'puppetdb',
   String  $postgres_database_password = 'puppetdb',
@@ -65,7 +66,13 @@ class puppet::profile::server (
   Boolean $use_common_env = false,
   Optional[String] $common_envname = undef,
   Optional[Stdlib::Host]  $ca_server = undef,
+  # compatibility
+  Optional[Boolean] $postgres_local = undef,
 ) inherits puppet::params {
+  unless $postgres_local == undef {
+    warning('Variable postgres_local is deprecated. Please use manage_database')
+  }
+
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
     master           => true,
@@ -122,30 +129,18 @@ class puppet::profile::server (
   #    class to your Puppet Server. Make sure to set the class parameters as necessary.
   if $use_puppetdb {
     if $puppetdb_local {
-      if $postgres_local {
-        include lsys::postgres
-
-        postgresql::server::extension { "${postgres_database_name}-pg_trgm":
-          extension => 'pg_trgm',
-          database  => $postgres_database_name,
-        }
-
-        Class['postgresql::server'] -> Class['puppetdb']
-        Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"] -> Class['puppetdb']
+      class { 'puppet::puppetdb':
+        manage_database            => $manage_database,
+        postgres_database_host     => $postgres_database_host,
+        postgres_database_name     => $postgres_database_name,
+        postgres_database_username => $postgres_database_username,
+        postgres_database_password => $postgres_database_password,
+        ssl_protocols              => $puppetdb_ssl_protocols,
+        cipher_suites              => $puppetdb_cipher_suites,
+        manage_firewall            => $manage_puppetdb_firewall,
       }
 
-      class { 'puppetdb':
-        database          => 'postgres',
-        manage_dbserver   => false,
-        database_name     => $postgres_database_name,
-        database_username => $postgres_database_username,
-        database_password => $postgres_database_password,
-        manage_firewall   => $manage_puppetdb_firewall,
-        ssl_protocols     => join($puppetdb_ssl_protocols, ','),
-        cipher_suites     => join($puppetdb_cipher_suites, ','),
-      }
-
-      Class['puppetdb'] -> Class['puppet::service']
+      Class['puppet::puppetdb'] -> Class['puppet::service']
     }
 
     # Notes:
