@@ -125,3 +125,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.3.9
+
+**Features**
+
+* PDK update to 2.5.0
+
+**Bugfixes**
+
+**Known Issues**
