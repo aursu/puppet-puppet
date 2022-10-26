@@ -27,6 +27,7 @@
 #   generates Puppet config from template therefore we do not manage it inside
 #   class Puppetdb::Master::Config.
 #
+# @param postgres_local
 # @param manage_database
 #   Boolean. Default is true. If set then class Puppetdb will use puppetlabs/postgresql
 #   for Postgres database server management and PuppetDB database setup
@@ -54,7 +55,10 @@ class puppet::profile::server (
     'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256',
   ],
   Boolean $manage_puppet_config = false,
-  Boolean $manage_database = true,
+
+  Boolean $postgres_local = true,
+  Boolean $manage_database = $postgres_local,
+
   Stdlib::Host $postgres_database_host = 'localhost',
   String  $postgres_database_name = 'puppetdb',
   String  $postgres_database_username = 'puppetdb',
@@ -66,13 +70,7 @@ class puppet::profile::server (
   Boolean $use_common_env = false,
   Optional[String] $common_envname = undef,
   Optional[Stdlib::Host]  $ca_server = undef,
-  # compatibility
-  Optional[Boolean] $postgres_local = undef,
 ) inherits puppet::params {
-  unless $postgres_local == undef {
-    warning('Variable postgres_local is deprecated. Please use manage_database')
-  }
-
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
     master           => true,
