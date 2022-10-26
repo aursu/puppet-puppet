@@ -6,17 +6,20 @@
 #
 # @example
 #   include puppet::agent::install
+#
+# @param agent_package_name
+# @param agent_version
+#
 class puppet::agent::install (
-    String  $agent_package_name  = $puppet::params::agent_package_name,
-    String  $agent_version       = $puppet::agent_version,
-) inherits puppet::params
-{
-    include puppet::repo
+  String $agent_package_name  = $puppet::params::agent_package_name,
+  String $agent_version = $puppet::agent_version,
+) inherits puppet::params {
+  include puppet::repo
 
-    package { 'puppet-agent':
-      ensure => $agent_version,
-      name   => $agent_package_name,
-    }
+  package { 'puppet-agent':
+    ensure => $agent_version,
+    name   => $agent_package_name,
+  }
 
-    Class['puppet::repo'] -> Package['puppet-agent']
+  Class['puppet::repo'] -> Package['puppet-agent']
 }

@@ -6,14 +6,16 @@
 #
 # @example
 #   include puppet::install::r10k
+#
+# @param r10k_package_name
+# @param gem_path
+# @param r10k_path
+#
 class puppet::r10k::install (
-    String  $r10k_package_name   = $puppet::params::r10k_package_name,
-    Stdlib::Absolutepath
-            $gem_path            = $puppet::params::gem_path,
-    Stdlib::Absolutepath
-            $r10k_path           = $puppet::params::r10k_path,
-) inherits puppet::params
-{
+  String  $r10k_package_name = $puppet::params::r10k_package_name,
+  Stdlib::Absolutepath $gem_path = $puppet::params::gem_path,
+  Stdlib::Absolutepath $r10k_path = $puppet::params::r10k_path,
+) inherits puppet::params {
   include puppet::agent::install
 
   exec { 'r10k-installation':

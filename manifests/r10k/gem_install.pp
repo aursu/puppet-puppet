@@ -4,12 +4,14 @@
 #
 # @example
 #   include puppet::r10k::gem_install
+#
+# @param manage_puppet_config
+# @param r10k_cachedir
+#
 class puppet::r10k::gem_install (
-    Boolean $manage_puppet_config = false,
-    Stdlib::Absolutepath
-            $r10k_cachedir        = $puppet::params::r10k_cachedir,
-) inherits puppet::params
-{
+  Boolean $manage_puppet_config = false,
+  Stdlib::Absolutepath $r10k_cachedir = $puppet::params::r10k_cachedir,
+) inherits puppet::params {
   include puppet::agent::install
 
   # Puppet 6 comes with Ruby >= 2.5

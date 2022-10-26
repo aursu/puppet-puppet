@@ -5,23 +5,24 @@
 #
 # @example
 #   include puppet::profile::compiler
+#
+# @param ca_server
+# @param platform_name
+# @param server
+# @param use_common_env
+# @param common_envname
+# @param use_puppetdb
+# @param puppetdb_server
+#
 class puppet::profile::compiler (
-    Stdlib::Host
-            $ca_server,
-    Puppet::Platform
-            $platform_name              = 'puppet7',
-    Stdlib::Host
-            $server                     = $ca_server,
-
-    Boolean $use_common_env             = false,
-    Optional[String]
-            $common_envname             = undef,
-
-    Boolean $use_puppetdb               = true,
-    Stdlib::Host
-            $puppetdb_server            = 'puppet',
-)
-{
+  Stdlib::Host $ca_server,
+  Puppet::Platform $platform_name = 'puppet7',
+  Stdlib::Host $server = $ca_server,
+  Boolean $use_common_env = false,
+  Optional[String] $common_envname = undef,
+  Boolean $use_puppetdb = true,
+  Stdlib::Host $puppetdb_server = 'puppet',
+) {
   class { 'puppet::profile::server':
     sameca          => false,
     puppetdb_local  => false,

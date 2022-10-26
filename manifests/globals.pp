@@ -4,18 +4,19 @@
 #
 # @example
 #   include puppet::globals
+#
+# @param platform_name
+#
 class puppet::globals (
-  Puppet::Platform
-          $platform_name = 'puppet7',
-) inherits puppet::params
-{
+  Puppet::Platform $platform_name = 'puppet7',
+) inherits puppet::params {
   $package_name     = "${platform_name}-release"
   $version_codename = $puppet::params::version_codename
   $ssldir           = $puppet::params::ssldir
 
   $deccomission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release'] - [$package_name]
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Suse': {
       $repo_urlbase = "https://yum.puppet.com/${platform_name}"
       $package_filename = "${package_name}-${version_codename}.noarch.rpm"

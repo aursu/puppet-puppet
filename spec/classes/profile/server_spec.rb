@@ -13,14 +13,14 @@ describe 'puppet::profile::server' do
         is_expected.to contain_class('puppetdb')
           .with(
             ssl_protocols: 'TLSv1.2,TLSv1.3',
-            cipher_suites: [
-                              'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
-                              'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
-                              'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
-                              'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',
-                              'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
-                              'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256'
-                            ].join(',')
+            cipher_suites: %w[
+              TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+              TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+              TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+              TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+              TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+              TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+            ].join(','),
           )
       }
 

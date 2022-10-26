@@ -9,8 +9,7 @@
 #   puppet::server::ca::sign { 'namevar': }
 define puppet::server::ca::sign (
   String $certname = $name,
-)
-{
+) {
   include puppet::globals
 
   $csrdir = $puppet::globals::csrdir
@@ -22,4 +21,3 @@ define puppet::server::ca::sign (
     creates => "${signeddir}/${certname}.pem",
   }
 }
-

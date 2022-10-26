@@ -4,23 +4,24 @@
 #
 # @example
 #   include puppet::agent::ssl::clean
+#
+# @param hostprivkey
+# @param hostpubkey
+# @param hostcert
+# @param hostreq
+# @param localcacert
+#
 class puppet::agent::ssl::clean (
-  Stdlib::Unixpath
-          $hostprivkey = $puppet::params::hostprivkey,
-  Stdlib::Unixpath
-          $hostpubkey  = $puppet::params::hostpubkey,
-  Stdlib::Unixpath
-          $hostcert    = $puppet::params::hostcert,
-  Stdlib::Unixpath
-          $hostreq     = $puppet::params::hostreq,
-  Stdlib::Unixpath
-          $localcacert = $puppet::params::localcacert,
-) inherits puppet::params
-{
+  Stdlib::Unixpath $hostprivkey = $puppet::params::hostprivkey,
+  Stdlib::Unixpath $hostpubkey = $puppet::params::hostpubkey,
+  Stdlib::Unixpath $hostcert = $puppet::params::hostcert,
+  Stdlib::Unixpath $hostreq = $puppet::params::hostreq,
+  Stdlib::Unixpath $localcacert = $puppet::params::localcacert,
+) inherits puppet::params {
   file {
     default:
       ensure => absent,
-    ;
+      ;
     $hostprivkey: ;
     $hostpubkey: ;
     $hostcert: ;

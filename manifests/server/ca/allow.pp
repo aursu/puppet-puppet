@@ -4,11 +4,14 @@
 #
 # @example
 #   include puppet::server::ca::allow
+#
+# @param server
+# @param ca_server
+#
 class puppet::server::ca::allow (
-  String  $server        = $puppet::server,
-  Optional[String]
-          $ca_server     = undef,
-){
+  String $server = $puppet::server,
+  Optional[String] $ca_server = undef,
+) {
   # https://blog.example42.com/2018/10/08/puppet6-ca-upgrading/
   if $ca_server {
     $ca_server_allow = [$ca_server]

@@ -4,23 +4,30 @@
 #
 # @example
 #   include puppet::agent::schedule
+#
+# @param enable
+# @param job_name
+# @param job_arguments
+# @param verbose
+# @param reboot_job
+# @param file_backups_cleanup
+# @param file_backups_ttl
+#
 class puppet::agent::schedule (
-  Boolean $enable               = true,
-  String  $job_name             = 'puppet agent run',
-  Array[String]
-          $job_arguments        = [
-            '--onetime',
-            '--no-daemonize',
-            '--no-usecacheonfailure',
-            '--detailed-exitcodes',
-            '--no-splay',
-          ],
-  Boolean $verbose              = true,
-  Boolean $reboot_job           = true,
+  Boolean $enable = true,
+  String $job_name = 'puppet agent run',
+  Array[String] $job_arguments = [
+    '--onetime',
+    '--no-daemonize',
+    '--no-usecacheonfailure',
+    '--detailed-exitcodes',
+    '--no-splay',
+  ],
+  Boolean $verbose = true,
+  Boolean $reboot_job = true,
   Boolean $file_backups_cleanup = true,
-  Integer $file_backups_ttl     = 45,
-)
-{
+  Integer $file_backups_ttl = 45,
+) {
   $agent_run_minute = fqdn_rand(60, $job_name)
 
   if $verbose {

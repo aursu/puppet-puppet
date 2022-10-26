@@ -9,8 +9,7 @@
 #   puppet::server::ca::clean { 'namevar': }
 define puppet::server::ca::clean (
   String $certname = $name,
-)
-{
+) {
   include puppet::globals
   $signeddir = $puppet::globals::signeddir
 

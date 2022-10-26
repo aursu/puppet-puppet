@@ -6,12 +6,16 @@
 #
 # @example
 #   include puppet::service
+#
+# @param server_service_ensure
+# @param server_service_enable
+# @param service_name
+#
 class puppet::service (
-    String  $server_service_ensure  = $puppet::server_service_ensure,
-    Boolean $server_service_enable  = $puppet::server_service_enable,
-    String  $service_name           = $puppet::params::service_name,
-) inherits puppet::params
-{
+  String  $server_service_ensure = $puppet::server_service_ensure,
+  Boolean $server_service_enable = $puppet::server_service_enable,
+  String  $service_name = $puppet::params::service_name,
+) inherits puppet::params {
   include puppet::server::install
   include puppet::enc
   include puppet::config

@@ -1,4 +1,4 @@
 type Puppet::Autosign = Variant[
-    Boolean,
-    Stdlib::Absolutepath
+  Boolean,
+  Stdlib::Absolutepath,
 ]

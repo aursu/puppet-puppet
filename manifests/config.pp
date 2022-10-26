@@ -4,7 +4,10 @@
 #
 # @param puppet_server
 #   Flag - if set to true then host will be set up as Puppet server
-
+#
+# @param server
+# @param ca_server
+#
 # @param basemodulepath
 #   The search path for global modules. Should be specified as a list of
 #   directories separated by the system path separator character. (The POSIX
@@ -102,81 +105,66 @@
 # @example
 #   include puppet::config
 class puppet::config (
-    Boolean $puppet_server          = $puppet::master,
-    String  $server                 = $puppet::server,
-    Optional[String]
-            $ca_server              = $puppet::ca_server,
-    Boolean $use_common_env         = $puppet::use_common_env,
-    String  $common_envname         = $puppet::common_envname,
-    Optional[Stdlib::Absolutepath]
-            $basemodulepath         = $puppet::basemodulepath,
-    Optional[Array[String]]
-            $dns_alt_names          = $puppet::dns_alt_names,
-    Puppet::Strictness
-            $strict                 = $puppet::strict,
-    Boolean $strict_variables       = $puppet::strict_variables,
-    Boolean $daemonize              = $puppet::daemonize,
-    Boolean $onetime                = $puppet::onetime,
-    Puppet::TimeUnit
-            $http_read_timeout      = $puppet::http_read_timeout,
-    Puppet::Ordering
-            $ordering               = $puppet::ordering,
-    Optional[Puppet::Priority]
-            $priority               = $puppet::priority,
-    Boolean $usecacheonfailure      = $puppet::usecacheonfailure,
-    Puppet::TimeUnit
-            $environment_timeout    = $puppet::environment_timeout,
-    Boolean $sameca                 = $puppet::sameca,
-    Optional[Puppet::Autosign]
-            $autosign               = $puppet::autosign,
-    Boolean $allow_duplicate_certs  = $puppet::allow_duplicate_certs,
-    Boolean $use_enc                = $puppet::use_enc,
-    Boolean $use_puppetdb           = $puppet::use_puppetdb,
-    # predefined via params
-    Stdlib::Absolutepath
-            $puppet_config          = $puppet::params::puppet_config,
-    Stdlib::Absolutepath
-            $environmentpath        = $puppet::params::environmentpath,
-    Stdlib::Absolutepath
-            $external_nodes         = $puppet::params::external_nodes,
-    Optional[String]
-            $node_environment       = undef,
-    Optional[Puppet::TimeUnit]
-            $runtimeout             = $puppet::runtimeout,
-) inherits puppet::params
-{
-    include puppet::agent::install
-    include puppet::globals
+  Boolean $puppet_server = $puppet::master,
+  String $server = $puppet::server,
+  Optional[String] $ca_server = $puppet::ca_server,
+  Boolean $use_common_env = $puppet::use_common_env,
+  String $common_envname = $puppet::common_envname,
+  Optional[Stdlib::Absolutepath] $basemodulepath = $puppet::basemodulepath,
+  Optional[Array[String]] $dns_alt_names = $puppet::dns_alt_names,
+  Puppet::Strictness $strict = $puppet::strict,
+  Boolean $strict_variables = $puppet::strict_variables,
+  Boolean $daemonize = $puppet::daemonize,
+  Boolean $onetime = $puppet::onetime,
+  Puppet::TimeUnit $http_read_timeout = $puppet::http_read_timeout,
+  Puppet::Ordering $ordering = $puppet::ordering,
+  Optional[Puppet::Priority] $priority = $puppet::priority,
+  Boolean $usecacheonfailure = $puppet::usecacheonfailure,
+  Puppet::TimeUnit $environment_timeout = $puppet::environment_timeout,
+  Boolean $sameca = $puppet::sameca,
+  Optional[Puppet::Autosign] $autosign = $puppet::autosign,
+  Boolean $allow_duplicate_certs = $puppet::allow_duplicate_certs,
+  Boolean $use_enc = $puppet::use_enc,
+  Boolean $use_puppetdb = $puppet::use_puppetdb,
+  # predefined via params
+  Stdlib::Absolutepath $puppet_config = $puppet::params::puppet_config,
+  Stdlib::Absolutepath $environmentpath = $puppet::params::environmentpath,
+  Stdlib::Absolutepath $external_nodes = $puppet::params::external_nodes,
+  Optional[String] $node_environment = undef,
+  Optional[Puppet::TimeUnit] $runtimeout = $puppet::runtimeout,
+) inherits puppet::params {
+  include puppet::agent::install
+  include puppet::globals
 
-    $platform_name = $puppet::globals::platform_name
+  $platform_name = $puppet::globals::platform_name
 
-    if $platform_name == 'puppet5' {
-      $server_section = 'master'
-      $server_sameca  = $sameca
-    }
-    else {
-      $server_section = 'server'
-      # we do not want to have 'ca' directive in puppet.conf for Puppet 6+
-      $server_sameca  = true
+  if $platform_name == 'puppet5' {
+    $server_section = 'master'
+    $server_sameca  = $sameca
+  }
+  else {
+    $server_section = 'server'
+    # we do not want to have 'ca' directive in puppet.conf for Puppet 6+
+    $server_sameca  = true
+  }
+
+  file { 'puppet-config':
+    path    => $puppet_config,
+    content => template('puppet/puppet.conf.erb'),
+  }
+
+  if $puppet_server {
+    class { 'puppet::server::ca::allow':
+      server    => $server,
+      ca_server => $ca_server,
     }
 
-    file { 'puppet-config':
-        path    => $puppet_config,
-        content => template('puppet/puppet.conf.erb'),
+    # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
+    file { '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
+      ensure  => file,
+      content => template('puppet/services.ca.cfg.erb'),
     }
+  }
 
-    if $puppet_server {
-      class { 'puppet::server::ca::allow':
-        server    => $server,
-        ca_server => $ca_server,
-      }
-
-      # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
-      file {  '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
-        ensure  => file,
-        content => template('puppet/services.ca.cfg.erb'),
-      }
-    }
-
-    Class['puppet::agent::install'] -> File['puppet-config']
+  Class['puppet::agent::install'] -> File['puppet-config']
 }

@@ -6,15 +6,20 @@
 #
 # @example
 #   include puppet::repo
+#
+# @param package_name
+# @param deccomission_packages
+# @param package_filename
+# @param platform_repository
+# @param package_provider
+#
 class puppet::repo (
-    String  $package_name          = $puppet::globals::package_name,
-    Array[String]
-            $deccomission_packages = $puppet::globals::deccomission_packages,
-    String  $package_filename      = $puppet::globals::package_filename,
-    String  $platform_repository   = $puppet::globals::platform_repository,
-    String  $package_provider      = $puppet::params::package_provider,
-) inherits puppet::globals
-{
+  String  $package_name = $puppet::globals::package_name,
+  Array[String] $deccomission_packages = $puppet::globals::deccomission_packages,
+  String $package_filename = $puppet::globals::package_filename,
+  String $platform_repository = $puppet::globals::platform_repository,
+  String $package_provider = $puppet::params::package_provider,
+) inherits puppet::globals {
   exec { 'puppet-release':
     command => "curl ${platform_repository} -s -o ${package_filename}",
     cwd     => '/tmp',

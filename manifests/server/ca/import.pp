@@ -2,6 +2,9 @@
 #
 # Import existing CA into current server
 #
+# @param import_path
+# @param dns_alt_names
+#
 # @param certname
 #   Whether to use --certname parameter for import command or not. If set to true
 #   than $::fqdn will be used as certname. If set to false - no certname parameter
@@ -11,16 +14,10 @@
 # @example
 #   include puppet::server::ca::import
 class puppet::server::ca::import (
-  Stdlib::Unixpath
-          $import_path,
-  Array[Stdlib::Fqdn]
-          $dns_alt_names = ['puppet', $::fqdn],
-  Variant[
-    Boolean,
-    Stdlib::Fqdn
-  ]       $certname      = true,
-)
-{
+  Stdlib::Unixpath $import_path,
+  Array[Stdlib::Fqdn] $dns_alt_names = ['puppet', $facts['networking']['fqdn']],
+  Variant[Boolean, Stdlib::Fqdn] $certname = true,
+) {
   include puppet::server::install
   include puppet::globals
   include puppet::params
@@ -45,7 +42,7 @@ class puppet::server::ca::import (
 
   $certname_param = $certname ? {
     Stdlib::Fqdn => "--certname ${certname}",
-    true         => "--certname ${::fqdn}",
+    true         => "--certname ${facts['networking']['fqdn']}",
     default      => '',
   }
 
@@ -62,19 +59,19 @@ class puppet::server::ca::import (
       path    => '/bin:/usr/bin',
       creates => $cacert,
       before  => Exec['puppetserver ca import'],
-    ;
+      ;
     "backup ${hostcrl}":
       command => "mv -n ${hostcrl} ${hostcrl}.${timestamp}",
-      onlyif  => [ "test -f ${hostcrl}" ] + $import_condition,
-    ;
+      onlyif  => ["test -f ${hostcrl}"] + $import_condition,
+      ;
     "backup ${hostcert}":
       command => "mv -n ${hostcert} ${hostcert}.${timestamp}",
-      onlyif  => [ "test -f ${hostcert}" ] + $import_condition,
-    ;
+      onlyif  => ["test -f ${hostcert}"] + $import_condition,
+      ;
     "backup ${localcacert}":
       command => "mv -n ${localcacert} ${localcacert}.${timestamp}",
-      onlyif  => [ "test -f ${localcacert}" ] + $import_condition,
-    ;
+      onlyif  => ["test -f ${localcacert}"] + $import_condition,
+      ;
   }
 
   exec { 'puppetserver ca import':
@@ -90,4 +87,3 @@ class puppet::server::ca::import (
 
   Class['puppet::server::install'] -> Exec['puppetserver ca import']
 }
-
