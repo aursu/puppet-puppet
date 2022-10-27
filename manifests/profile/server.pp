@@ -44,7 +44,7 @@ class puppet::profile::server (
   String $server_ipaddress = '127.0.0.1',
   Boolean $use_puppetdb = true,
   Boolean $puppetdb_local = true,
-  String  $puppetdb_server = 'puppet',
+  String $puppetdb_server = 'puppet',
   Array[String] $puppetdb_ssl_protocols = ['TLSv1.2', 'TLSv1.3'],
   Array[String] $puppetdb_cipher_suites = [
     'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
@@ -55,21 +55,19 @@ class puppet::profile::server (
     'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256',
   ],
   Boolean $manage_puppet_config = false,
-
   Boolean $postgres_local = true,
   Boolean $manage_database = $postgres_local,
-
   Stdlib::Host $postgres_database_host = 'localhost',
-  String  $postgres_database_name = 'puppetdb',
-  String  $postgres_database_username = 'puppetdb',
-  String  $postgres_database_password = 'puppetdb',
+  String $postgres_database_name = 'puppetdb',
+  String $postgres_database_username = 'puppetdb',
+  String $postgres_database_password = 'puppetdb',
   Boolean $manage_puppetdb_firewall = false,
   Stdlib::Unixpath $r10k_cachedir = $puppet::params::r10k_cachedir,
   Boolean $hosts_update = true,
   Stdlib::Unixpath $import_path = '/root/ca',
   Boolean $use_common_env = false,
   Optional[String] $common_envname = undef,
-  Optional[Stdlib::Host]  $ca_server = undef,
+  Optional[Stdlib::Host] $ca_server = undef,
 ) inherits puppet::params {
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
