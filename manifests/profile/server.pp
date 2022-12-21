@@ -37,6 +37,10 @@
 #   puppetlabs/firewall for firewall rules setup, iptables/ip6tables services
 #   management
 #
+# @param enc_envname
+#   The name of ENC environment inside Puppet environments path.
+#   Use it to override default value 'enc'
+#
 class puppet::profile::server (
   Boolean $sameca = true,
   Puppet::Platform $platform_name = 'puppet7',
@@ -68,6 +72,7 @@ class puppet::profile::server (
   Boolean $use_common_env = false,
   Optional[String] $common_envname = undef,
   Optional[Stdlib::Host] $ca_server = undef,
+  Optional[String] $enc_envname  = undef,
 ) inherits puppet::params {
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
@@ -78,6 +83,7 @@ class puppet::profile::server (
     sameca           => $sameca,
     use_common_env   => $use_common_env,
     common_envname   => $common_envname,
+    enc_envname      => $enc_envname,
   }
 
   class { 'puppet::globals':

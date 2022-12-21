@@ -147,3 +147,14 @@ All notable changes to this project will be documented in this file.
 * Fixed bug manage_database flag for PuppetDB
 
 **Known Issues**
+
+## Release 0.4.1
+
+**Features**
+
+* For profile puppet::profile::server added ability to override default
+  ENC environment name
+
+**Bugfixes**
+
+**Known Issues**

@@ -14,6 +14,10 @@
 # @param use_puppetdb
 # @param puppetdb_server
 #
+# @param enc_envname
+#   The name of ENC environment inside Puppet environments path.
+#   Use it to override default value 'enc'
+#
 class puppet::profile::compiler (
   Stdlib::Host $ca_server,
   Puppet::Platform $platform_name = 'puppet7',
@@ -22,6 +26,7 @@ class puppet::profile::compiler (
   Optional[String] $common_envname = undef,
   Boolean $use_puppetdb = true,
   Stdlib::Host $puppetdb_server = 'puppet',
+  Optional[String] $enc_envname  = undef,
 ) {
   class { 'puppet::profile::server':
     sameca          => false,
@@ -38,6 +43,8 @@ class puppet::profile::compiler (
 
     use_common_env  => $use_common_env,
     common_envname  => $common_envname,
+
+    enc_envname     => $enc_envname,
 
     ca_server       => $ca_server,
   }

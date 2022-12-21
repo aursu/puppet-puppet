@@ -31,7 +31,6 @@ puppet::allow_duplicate_certs: false
 puppet::use_enc: true
 puppet::enc_template: 'puppet/enc.erb'
 puppet::enc_data_source: ~
-puppet::use_enc_env: true
 puppet::enc_envname: 'enc'
 puppet::enc_remote: 'https://github.com/aursu/control-enc.git'
 puppet::trusted_server_facts: false
