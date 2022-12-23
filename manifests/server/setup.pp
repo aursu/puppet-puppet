@@ -23,6 +23,7 @@ class puppet::server::setup (
   String $eyaml_public_key = $puppet::params::eyaml_public_key,
   String $eyaml_private_key = $puppet::params::eyaml_private_key,
   Boolean $setup_on_each_run = $puppet::environment_setup_on_each_run,
+  Integer $environment_setup_timeout = 900,
 ) inherits puppet::params {
   include puppet::agent::install
   include puppet::r10k::install
@@ -83,6 +84,7 @@ class puppet::server::setup (
     cwd         => '/',
     refreshonly => !$setup_on_each_run,
     path        => '/bin:/usr/bin',
+    timeout     => $environment_setup_timeout,
     require     => Exec['r10k-installation'],
     subscribe   => Exec['r10k-config'],
   }

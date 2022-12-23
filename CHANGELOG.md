@@ -158,3 +158,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.4.2
+
+**Features**
+
+* Added timeout 900 seconds for r10k exec
+
+**Bugfixes**
+
+**Known Issues**
