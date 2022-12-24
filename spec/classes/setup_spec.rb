@@ -22,6 +22,10 @@ describe 'puppet::setup' do
         it { is_expected.to contain_file('/opt/puppetlabs/facter/facts.d') }
         it { is_expected.to contain_file('/etc/puppetlabs/facter') }
         it { is_expected.to contain_file('/etc/puppetlabs/facter/facts.d') }
+        it {
+          is_expected.to contain_file('/usr/local/sbin/agentrun')
+            .with_content(%r{/opt/puppetlabs/bin/puppet agent})
+        }
       end
     end
   end

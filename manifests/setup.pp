@@ -50,7 +50,7 @@ class puppet::setup (
       group  => 'root',
       owner  => 'root',
       mode   => '0744',
-      source => "puppet:///modules/${module_name}/agentrun",
+      content => file('puppet/agentrun'),
     }
 
     file { '/usr/local/sbin/agentrun.now':
