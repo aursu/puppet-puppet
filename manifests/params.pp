@@ -114,7 +114,7 @@ class puppet::params {
   $localcacert   = "${certdir}/ca.pem"
   $hostcrl       = "${ssldir}/crl.pem"
 
-  # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
+  # https://www.puppet.com/docs/puppet/7/lang_facts_builtin_variables.html#lang_facts_builtin_variables-agent-facts
   if $facts['clientcert'] {
     $clientcert    = $facts['clientcert']
   }

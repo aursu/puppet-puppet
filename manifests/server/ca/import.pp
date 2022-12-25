@@ -32,10 +32,6 @@ class puppet::server::ca::import (
     "test -f ${import_cacrl}",
   ]
 
-  $localcacert = $puppet::params::localcacert
-  $hostcrl     = $puppet::params::hostcrl
-  $hostcert    = $puppet::params::hostcert
-
   $cacert           = $puppet::globals::cacert
   $ca_public_files  = $puppet::globals::ca_public_files
   $ca_private_files = $puppet::globals::ca_private_files
