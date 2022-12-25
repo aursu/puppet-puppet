@@ -22,18 +22,25 @@ class puppet::server::ca::import (
   include puppet::globals
   include puppet::params
 
-  $localcacert = $puppet::params::localcacert
-  $hostcrl     = $puppet::params::hostcrl
-  $hostcert    = $puppet::params::hostcert
-
-  $cacert      = $puppet::globals::cacert
-
   $import_cakey  = "${import_path}/ca_key.pem"
   $import_cacert = "${import_path}/ca_crt.pem"
   $import_cacrl  = "${import_path}/ca_crl.pem"
 
-  $import_serial = "${import_path}/serial"
-  $import_cert_inventory = "${import_path}/inventory.txt"
+  $import_condition = [
+    "test -f ${import_cakey}",
+    "test -f ${import_cacert}",
+    "test -f ${import_cacrl}",
+  ]
+
+  $localcacert = $puppet::params::localcacert
+  $hostcrl     = $puppet::params::hostcrl
+  $hostcert    = $puppet::params::hostcert
+
+  $cacert           = $puppet::globals::cacert
+  $ca_public_files  = $puppet::globals::ca_public_files
+  $ca_private_files = $puppet::globals::ca_private_files
+
+  $ca_files         = $ca_public_files + $ca_private_files
 
   $subject_alt_names_param = $dns_alt_names[0] ? {
     Stdlib::Fqdn => join(['--subject-alt-names', join($dns_alt_names, ',')], ' '),
@@ -46,42 +53,22 @@ class puppet::server::ca::import (
     default      => '',
   }
 
-  $import_condition = [
-    "test -f ${import_cakey}",
-    "test -f ${import_cacert}",
-    "test -f ${import_cacrl}",
-  ]
-
   # These PKI assets shold be cleaned up before CA import
   $timestamp = Timestamp.new().strftime('%Y%m%dT%H%M%S')
-  exec {
-    default:
+  $ca_files.each |Stdlib::Unixpath $path| {
+    exec { "backup ${path}":
       path    => '/bin:/usr/bin',
-      creates => $cacert,
+      command => "mv -n ${path} ${path}.${timestamp}",
+      onlyif  => ["test -f ${path}"] + $import_condition,
+      unless  => "diff -q ${import_cacert} ${cacert}",
       before  => Exec['puppetserver ca import'],
-      ;
-    "backup ${hostcrl}":
-      command => "mv -n ${hostcrl} ${hostcrl}.${timestamp}",
-      onlyif  => ["test -f ${hostcrl}"] + $import_condition,
-      ;
-    "backup ${hostcert}":
-      command => "mv -n ${hostcert} ${hostcert}.${timestamp}",
-      onlyif  => ["test -f ${hostcert}"] + $import_condition,
-      ;
-    "backup ${localcacert}":
-      command => "mv -n ${localcacert} ${localcacert}.${timestamp}",
-      onlyif  => ["test -f ${localcacert}"] + $import_condition,
-      ;
+    }
   }
 
   exec { 'puppetserver ca import':
     path    => '/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/bin:/usr/bin',
     command => "puppetserver ca import ${subject_alt_names_param} ${certname_param} --private-key ${import_cakey} --cert-bundle ${import_cacert} --crl-chain ${import_cacrl}", # lint:ignore:140chars
-    onlyif  => [
-      "test -f ${import_cakey}",
-      "test -f ${import_cacert}",
-      "test -f ${import_cacrl}",
-    ],
+    onlyif  => $import_condition,
     creates => $cacert,
   }
 
