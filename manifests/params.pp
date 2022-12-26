@@ -34,6 +34,10 @@ class puppet::params {
     }
   }
 
+  $confdir             = '/etc/puppetlabs/puppet'
+  $server_confdir      = '/etc/puppetlabs/puppetserver'
+  $puppet_config       = "${confdir}/puppet.conf"
+
   $agent_package_name  = 'puppet-agent'
   $server_package_name = 'puppetserver'
   $r10k_package_name   = 'r10k'
@@ -43,9 +47,8 @@ class puppet::params {
   $r10k_cachedir       = '/var/cache/r10k'
   $puppet_path         = '/opt/puppetlabs/puppet/bin/puppet'
   $service_name        = 'puppetserver'
-  $puppet_config       = '/etc/puppetlabs/puppet/puppet.conf'
   $r10k_config_file    = '/etc/puppetlabs/r10k/r10k.yaml'
-  $eyaml_keys_path     = '/etc/puppetlabs/puppet/keys'
+  $eyaml_keys_path     = "${confdir}/keys"
   $eyaml_public_key    = 'public_key.pkcs7.pem'
   $eyaml_private_key   = 'private_key.pkcs7.pem'
 
@@ -53,7 +56,7 @@ class puppet::params {
     $ssldir = $facts['puppet_ssldir']
   }
   else {
-    $ssldir = '/etc/puppetlabs/puppet/ssl'
+    $ssldir = "${confdir}/ssl"
   }
 
   # Client authentication
@@ -111,20 +114,17 @@ class puppet::params {
   $localcacert   = "${certdir}/ca.pem"
   $hostcrl       = "${ssldir}/crl.pem"
 
-  # https://puppet.com/docs/puppet/5.3/lang_facts_and_builtin_vars.html#puppet-agent-facts
+  # https://www.puppet.com/docs/puppet/7/lang_facts_builtin_variables.html#lang_facts_builtin_variables-agent-facts
   if $facts['clientcert'] {
     $clientcert    = $facts['clientcert']
-    $hostcert      = "${certdir}/${clientcert}.pem"
-    $hostprivkey   = "${privatekeydir}/${clientcert}.pem"
-    $hostpubkey    = "${publickeydir}/${clientcert}.pem"
-    $hostreq       = "${requestdir}/${clientcert}.pem"
   }
   else {
     # fallback to fqdn
-    $fqdn          = $facts['networking']['fqdn']
-    $hostcert      = "${certdir}/${fqdn}.pem"
-    $hostprivkey   = "${privatekeydir}/${fqdn}.pem"
-    $hostpubkey    = "${publickeydir}/${fqdn}.pem"
-    $hostreq       = "${requestdir}/${fqdn}.pem"
+    $clientcert    = $facts['networking']['fqdn']
   }
+
+  $hostcert      = "${certdir}/${clientcert}.pem"
+  $hostprivkey   = "${privatekeydir}/${clientcert}.pem"
+  $hostpubkey    = "${publickeydir}/${clientcert}.pem"
+  $hostreq       = "${requestdir}/${clientcert}.pem"
 }
