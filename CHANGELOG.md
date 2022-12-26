@@ -178,3 +178,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: agenntrun script installation
 
 **Known Issues**
+
+## Release 0.5.0
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: disable import ca resource
+
+**Known Issues**
