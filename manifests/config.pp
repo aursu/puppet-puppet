@@ -61,6 +61,15 @@
 #   agent nodes should NOT have alternate names; the only certs that should have
 #   them are Puppet Server nodes that you want other agents to trust.
 #
+# @param strict
+# @param strict_variables
+# @param daemonize
+# @param onetime
+# @param http_read_timeout
+# @param ordering
+# @param priority
+# @param usecacheonfailure
+#
 # @param environment_timeout
 #   Puppet::TimeUnit. Default - 0. How long the Puppet server should cache data it
 #   loads from an environment. This setting can be a time interval in seconds (30
@@ -91,6 +100,8 @@
 #   authority.
 #   Default: true
 #
+# @param autosign
+#
 # @param allow_duplicate_certs
 #   Whether to allow a new certificate request to
 #   overwrite an existing certificate.
@@ -99,6 +110,13 @@
 # @param use_enc
 #   When enabled, Puppet will use external nodes
 #   classifier script which defined in puppet::params::external_nodes variable
+#
+# @param use_puppetdb
+# @param puppet_config
+# @param environmentpath
+# @param external_nodes
+# @param node_environment
+# @param runtimeout
 #
 # @summary Setup Puppet configuration file (puppet.conf)
 #
