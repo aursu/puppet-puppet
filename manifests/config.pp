@@ -118,6 +118,13 @@
 # @param node_environment
 # @param runtimeout
 #
+# @param static_certname
+#   When enabled, puppet.conf main section will contain certname directive
+#
+# @param certname
+#   certname directive value (default - $facts['networking']['fqdn'])
+#   (https://www.puppet.com/docs/puppet/7/configuration.html#certname)
+#
 # @summary Setup Puppet configuration file (puppet.conf)
 #
 # @example
@@ -150,6 +157,8 @@ class puppet::config (
   Stdlib::Absolutepath $external_nodes = $puppet::params::external_nodes,
   Optional[String] $node_environment = undef,
   Optional[Puppet::TimeUnit] $runtimeout = $puppet::runtimeout,
+  Boolean $static_certname = false,
+  String  $certname = $facts['networking']['fqdn'],
 ) inherits puppet::params {
   include puppet::agent::install
   include puppet::globals
@@ -171,6 +180,7 @@ class puppet::config (
     content => template('puppet/puppet.conf.erb'),
   }
 
+  # https://www.puppet.com/docs/puppet/7/config_ssl_external_ca.html#config_puppet_server
   if $puppet_server {
     class { 'puppet::server::ca::allow':
       server    => $server,

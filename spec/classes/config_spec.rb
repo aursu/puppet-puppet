@@ -43,6 +43,40 @@ describe 'puppet::config' do
           .with_content(%r{^puppetlabs.services.ca.certificate-authority-service/certificate-authority-service})
       }
 
+      it {
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
+          .without_content(%r{certname})
+      }
+
+      context 'check static certname' do
+        let(:params) do
+          {
+            static_certname: true,
+          }
+        end
+
+        it {
+          is_expected.to contain_file('puppet-config')
+            .with_path('/etc/puppetlabs/puppet/puppet.conf')
+            .with_content(%r{^\[server\]\ncertname =})
+        }
+
+        context 'with defined static name' do
+          let(:params) do
+            super().merge(
+              'certname' => 'puppet-ca.domain.tld',
+            )
+          end
+  
+          it {
+            is_expected.to contain_file('puppet-config')
+              .with_path('/etc/puppetlabs/puppet/puppet.conf')
+              .with_content(%r{^\[server\]\ncertname = puppet-ca.domain.tld$})
+          }
+        end
+      end
+
       context 'check ca directive in server config for default (Puppet 7) server' do
         let(:params) do
           {
