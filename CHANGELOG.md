@@ -198,3 +198,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.5.2
+
+**Features**
+
+* Added ability to setup r10k crontab
+
+**Bugfixes**
+
+**Known Issues**

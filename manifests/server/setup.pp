@@ -10,6 +10,7 @@
 class puppet::server::setup (
   Boolean $r10k_config_setup = $puppet::r10k_config_setup,
   String  $r10k_yaml_template = $puppet::r10k_yaml_template,
+  Boolean $r10k_crontab_setup = $puppet::r10k_crontab_setup,
   String  $production_remote = $puppet::production_remote,
   Boolean $use_common_env = $puppet::use_common_env,
   String  $common_remote = $puppet::common_remote,
@@ -111,6 +112,17 @@ class puppet::server::setup (
       group => 'puppet',
       mode  => '0400',
     }
+  }
+
+  if $r10k_crontab_setup {
+    cron { 'r10k-crontab':
+      command => "/usr/bin/flock -n /run/r10k.lock ${r10k_path} deploy environment -p",
+      user    => 'root',
+      minute  => '*',
+      require => Exec['r10k-config'],
+    }
+
+    Class['puppet::agent::install'] -> Cron['r10k-crontab']
   }
 
   Class['puppet::agent::install'] -> Exec['r10k-vardir']
