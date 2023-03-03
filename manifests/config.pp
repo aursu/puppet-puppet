@@ -157,8 +157,8 @@ class puppet::config (
   Stdlib::Absolutepath $external_nodes = $puppet::params::external_nodes,
   Optional[String] $node_environment = undef,
   Optional[Puppet::TimeUnit] $runtimeout = $puppet::runtimeout,
-  Boolean $static_certname = false,
-  String  $certname = $facts['networking']['fqdn'],
+  Boolean $static_certname = $puppet::static_certname,
+  String  $certname = $puppet::certname,
 ) inherits puppet::params {
   include puppet::agent::install
   include puppet::globals

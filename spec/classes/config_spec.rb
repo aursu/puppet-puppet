@@ -68,7 +68,7 @@ describe 'puppet::config' do
               'certname' => 'puppet-ca.domain.tld',
             )
           end
-  
+
           it {
             is_expected.to contain_file('puppet-config')
               .with_path('/etc/puppetlabs/puppet/puppet.conf')
