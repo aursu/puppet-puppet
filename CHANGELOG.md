@@ -175,7 +175,7 @@ All notable changes to this project will be documented in this file.
 
 **Bugfixes**
 
-* Bugfix: agenntrun script installation
+* Bugfix: agentrun script installation
 
 **Known Issues**
 
@@ -186,5 +186,15 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 * Bugfix: disable import ca resource
+
+**Known Issues**
+
+## Release 0.5.1
+
+**Features**
+
+* Added ability to setup static certname
+
+**Bugfixes**
 
 **Known Issues**
