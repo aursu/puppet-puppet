@@ -54,6 +54,10 @@ report = true
 
 <% if @puppet_server -%>
 [<%= @server_section %>]
+<%   if @static_certname -%>
+<%# Default: node's fully qualified domain name -%>
+certname = <%= @certname %>
+<%   end -%>
 vardir = /opt/puppetlabs/server/data/puppetserver
 logdir = /var/log/puppetlabs/puppetserver
 rundir = /var/run/puppetlabs/puppetserver
