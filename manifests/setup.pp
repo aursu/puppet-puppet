@@ -46,10 +46,10 @@ class puppet::setup (
 
   if $wrapper_setup {
     file { '/usr/local/sbin/agentrun':
-      ensure => file,
-      group  => 'root',
-      owner  => 'root',
-      mode   => '0744',
+      ensure  => file,
+      group   => 'root',
+      owner   => 'root',
+      mode    => '0744',
       content => file('puppet/agentrun'),
     }
 

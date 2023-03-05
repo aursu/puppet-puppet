@@ -98,16 +98,6 @@ class puppet::profile::server (
     ca_server     => $ca_server,
   }
 
-  # if $sameca {
-  #   class { 'puppet::server::ca::import':
-  #     import_path => $import_path,
-  #   }
-  #   if $puppetdb_local {
-  #     Class['puppet::server::ca::import'] -> Class['puppetdb']
-  #   }
-  #   Class['puppet::server::ca::import'] -> Class['puppet::service']
-  # }
-
   # r10k is not optional in our workflow, it should replace initial setup with
   # real infrastructure setup.
   class { 'puppet::r10k::gem_install':
