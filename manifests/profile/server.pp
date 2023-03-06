@@ -5,10 +5,17 @@
 # @example
 #   include puppet::profile::server
 #
+# @param sameca
+# @param platform_name
+# @param server
+# @param server_ipaddress
+#   
 # @param use_puppetdb
 #   Boolean. Default is true. If set puppet.conf will be set to use PuppetDB for
 #   storeconfigs and reports storage. Also PuppetDB will be managed through
 #   puppetlabs-puppetdb module (including PostgreSQL database)
+#
+# @param puppetdb_local
 #
 # @param puppetdb_server
 #   String. Default is 'puppet'. Server name for PuppetDB. Puppetdb::Master::Config
@@ -20,6 +27,9 @@
 #   therefore hostname 'puppet' is resolvable. If you changed this behavior - you
 #   should properly set parameter puppetdb_server as well
 #
+# @param puppetdb_ssl_protocols
+# @param puppetdb_cipher_suites
+#
 # @param manage_puppet_config
 #   Boolean. Default is false. If set then class Puppetdb::Master::Config will
 #   check puppet.conf (using Ini_setting resources) for proper setup of report/reports
@@ -28,14 +38,27 @@
 #   class Puppetdb::Master::Config.
 #
 # @param postgres_local
+#
 # @param manage_database
 #   Boolean. Default is true. If set then class Puppetdb will use puppetlabs/postgresql
 #   for Postgres database server management and PuppetDB database setup
+#
+# @param postgres_database_host
+# @param postgres_database_name
+# @param postgres_database_username
+# @param postgres_database_password
 #
 # @param manage_puppetdb_firewall
 #   Boolean. Default is false. If set than class Puppetdb::Server will use
 #   puppetlabs/firewall for firewall rules setup, iptables/ip6tables services
 #   management
+#
+# @param r10k_cachedir
+# @param hosts_update
+# @param import_path
+# @param use_common_env
+# @param common_envname
+# @param ca_server
 #
 # @param enc_envname
 #   The name of ENC environment inside Puppet environments path.
@@ -110,9 +133,9 @@ class puppet::profile::server (
   }
 
   class { 'puppet::server::setup':
-    r10k_config_setup => false,
+    r10k_config_setup  => false,
     r10k_crontab_setup => $r10k_crontab_setup,
-    cachedir          => $r10k_cachedir,
+    cachedir           => $r10k_cachedir,
   }
 
   Class['puppet::r10k::gem_install'] -> Class['puppet::server::setup']
