@@ -9,7 +9,7 @@
 # @param platform_name
 # @param server
 # @param server_ipaddress
-#   
+#
 # @param use_puppetdb
 #   Boolean. Default is true. If set puppet.conf will be set to use PuppetDB for
 #   storeconfigs and reports storage. Also PuppetDB will be managed through
