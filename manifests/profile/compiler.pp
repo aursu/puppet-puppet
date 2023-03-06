@@ -18,6 +18,9 @@
 #   The name of ENC environment inside Puppet environments path.
 #   Use it to override default value 'enc'
 #
+# @param r10k_crontab_setup
+#   Whether to setup crontab job to sync Puppet code for Puppet compiler
+#
 class puppet::profile::compiler (
   Stdlib::Host $ca_server,
   Puppet::Platform $platform_name = 'puppet7',
@@ -27,6 +30,7 @@ class puppet::profile::compiler (
   Boolean $use_puppetdb = true,
   Stdlib::Host $puppetdb_server = 'puppet',
   Optional[String] $enc_envname  = undef,
+  Boolean $r10k_crontab_setup = false,
 ) {
   class { 'puppet::profile::server':
     sameca          => false,
@@ -47,6 +51,8 @@ class puppet::profile::compiler (
     enc_envname     => $enc_envname,
 
     ca_server       => $ca_server,
+
+    r10k_crontab_setup => $r10k_crontab_setup,
   }
   contain puppet::profile::server
 }
