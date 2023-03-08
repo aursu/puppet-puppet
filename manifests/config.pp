@@ -192,6 +192,8 @@ class puppet::config (
       ensure  => file,
       content => template('puppet/services.ca.cfg.erb'),
     }
+
+    include puppet::config::webserver
   }
 
   Class['puppet::agent::install'] -> File['puppet-config']
