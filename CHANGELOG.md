@@ -208,3 +208,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.6.0
+
+**Features**
+
+* Added webserver.conf with SSL settings
+* PDK upgrade to 2.6.1
+
+**Bugfixes**
+
+**Known Issues**
