@@ -125,6 +125,10 @@
 #   certname directive value (default - $facts['networking']['fqdn'])
 #   (https://www.puppet.com/docs/puppet/7/configuration.html#certname)
 #
+# @param manage_webserver_conf
+#   Whether to manage /etc/puppetlabs/puppetserver/conf.d/webserver.conf or not
+#   It is basic management aimed to add SSL settings into webserver.conf
+#
 # @summary Setup Puppet configuration file (puppet.conf)
 #
 # @example
@@ -159,6 +163,7 @@ class puppet::config (
   Optional[Puppet::TimeUnit] $runtimeout = $puppet::runtimeout,
   Boolean $static_certname = $puppet::static_certname,
   String  $certname = $puppet::certname,
+  Boolean $manage_webserver_conf = $puppet::manage_webserver_conf,
 ) inherits puppet::params {
   include puppet::agent::install
   include puppet::globals
@@ -193,7 +198,9 @@ class puppet::config (
       content => template('puppet/services.ca.cfg.erb'),
     }
 
-    include puppet::config::webserver
+    if $manage_webserver_conf {
+      include puppet::config::webserver
+    }
   }
 
   Class['puppet::agent::install'] -> File['puppet-config']

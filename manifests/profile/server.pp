@@ -67,6 +67,9 @@
 # @param r10k_crontab_setup
 #   Whether to setup crontab job to sync Puppet code
 #
+# @param manage_webserver_conf
+#   Whether to manage webserver.conf or not
+#
 class puppet::profile::server (
   Boolean $sameca = true,
   Puppet::Platform $platform_name = 'puppet7',
@@ -100,6 +103,7 @@ class puppet::profile::server (
   Optional[Stdlib::Host] $ca_server = undef,
   Optional[String] $enc_envname  = undef,
   Boolean $r10k_crontab_setup = false,
+  Boolean $manage_webserver_conf = false,
 ) inherits puppet::params {
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
@@ -123,6 +127,7 @@ class puppet::profile::server (
   class { 'puppet::config':
     puppet_server => true,
     ca_server     => $ca_server,
+    manage_webserver_conf => $manage_webserver_conf,
   }
 
   # r10k is not optional in our workflow, it should replace initial setup with

@@ -49,6 +49,23 @@ describe 'puppet::config' do
           .without_content(%r{certname})
       }
 
+      it {
+        is_expected.not_to contain_file('/etc/puppetlabs/puppetserver/conf.d/webserver.conf')
+      }
+
+      context 'check ca directive in server config for default (Puppet 7) server' do
+        let(:params) do
+          {
+            manage_webserver_conf: true,
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/puppetlabs/puppetserver/conf.d/webserver.conf')
+            .with_content(%r{ssl-ca-cert: /etc/puppetlabs/puppet/ssl/certs/ca.pem})
+        }
+      end
+
       context 'check static certname' do
         let(:params) do
           {

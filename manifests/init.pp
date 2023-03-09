@@ -50,4 +50,5 @@ class puppet (
   Boolean $external_facts_setup,
   Boolean $static_certname,
   String  $certname = $facts['networking']['fqdn'],
+  Boolean $manage_webserver_conf,
 ) {}
