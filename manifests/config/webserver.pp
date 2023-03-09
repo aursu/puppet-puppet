@@ -18,10 +18,6 @@
 #     none - The server will not request a certificate from the client and will
 #       consider the client valid.
 #
-# @param sameca
-#   Whether the server should function as a certificate
-#   authority.
-#
 # @param ssl_cert
 #   The value of puppet server --configprint hostcert. Equivalent to the ‘SSLCertificateFile’ Apache config setting.
 #
