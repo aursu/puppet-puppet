@@ -125,8 +125,8 @@ class puppet::profile::server (
   class { 'puppet::server::install': }
 
   class { 'puppet::config':
-    puppet_server => true,
-    ca_server     => $ca_server,
+    puppet_server         => true,
+    ca_server             => $ca_server,
     manage_webserver_conf => $manage_webserver_conf,
   }
 

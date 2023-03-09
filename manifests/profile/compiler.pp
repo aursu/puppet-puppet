@@ -37,26 +37,26 @@ class puppet::profile::compiler (
   Boolean $manage_webserver_conf = false,
 ) {
   class { 'puppet::profile::server':
-    sameca             => false,
-    puppetdb_local     => false,
-    postgres_local     => false,
+    sameca                => false,
+    puppetdb_local        => false,
+    postgres_local        => false,
 
-    platform_name      => $platform_name,
+    platform_name         => $platform_name,
 
-    server             => $server,
-    use_puppetdb       => $use_puppetdb,
-    puppetdb_server    => $puppetdb_server,
+    server                => $server,
+    use_puppetdb          => $use_puppetdb,
+    puppetdb_server       => $puppetdb_server,
 
-    hosts_update       => false,
+    hosts_update          => false,
 
-    use_common_env     => $use_common_env,
-    common_envname     => $common_envname,
+    use_common_env        => $use_common_env,
+    common_envname        => $common_envname,
 
-    enc_envname        => $enc_envname,
+    enc_envname           => $enc_envname,
 
-    ca_server          => $ca_server,
+    ca_server             => $ca_server,
 
-    r10k_crontab_setup => $r10k_crontab_setup,
+    r10k_crontab_setup    => $r10k_crontab_setup,
     manage_webserver_conf => $manage_webserver_conf,
   }
   contain puppet::profile::server
