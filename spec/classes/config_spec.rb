@@ -53,7 +53,7 @@ describe 'puppet::config' do
         is_expected.not_to contain_file('/etc/puppetlabs/puppetserver/conf.d/webserver.conf')
       }
 
-      context 'check ca directive in server config for default (Puppet 7) server' do
+      context 'check webserver.conf management' do
         let(:params) do
           {
             manage_webserver_conf: true,
