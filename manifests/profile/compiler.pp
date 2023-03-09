@@ -21,6 +21,9 @@
 # @param r10k_crontab_setup
 #   Whether to setup crontab job to sync Puppet code for Puppet compiler
 #
+# @param manage_webserver_conf
+#   Whether to manage webserver.conf or not
+#
 class puppet::profile::compiler (
   Stdlib::Host $ca_server,
   Puppet::Platform $platform_name = 'puppet7',
@@ -31,6 +34,7 @@ class puppet::profile::compiler (
   Stdlib::Host $puppetdb_server = 'puppet',
   Optional[String] $enc_envname  = undef,
   Boolean $r10k_crontab_setup = false,
+  Boolean $manage_webserver_conf = false,
 ) {
   class { 'puppet::profile::server':
     sameca             => false,
@@ -53,6 +57,7 @@ class puppet::profile::compiler (
     ca_server          => $ca_server,
 
     r10k_crontab_setup => $r10k_crontab_setup,
+    manage_webserver_conf => $manage_webserver_conf,
   }
   contain puppet::profile::server
 }
