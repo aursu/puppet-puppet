@@ -81,4 +81,11 @@ class puppet::globals (
     $hostprivkey,
     $cakey,
   ]
+
+  $cert_generate_files = [
+    $hostcert,
+    $hostprivkey,
+    $hostpubkey,
+    $signed_cert,
+  ]
 }
