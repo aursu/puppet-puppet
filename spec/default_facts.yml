@@ -6,6 +6,12 @@ ipaddress: "172.16.254.254"
 ipaddress6: "FE80:0000:0000:0000:AAAA:AAAA:AAAA"
 is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"
+
+fqdn: puppetserver1.domain.tld
+clientcert: puppetserver1.domain.tld
+networking:
+  fqdn: puppetserver1.domain.tld
+
 puppet_sslpaths:
   privatedir:
     path: /etc/puppetlabs/puppet/ssl/private
