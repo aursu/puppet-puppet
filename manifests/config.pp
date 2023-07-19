@@ -200,6 +200,7 @@ class puppet::config (
       server    => $server,
       ca_server => $ca_server,
     }
+    contain puppet::server::ca::allow
 
     # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
     file { '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
@@ -215,6 +216,7 @@ class puppet::config (
       class { 'puppet::server::fileserver':
         mount_points => $mount_points,
       }
+      contain puppet::server::fileserver
     }
   }
 
