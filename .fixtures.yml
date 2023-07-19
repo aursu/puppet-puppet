@@ -9,7 +9,7 @@ fixtures:
       puppet_version: ">= 6.0.0"
     concat:
       repo: "puppetlabs/concat"
-      ref: "6.2.0"
+      ref: "9.0.0"
     cron_core:
       repo: "puppetlabs/cron_core"
       ref: "1.0.5"
@@ -20,10 +20,10 @@ fixtures:
       puppet_version: ">= 6.0.0"
     inifile:
       repo: "puppetlabs/inifile"
-      ref: "4.2.0"
+      ref: "6.1.0"
     postgresql:
       repo: "puppetlabs/postgresql"
-      ref: "6.6.0"
+      ref: "9.1.0"
     puppet_agent:
       repo: "puppetlabs/puppet_agent"
       ref: "4.0.0"
@@ -32,10 +32,13 @@ fixtures:
       ref: "7.10.0"
     r10k:
       repo: "puppet/r10k"
-      ref: "10.3.0"
+      ref: "11.0.1"
     stdlib:
       repo: "puppetlabs/stdlib"
-      ref: "6.3.0"
+      ref: "9.2.0"
+    systemd:
+      repo: "puppet/systemd"
+      ref: "5.2.0"
     yumrepo_core:
       repo: "puppetlabs/yumrepo_core"
       ref: "1.0.7"

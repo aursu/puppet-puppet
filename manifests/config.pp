@@ -129,6 +129,13 @@
 #   Whether to manage /etc/puppetlabs/puppetserver/conf.d/webserver.conf or not
 #   It is basic management aimed to add SSL settings into webserver.conf
 #
+# @param manage_fileserver_config
+#   Whether to manage /etc/puppetlabs/puppetserver/conf.d/fileserver.conf or not
+#   It allows to add file server mount points
+#
+# @param mount_points
+#   Set of mount points in form of pairs <NAME OF MOUNT POINT> => <PATH TO DIRECTORY>
+#
 # @summary Setup Puppet configuration file (puppet.conf)
 #
 # @example
@@ -164,6 +171,8 @@ class puppet::config (
   Boolean $static_certname = $puppet::static_certname,
   String  $certname = $puppet::certname,
   Boolean $manage_webserver_conf = $puppet::manage_webserver_conf,
+  Boolean $manage_fileserver_config = $puppet::manage_fileserver_config,
+  Hash[String, Stdlib::Absolutepath] $mount_points = $puppet::mount_points,
 ) inherits puppet::params {
   include puppet::agent::install
   include puppet::globals
@@ -200,6 +209,12 @@ class puppet::config (
 
     if $manage_webserver_conf {
       include puppet::config::webserver
+    }
+
+    if $manage_fileserver_config {
+      class { 'puppet::server::fileserver':
+        mount_points => $mount_points,
+      }
     }
   }
 

@@ -104,6 +104,8 @@ class puppet::profile::server (
   Optional[String] $enc_envname  = undef,
   Boolean $r10k_crontab_setup = false,
   Boolean $manage_webserver_conf = false,
+  Boolean $manage_fileserver_config = true,
+  Hash[String, Stdlib::Absolutepath] $mount_points = {},
 ) inherits puppet::params {
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
@@ -128,6 +130,8 @@ class puppet::profile::server (
     puppet_server         => true,
     ca_server             => $ca_server,
     manage_webserver_conf => $manage_webserver_conf,
+    manage_fileserver_config => $manage_fileserver_config,
+    mount_points          => $mount_points,
   }
 
   # r10k is not optional in our workflow, it should replace initial setup with

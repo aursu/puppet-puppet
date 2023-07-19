@@ -1,0 +1,7 @@
+<% if @mount_points -%>
+<%   @mount_points.each do |mnt_pnt, path| -%>
+[<%= mnt_pnt %>]
+    path <%= path %>
+
+<%   end -%>
+<% end -%>

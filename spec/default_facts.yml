@@ -26,3 +26,4 @@ puppet_sslpaths:
     path: /etc/puppetlabs/puppet/ssl/crl.pem
     path_exists: true
 puppet_vardir: /opt/puppetlabs/puppet/cache
+service_provider: systemd

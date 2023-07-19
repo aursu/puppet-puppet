@@ -50,5 +50,7 @@ class puppet (
   Boolean $external_facts_setup,
   Boolean $static_certname,
   Boolean $manage_webserver_conf,
+  Boolean $manage_fileserver_config,
+  Hash[String, Stdlib::Absolutepath] $mount_points,
   String  $certname = $facts['networking']['fqdn'],
 ) {}

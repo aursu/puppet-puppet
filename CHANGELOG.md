@@ -229,3 +229,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.7.0
+
+**Features**
+
+* Added fileserver configuration management
+
+**Bugfixes**
+
+**Known Issues**

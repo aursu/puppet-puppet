@@ -35,6 +35,8 @@ class puppet::profile::compiler (
   Optional[String] $enc_envname  = undef,
   Boolean $r10k_crontab_setup = false,
   Boolean $manage_webserver_conf = false,
+  Boolean $manage_fileserver_config = true,
+  Hash[String, Stdlib::Absolutepath] $mount_points = {},
 ) {
   class { 'puppet::profile::server':
     sameca                => false,
@@ -58,6 +60,9 @@ class puppet::profile::compiler (
 
     r10k_crontab_setup    => $r10k_crontab_setup,
     manage_webserver_conf => $manage_webserver_conf,
+
+    manage_fileserver_config => $manage_fileserver_config,
+    mount_points             => $mount_points,
   }
   contain puppet::profile::server
 }

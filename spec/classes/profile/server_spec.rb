@@ -66,6 +66,29 @@ describe 'puppet::profile::server' do
           is_expected.not_to contain_class('puppetdb')
         }
       end
+
+      context 'with mount points for file server' do
+        let(:params) do
+          {
+            mount_points: {
+              'geoip' => '/var/data/geoip',
+              'ssl'   => '/usr/local/ssl/certs',
+            },
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/puppetlabs/puppet/fileserver.conf')
+            .with_content(<<-FILESERV)
+[geoip]
+    path /var/data/geoip
+
+[ssl]
+    path /usr/local/ssl/certs
+
+FILESERV
+         }
+      end
     end
   end
 end

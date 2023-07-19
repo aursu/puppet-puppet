@@ -43,3 +43,5 @@ puppet::environment_setup_on_each_run: false
 puppet::external_facts_setup: false
 puppet::static_certname: false
 puppet::manage_webserver_conf: false
+puppet::manage_fileserver_config: true
+puppet::mount_points: {}
