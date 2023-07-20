@@ -127,11 +127,11 @@ class puppet::profile::server (
   class { 'puppet::server::install': }
 
   class { 'puppet::config':
-    puppet_server         => true,
-    ca_server             => $ca_server,
-    manage_webserver_conf => $manage_webserver_conf,
+    puppet_server            => true,
+    ca_server                => $ca_server,
+    manage_webserver_conf    => $manage_webserver_conf,
     manage_fileserver_config => $manage_fileserver_config,
-    mount_points          => $mount_points,
+    mount_points             => $mount_points,
   }
 
   # r10k is not optional in our workflow, it should replace initial setup with

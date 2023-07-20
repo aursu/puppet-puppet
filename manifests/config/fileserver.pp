@@ -9,8 +9,8 @@
 #   
 #
 # @example
-#   include puppet::server::fileserver
-class puppet::server::fileserver (
+#   include puppet::config::fileserver
+class puppet::config::fileserver (
   Hash[Pattern[/^[a-zA-Z0-9_]+$/], Stdlib::Absolutepath] $mount_points = {},
 ) {
   include puppet::params
@@ -18,7 +18,7 @@ class puppet::server::fileserver (
 
   if size($mount_points) > 0 {
     file { $fileserverconfig:
-      ensure => file,
+      ensure  => file,
       content => template('puppet/fileserver.conf.erb'),
     }
   }

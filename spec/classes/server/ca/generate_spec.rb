@@ -36,11 +36,11 @@ describe 'puppet::server::ca::generate' do
 
       it {
         is_expected.to contain_exec('stop puppetserver')
-        .with(
-          command: 'systemctl stop puppetserver',
-          onlyif:  'systemctl status puppetserver',
-          unless: 'openssl x509 -in /etc/puppetlabs/puppet/ssl/certs/puppetserver1.domain.tld.pem -checkend 0',
-        )
+          .with(
+            command: 'systemctl stop puppetserver',
+            onlyif:  'systemctl status puppetserver',
+            unless: 'openssl x509 -in /etc/puppetlabs/puppet/ssl/certs/puppetserver1.domain.tld.pem -checkend 0',
+          )
       }
     end
   end

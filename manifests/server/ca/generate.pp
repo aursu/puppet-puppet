@@ -51,7 +51,9 @@ class puppet::server::ca::generate (
     unless  => "openssl x509 -in ${hostcert} -checkend 0",
   }
 
-  #  puppetserver ca generate --force --certname ci1-lv-lw-eu.host.gface.com --subject-alt-names ci1-lv-lw-eu.host.gface.com,puppet --ttl 10y --ca-client
+  #  puppetserver ca generate --force \
+  #    --certname ci1-lv-lw-eu.host.gface.com --subject-alt-names ci1-lv-lw-eu.host.gface.com,puppet \
+  #    --ttl 10y --ca-client
   exec { 'puppetserver ca generate':
     path    => '/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:/bin:/usr/bin',
     command => "puppetserver ca generate --force --ca-client ${certname_param} ${subject_alt_names_param} --ttl ${ttl}", # lint:ignore:140chars

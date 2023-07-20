@@ -213,10 +213,10 @@ class puppet::config (
     }
 
     if $manage_fileserver_config {
-      class { 'puppet::server::fileserver':
+      class { 'puppet::config::fileserver':
         mount_points => $mount_points,
       }
-      contain puppet::server::fileserver
+      contain puppet::config::fileserver
     }
   }
 

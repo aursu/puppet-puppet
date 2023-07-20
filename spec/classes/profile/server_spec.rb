@@ -87,7 +87,7 @@ describe 'puppet::profile::server' do
     path /usr/local/ssl/certs
 
 FILESERV
-         }
+        }
       end
     end
   end
