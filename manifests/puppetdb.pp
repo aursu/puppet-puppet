@@ -39,7 +39,7 @@ class puppet::puppetdb (
   Boolean $manage_firewall = false,
 ) {
   if $manage_database {
-    include lsys::postgres
+    include lsys_postgresql
 
     postgresql::server::extension { "${postgres_database_name}-pg_trgm":
       extension => 'pg_trgm',

@@ -25,7 +25,7 @@ describe 'puppet::puppetdb' do
       }
 
       it {
-        is_expected.to contain_class('lsys::postgres')
+        is_expected.to contain_class('lsys_postgresql')
       }
 
       context 'without local Postgres server' do
@@ -36,7 +36,7 @@ describe 'puppet::puppetdb' do
         end
 
         it {
-          is_expected.not_to contain_class('lsys::postgres')
+          is_expected.not_to contain_class('lsys_postgresql')
         }
       end
     end

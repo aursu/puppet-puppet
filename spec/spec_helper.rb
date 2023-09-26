@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+RSpec.configure do |c|
+  c.mock_with :rspec
+end
+
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet-facts'
 
@@ -21,8 +25,8 @@ default_fact_files.each do |f|
   next unless File.exist?(f) && File.readable?(f) && File.size?(f)
 
   begin
-    default_facts.merge!(YAML.safe_load(File.read(f), [], [], true))
-  rescue => e
+    default_facts.merge!(YAML.safe_load(File.read(f), permitted_classes: [], permitted_symbols: [], aliases: true))
+  rescue StandardError => e
     RSpec.configuration.reporter.message "WARNING: Unable to load #{f}: #{e}"
   end
 end
@@ -42,8 +46,8 @@ RSpec.configure do |c|
   end
   c.filter_run_excluding(bolt: true) unless ENV['GEM_BOLT']
   c.after(:suite) do
+    RSpec::Puppet::Coverage.report!(0)
   end
-  c.mock_with :rspec
 
   # Filter backtrace noise
   backtrace_exclusion_patterns = [

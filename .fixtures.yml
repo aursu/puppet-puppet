@@ -3,46 +3,49 @@
 ---
 fixtures:
   forge_modules:
+    apt:
+      repo: puppetlabs/apt
+      ref: 9.1.0
     augeas_core:
-      repo: "puppetlabs/augeas_core"
-      ref: "1.1.2"
+      repo: puppetlabs/augeas_core
       puppet_version: ">= 6.0.0"
     concat:
-      repo: "puppetlabs/concat"
-      ref: "9.0.0"
+      repo: puppetlabs/concat
+      ref: 9.0.0
     cron_core:
-      repo: "puppetlabs/cron_core"
-      ref: "1.0.5"
+      repo: puppetlabs/cron_core
       puppet_version: ">= 6.0.0"
     host_core:
-      repo: "puppetlabs/host_core"
-      ref: "1.0.3"
+      repo: puppetlabs/host_core
       puppet_version: ">= 6.0.0"
     inifile:
-      repo: "puppetlabs/inifile"
-      ref: "6.1.0"
+      repo: puppetlabs/inifile
+      ref: 6.1.0
+    lsys_postgresql:
+      repo: aursu/lsys_postgresql
+      ref: 0.47.0
     postgresql:
-      repo: "puppetlabs/postgresql"
-      ref: "9.1.0"
+      repo: puppetlabs/postgresql
+      ref: 9.1.0
     puppet_agent:
-      repo: "puppetlabs/puppet_agent"
-      ref: "4.0.0"
+      repo: puppetlabs/puppet_agent
+      ref: 4.15.0
     puppetdb:
-      repo: "puppetlabs/puppetdb"
-      ref: "7.10.0"
+      repo: puppetlabs/puppetdb
+      ref: 7.13.0
     r10k:
-      repo: "puppet/r10k"
-      ref: "11.0.1"
+      repo: puppet/r10k
+      ref: 12.1.1
     stdlib:
-      repo: "puppetlabs/stdlib"
-      ref: "9.2.0"
+      repo: puppetlabs/stdlib
+      ref: 9.3.0
     systemd:
-      repo: "puppet/systemd"
-      ref: "5.2.0"
+      repo: puppet/systemd
+      ref: 6.0.0
     yumrepo_core:
-      repo: "puppetlabs/yumrepo_core"
-      ref: "1.0.7"
+      repo: puppetlabs/yumrepo_core
       puppet_version: ">= 6.0.0"
   repositories:
-    lsys:
-      repo: https://github.com/aursu/puppet-lsys.git
+    bsys:
+      repo: https://github.com/aursu/puppet-bsys.git
+      ref: "tags/v0.1.0"

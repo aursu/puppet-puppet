@@ -239,3 +239,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.8.0
+
+**Features**
+
+* Switched to lsys_postgresql module
+
+**Bugfixes**
+
+**Known Issues**

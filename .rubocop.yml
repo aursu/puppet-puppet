@@ -125,6 +125,8 @@ Layout/ArgumentAlignment:
   Enabled: false
 Layout/BeginEndAlignment:
   Enabled: false
+Layout/BlockAlignment:
+  Enabled: false
 Layout/ClosingHeredocIndentation:
   Enabled: false
 Layout/EmptyComment:
