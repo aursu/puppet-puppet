@@ -21,7 +21,7 @@ class puppet::globals (
   $clientcert       = $puppet::params::clientcert
   $hostprivkey      = $puppet::params::hostprivkey
 
-  $deccomission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release'] - [$package_name]
+  $deccomission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release', 'puppet8-release'] - [$package_name]
 
   case $facts['os']['family'] {
     'Suse': {
