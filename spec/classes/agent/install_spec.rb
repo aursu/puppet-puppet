@@ -22,6 +22,8 @@ describe 'puppet::agent::install' do
           }
         end
 
+        it { is_expected.to compile }
+
         case os_facts[:os]['name']
         when 'Rocky', 'CentOS'
           os_version = os_facts[:os]['release']['major']

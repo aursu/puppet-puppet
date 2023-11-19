@@ -259,3 +259,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.9.0
+
+**Features**
+
+* General Puppet profile
+
+**Bugfixes**
+
+**Known Issues**

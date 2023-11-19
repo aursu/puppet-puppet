@@ -29,7 +29,7 @@ describe 'puppet::repo' do
 
         it {
           is_expected.to contain_package('puppet8-release')
-          .with_ensure('absent')
+            .with_ensure('absent')
         }
       end
 

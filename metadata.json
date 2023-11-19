@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -34,6 +34,12 @@
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "7"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8"
       ]
     }
   ],
