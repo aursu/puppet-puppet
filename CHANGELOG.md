@@ -249,3 +249,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.8.1
+
+**Features**
+
+* Added version compilation for RPM-based systems
+
+**Bugfixes**
+
+**Known Issues**

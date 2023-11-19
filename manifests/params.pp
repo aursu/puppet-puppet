@@ -14,19 +14,23 @@ class puppet::params {
       $os_abbreviation  = 'sles'
       $version_codename = "${os_abbreviation}-${os_version}"
       $package_provider = 'rpm'
+      $package_build = "1.sles${os_version}"
     }
     'Debian': {
       $version_codename = $facts['os']['distro']['codename']
       $package_provider = 'dpkg'
+      $package_build = "1${version_codename}"
     }
     # default is RedHat based systems
     default: {
       case $facts['os']['name'] {
         'Fedora': {
           $os_abbreviation = 'fedora'
+          $package_build = "1.fc${os_version}"
         }
         default: {
           $os_abbreviation = 'el'
+          $package_build = "1.el${os_version}"
         }
       }
       $version_codename = "${os_abbreviation}-${os_version}"
