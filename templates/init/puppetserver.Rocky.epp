@@ -1,3 +1,19 @@
+<% |
+  Boolean $windows_service = true,
+  Stdlib::Unixpath $tmpdir = '/tmp',
+  # Sets the initial size (in bytes) of the heap.
+  Puppet::JavaSize $new_heap_size = '2g',
+  # Specifies the maximum size (in bytes) of the memory allocation pool in bytes.
+  Puppet::JavaSize $max_heap_size = '2g',
+| -%>
+<%
+  if $tmpdir == '/tmp' {
+    $java_io_tmpdir_arg = ''
+  }
+  else {
+    $java_io_tmpdir_arg = "-Djava.io.tmpdir=${tmpdir}"
+  }
+-%>
 ###########################################
 # Init settings for puppetserver
 ###########################################
@@ -6,7 +22,7 @@
 JAVA_BIN="/usr/bin/java"
 
 # Modify this if you'd like to change the memory allocation, enable JMX, etc
-JAVA_ARGS="-Xms2g -Xmx2g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+JAVA_ARGS="-Xms${new_heap_size} -Xmx${max_heap_size} -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger ${java_io_tmpdir_arg}"
 
 # Modify this as you would JAVA_ARGS but for non-service related subcommands
 JAVA_ARGS_CLI="${JAVA_ARGS_CLI:-}"
