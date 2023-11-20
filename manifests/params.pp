@@ -7,7 +7,15 @@
 # @example
 #   include puppet::params
 class puppet::params {
-  $os_version          = $facts['os']['release']['major']
+  $os_version = $facts['os']['release']['major']
+  $os_name = $facts['os']['name']
+
+  if $facts['mountpoints'] and $facts['mountpoints']['/tmp'] {
+    $tmp_mountpoint_noexec = ('noexec' in $facts['mountpoints']['/tmp']['options'])
+  }
+  else {
+    $tmp_mountpoint_noexec = false
+  }
 
   case $facts['os']['family'] {
     'Suse': {
@@ -15,15 +23,17 @@ class puppet::params {
       $version_codename = "${os_abbreviation}-${os_version}"
       $package_provider = 'rpm'
       $package_build = "1.sles${os_version}"
+      $init_config_path = '/etc/sysconfig/puppetserver'
     }
     'Debian': {
       $version_codename = $facts['os']['distro']['codename']
       $package_provider = 'dpkg'
       $package_build = "1${version_codename}"
+      $init_config_path = '/etc/default/puppetserver'
     }
     # default is RedHat based systems
     default: {
-      case $facts['os']['name'] {
+      case $os_name {
         'Fedora': {
           $os_abbreviation = 'fedora'
           $package_build = "1.fc${os_version}"
@@ -35,6 +45,19 @@ class puppet::params {
       }
       $version_codename = "${os_abbreviation}-${os_version}"
       $package_provider = 'rpm'
+      # init config
+      $init_config_path = '/etc/sysconfig/puppetserver'
+    }
+  }
+
+  case $os_name {
+    'Rocky': {
+      $manage_init_config   = true
+      $init_config_template = 'puppet/init/puppetserver.Rocky.epp'
+    }
+    default: {
+      $manage_init_config   = false # not implemented
+      $init_config_template = undef
     }
   }
 
