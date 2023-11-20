@@ -1,10 +1,10 @@
 class puppet::params {
-  $platform_name       = 'puppet7'
   $os_version          = $facts['os']['release']['major']
   $os_family           = $facts['os']['family']
+  $os_name             = $facts['os']['name']
   case $os_family {
     'RedHat': {
-      case $facts['os']['name'] {
+      case $os_name {
         'Fedora': {
           $os_abbreviation = 'fedora'
         }
@@ -12,20 +12,17 @@ class puppet::params {
           $os_abbreviation = 'el'
         }
       }
-      $repo_urlbase = "https://yum.puppet.com/${platform_name}"
       $version_codename = "${os_abbreviation}-${os_version}"
       $package_provider = 'rpm'
       $ssh_keyscan_package = 'openssh-clients'
     }
     'Suse': {
-      $repo_urlbase = "https://yum.puppet.com/${platform_name}"
       $os_abbreviation  = 'sles'
       $version_codename = "${os_abbreviation}-${os_version}"
       $package_provider = 'rpm'
       $ssh_keyscan_package = 'openssh-clients'
     }
     'Debian': {
-      $repo_urlbase = 'https://apt.puppetlabs.com'
       $version_codename = $facts['os']['distro']['codename']
       $package_provider = 'dpkg'
       $ssh_keyscan_package = 'openssh-client'
@@ -34,9 +31,7 @@ class puppet::params {
       fail("Not known OS family ${os_family}")
     }
   }
-  $package_name        = "${platform_name}-release"
-  $package_filename    = "${package_name}-${version_codename}.noarch.rpm"
-  $platform_repository = "${repo_urlbase}/${package_filename}"
+
   $agent_package_name  = 'puppet-agent'
   $server_package_name = 'puppetserver'
   $r10k_package_name   = 'r10k'
@@ -106,11 +101,79 @@ class puppet::params {
   ]
 }
 
-class puppet::repo inherits puppet::params {
-  $package_name        = $puppet::params::package_name
-  $package_filename    = $puppet::params::package_filename
+class puppet::global (
+  String $platform_name = 'puppet7',
+) inherits puppet::params {
+  $os_family = $puppet::params::os_family
+  $version_codename = $puppet::params::version_codename
+
+  case $os_family {
+    'RedHat': {
+      $repo_urlbase = "https://yum.puppet.com/${platform_name}"
+    }
+    'Suse': {
+      $repo_urlbase = "https://yum.puppet.com/${platform_name}"
+    }
+    'Debian': {
+      $repo_urlbase = 'https://apt.puppetlabs.com'
+    }
+    default: {}
+  }
+  $package_name        = "${platform_name}-release"
+  $package_filename    = "${package_name}-${version_codename}.noarch.rpm"
+  $platform_repository = "${repo_urlbase}/${package_filename}"
+
+  $access_data = lookup({
+      name          => 'profile::puppet::deploy::access',
+      value_type    => Array[
+        Struct[{
+            name                  => Stdlib::Fqdn,
+            key_data              => String,
+            key_prefix            => String,
+            Optional[server]      => Stdlib::Fqdn,
+            Optional[sshkey_type] => Openssh::KeyID,
+            Optional[ssh_options] => Openssh::SshConfig,
+        }]
+      ],
+      default_value => [],
+  })
+
+  $ssh_access_config = $access_data.reduce([]) |$memo, $creds| {
+    $key_name    = $creds['name']
+
+    $server      = $creds['server'] ? {
+      String  => $creds['server'],
+      default => downcase($key_name)
+    }
+
+    $key_prefix  = $creds['key_prefix']
+
+    $sshkey_type = $creds['sshkey_type'] ? {
+      String  => $creds['sshkey_type'],
+      default => 'ed25519'
+    }
+
+    $config      = {
+      'Host'                  => $server,
+      'StrictHostKeyChecking' => 'no',
+      'IdentityFile'          => "~/.ssh/${key_prefix}.id_${sshkey_type}",
+    } + $creds['ssh_options']
+
+    $memo + [$config]
+  }
+
+  $ssh_config = lookup({
+      name          => 'profile::puppet::deploy::ssh_config',
+      value_type    => Array[Openssh::SshConfig],
+      default_value => [],
+  })
+}
+
+class puppet::repo inherits puppet::global {
+  $package_name        = $puppet::global::package_name
+  $package_filename    = $puppet::global::package_filename
   $package_provider    = $puppet::params::package_provider
-  $platform_repository = $puppet::params::platform_repository
+  $platform_repository = $puppet::global::platform_repository
 
   exec { "curl ${platform_repository} -s -o ${package_filename}":
     cwd     => '/tmp',
@@ -253,53 +316,6 @@ class puppet::server::setup::hiera {
   }
 }
 
-class puppet::global {
-  $access_data = lookup({
-      name          => 'profile::puppet::deploy::access',
-      value_type    => Array[
-        Struct[{
-            name                  => Stdlib::Fqdn,
-            key_data              => String,
-            key_prefix            => String,
-            Optional[server]      => Stdlib::Fqdn,
-            Optional[sshkey_type] => Openssh::KeyID,
-            Optional[ssh_options] => Openssh::SshConfig,
-        }]
-      ],
-      default_value => [],
-  })
-
-  $ssh_access_config = $access_data.reduce([]) |$memo, $creds| {
-    $key_name    = $creds['name']
-
-    $server      = $creds['server'] ? {
-      String  => $creds['server'],
-      default => downcase($key_name)
-    }
-
-    $key_prefix  = $creds['key_prefix']
-
-    $sshkey_type = $creds['sshkey_type'] ? {
-      String  => $creds['sshkey_type'],
-      default => 'ed25519'
-    }
-
-    $config      = {
-      'Host'                  => $server,
-      'StrictHostKeyChecking' => 'no',
-      'IdentityFile'          => "~/.ssh/${key_prefix}.id_${sshkey_type}",
-    } + $creds['ssh_options']
-
-    $memo + [$config]
-  }
-
-  $ssh_config = lookup({
-      name          => 'profile::puppet::deploy::ssh_config',
-      value_type    => Array[Openssh::SshConfig],
-      default_value => [],
-  })
-}
-
 class puppet::server::setup::ssh inherits puppet::params {
   require puppet::server::setup::keys
   require puppet::server::setup::hiera
@@ -435,5 +451,8 @@ class puppet::service inherits puppet::params {
   }
 }
 
+class { 'puppet::global':
+  platform_name => 'puppet8',
+}
 include puppet::server::setup
 include puppet::service
