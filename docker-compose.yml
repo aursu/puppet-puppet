@@ -1,0 +1,74 @@
+version: "3"
+services:
+  rocky8puppet:
+    build:
+      context: tests/redhat
+      args:
+        osrepo: aursu/rockylinux
+        os: $RL8
+        osmajor: 8
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/rockylinux:${RL8TAG}-puppet7"
+  rocky8puppet8:
+    build:
+      context: tests/redhat
+      args:
+        osrepo: aursu/rockylinux
+        os: $RL8
+        osmajor: 8
+        platform: puppet8
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/rockylinux:${RL8TAG}-puppet8"
+  stream9puppet:
+    build:
+      context: tests/redhat
+      args:
+        os: $OS9
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/centos:${OS9TAG}-puppet7"
+  ubuntu20puppet:
+    build:
+      context: tests/ubuntu
+      args:
+        os: $U20
+        codename: $U20CODE
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/ubuntu:${U20TAG}-puppet7"
+  ubuntu22puppet:
+    build:
+      context: tests/ubuntu
+      args:
+        os: $U22
+        codename: $U22CODE
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/ubuntu:${U22TAG}-puppet7"
