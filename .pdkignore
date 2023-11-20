@@ -45,3 +45,4 @@
 /.vscode/
 /.sync.yml
 /.devcontainer/
+/bootstrap/
