@@ -16,7 +16,7 @@ class puppet::server::bootstrap::globals (
     }]
   ] $access_data = [],
   Array[Openssh::SshConfig] $ssh_config = [],
-) inherits puppet::globals {
+) {
   $ssh_access_config = $access_data.reduce([]) |$memo, $creds| {
     $key_name    = $creds['name']
 
