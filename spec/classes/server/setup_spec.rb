@@ -100,7 +100,7 @@ R10KCONF
           is_expected.to contain_cron('r10k-crontab')
             .with_command('/usr/bin/flock -n /run/r10k.lock /opt/puppetlabs/puppet/bin/r10k deploy environment -p')
             .that_requires('Exec[r10k-config]')
-            .that_requires('Class[puppet::agent::install]')
+            .that_requires('Class[puppet::r10k::install]')
         }
       end
     end

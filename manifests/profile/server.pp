@@ -141,10 +141,14 @@ class puppet::profile::server (
     r10k_cachedir        => $r10k_cachedir,
   }
 
+  class { 'puppet::r10k::config':
+    r10k_config_setup => false,
+    cachedir          => $r10k_cachedir,
+  }
+
   class { 'puppet::server::setup':
-    r10k_config_setup  => false,
+    r10k_config_manage => true,
     r10k_crontab_setup => $r10k_crontab_setup,
-    cachedir           => $r10k_cachedir,
   }
 
   Class['puppet::r10k::gem_install'] -> Class['puppet::server::setup']
