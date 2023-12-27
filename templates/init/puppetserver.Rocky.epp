@@ -11,7 +11,7 @@
     $java_io_tmpdir_arg = ''
   }
   else {
-    $java_io_tmpdir_arg = "-Djava.io.tmpdir=${tmpdir}"
+    $java_io_tmpdir_arg = " -Djava.io.tmpdir=${tmpdir}"
   }
 -%>
 ###########################################
@@ -22,7 +22,7 @@
 JAVA_BIN="/usr/bin/java"
 
 # Modify this if you'd like to change the memory allocation, enable JMX, etc
-JAVA_ARGS="-Xms<%= $min_heap_size %> -Xmx<%= $max_heap_size %> -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger <%= $java_io_tmpdir_arg %>"
+JAVA_ARGS="-Xms<%= $min_heap_size %> -Xmx<%= $max_heap_size %> -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger<%= $java_io_tmpdir_arg %>"
 
 # Modify this as you would JAVA_ARGS but for non-service related subcommands
 JAVA_ARGS_CLI="${JAVA_ARGS_CLI:-}"
