@@ -1,0 +1,55 @@
+---
+production::bootstrap:
+  - include puppet::server::setup:
+    - require puppet::r10k::install:
+      - require puppet::agent::install:
+        - include puppet::repo:
+          - |
+            Exec["curl ${platform_repository} -s -o ${package_filename}"]
+            Package['puppet-repository']
+        - |
+          Package['puppet-agent']
+          Host['puppet']
+      - |
+        Exec["${gem_path} install ${r10k_package_name}"]
+    - require puppet::server::setup::ssh:
+      - require puppet::server::setup::keys:
+        - require puppet::server::install:
+          - require puppet::agent::install
+          - |
+            Package['puppet-server']
+        - |
+          File[$eyaml_keys_path]
+          Exec["cp -a keys/public_key.pkcs7.pem ${eyaml_keys_path}/${eyaml_public_key}"]
+          Exec["cp -a keys/private_key.pkcs7.pem ${eyaml_keys_path}/${eyaml_private_key}"]
+          File["${eyaml_keys_path}/${eyaml_public_key}"]
+          File["${eyaml_keys_path}/${eyaml_private_key}"]
+      - require puppet::server::setup::hiera:
+        - require puppet::server::install
+        - |
+          - File[$environmentpath]
+          - File[$env_path]
+          - File[$data_path]
+          - Exec["cp -a hiera.yaml ${env_path}/hiera.yaml"]
+          - Exec["cp -a data/secrets.eyaml ${data_path}/secrets.eyaml"]
+          - File["${env_path}/hiera.yaml"]
+          - File["${data_path}/secrets.eyaml"]
+      - include puppet::global
+      - |
+        Package[$ssh_keyscan_package]
+        File['/root/.ssh']
+        Exec['ssh-keyscan -f gitservers.txt -t rsa >> /root/.ssh/known_hosts']
+        Openssh::Ssh_config['root']
+        Openssh::Priv_key[$key_name]
+    - include puppet::global
+    - |
+      Exec["${r10k_path} deploy environment -p"]
+  - include puppet::service:
+    - require puppet::server::install
+    - require puppet::server::ca::import:
+      - require puppet::server::install
+      - |
+        Exec["backup ${path}"]
+        Exec['puppetserver ca import']
+    - |
+      Service['puppet-server']
