@@ -1,0 +1,94 @@
+---
+puppet::bootstrap::install:
+  - include puppet
+  - puppet::server::bootstrap::globals
+  - puppet::server::bootstrap:
+    - puppet::globals
+    - puppet::setup:
+      - |
+        Host['puppet']
+        File['/etc/facter']
+        File['/etc/facter/facts.d']
+        File['/opt/puppetlabs/facter']
+        File['/opt/puppetlabs/facter/facts.d']
+        File['/etc/puppetlabs/facter']
+        File['/etc/puppetlabs/facter/facts.d']
+        File['/usr/local/sbin/agentrun']
+        File['/usr/local/sbin/agentrun.now']
+    - puppet::agent::install:
+      - include puppet::repo:
+        - |
+          Exec['puppet-release']
+          Package['puppet-release']
+      - |
+        Package['puppet-agent']
+    - include puppet::r10k::install:
+      - include puppet::agent::install
+      - |
+        Exec['r10k-installation']
+    - include puppet::server::bootstrap::globals
+    - include puppet::server::bootstrap::ssh:
+      - include puppet::server::bootstrap::keys:
+        - require puppet::server::install:
+          - include puppet::agent::install
+          - |
+            Package['puppet-server']
+        - include puppet::server::keys:
+          - |
+            File[$eyaml_keys_path]
+            File["${eyaml_keys_path}/${eyaml_public_key}"]
+            File["${eyaml_keys_path}/${eyaml_private_key}"]
+        - |
+          Exec["cp -a keys/public_key.pkcs7.pem ${eyaml_keys_path}/${eyaml_public_key}"]
+          Exec["cp -a keys/private_key.pkcs7.pem ${eyaml_keys_path}/${eyaml_private_key}"]
+      - include puppet::server::bootstrap::hiera:
+        - require puppet::server::install
+        - |
+          - File[$environmentpath]
+          - File[$env_path]
+          - File[$data_path]
+          - Exec["cp -a hiera.yaml ${env_path}/hiera.yaml"]
+          - Exec["cp -a data/secrets.eyaml ${data_path}/secrets.eyaml"]
+          - File["${env_path}/hiera.yaml"]
+          - File["${data_path}/secrets.eyaml"]
+      - include puppet::server::bootstrap::globals
+      - |
+        Package['openssh-clients']
+        File['/root/.ssh']
+        Exec['ssh-keyscan -f gitservers.txt -t rsa >> /root/.ssh/known_hosts']
+        Openssh::Ssh_config['root']
+        Openssh::Priv_key[$key_name]
+    - puppet::r10k::run:
+      - include puppet::r10k::install
+      - |
+        Exec['environment-setup']
+    - puppet::server::ca::import:
+      - include puppet::server::install
+      - include puppet::globals
+      - include puppet::params
+      - |
+        Exec["backup ${path}"]
+        Exec['puppetserver ca import']
+    - puppet::service:
+      - include puppet::server::install
+      - include puppet::enc:
+        - |
+          File['enc-script']
+      - include puppet::config:
+        - puppet::server::ca::allow:
+          - |
+            Puppet_auth_rule['puppetlabs cert statuses']
+            Puppet_auth_rule['puppetlabs cert status']
+        - include puppet::config::webserver:
+          - |
+            File['/etc/puppetlabs/puppetserver/conf.d/webserver.conf']
+        - puppet::config::fileserver:
+          - |
+            File[$fileserverconfig]
+        - |
+          File['puppet-config']
+          File['/etc/puppetlabs/puppetserver/services.d/ca.cfg']
+      - include puppet::server::ca::allow
+      - |
+        File[$init_config_path]
+        Service['puppet-server']

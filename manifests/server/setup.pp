@@ -8,124 +8,25 @@
 # @example
 #   include puppet::server::setup
 class puppet::server::setup (
-  Boolean $r10k_config_setup = $puppet::r10k_config_setup,
-  String  $r10k_yaml_template = $puppet::r10k_yaml_template,
+  Boolean $r10k_config_manage = true,
   Boolean $r10k_crontab_setup = $puppet::r10k_crontab_setup,
-  String  $production_remote = $puppet::production_remote,
-  Boolean $use_common_env = $puppet::use_common_env,
-  String  $common_remote = $puppet::common_remote,
-  Boolean $use_enc = $puppet::use_enc,
-  String  $enc_remote = $puppet::enc_remote,
-  Stdlib::Absolutepath $cachedir = $puppet::params::r10k_cachedir,
-  Stdlib::Absolutepath $r10k_config_file = $puppet::params::r10k_config_file,
-  Stdlib::Absolutepath $r10k_path = $puppet::params::r10k_path,
-  Stdlib::Absolutepath $environmentpath = $puppet::params::environmentpath,
-  Stdlib::Absolutepath $eyaml_keys_path = $puppet::params::eyaml_keys_path,
-  String $eyaml_public_key = $puppet::params::eyaml_public_key,
-  String $eyaml_private_key = $puppet::params::eyaml_private_key,
-  Boolean $setup_on_each_run = $puppet::environment_setup_on_each_run,
-  Integer $environment_setup_timeout = 900,
 ) inherits puppet::params {
-  include puppet::agent::install
   include puppet::r10k::install
+  include puppet::r10k::setup
+  include puppet::server::keys
 
-  # /opt/puppetlabs/puppet/cache/r10k
-  $r10k_vardir = "${facts['puppet_vardir']}/r10k"
-  exec { 'r10k-vardir':
-    command => "mkdir -p ${r10k_vardir}",
-    creates => $r10k_vardir,
-    path    => '/bin:/usr/bin',
+  class { 'puppet::r10k::run':
+    cwd => '/',
   }
 
-  # this should be one time installation
-  file { "${r10k_vardir}/r10k.yaml":
-    content => template($r10k_yaml_template),
-    mode    => '0600',
-    owner   => 'root',
-    group   => 'root',
-    notify  => Exec['r10k-config'],
-    require => Exec['r10k-vardir'],
-  }
+  if $r10k_config_manage {
+    include puppet::r10k::config
 
-  $r10k_config_path = dirname($r10k_config_file)
-  # exec in order to avoid conflict with r10k module
-  exec { 'r10k-confpath-setup':
-    command => "mkdir -p ${r10k_config_path}",
-    creates => $r10k_config_path,
-    path    => '/bin:/usr/bin',
-  }
-
-  if $r10k_config_setup {
-    # only if ${r10k_vardir}/r10k.yaml just created or changed
-    exec { 'r10k-config':
-      command     => "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}",
-      refreshonly => true,
-      path        => '/bin:/usr/bin',
-      require     => [
-        File["${r10k_vardir}/r10k.yaml"],
-        Exec['r10k-confpath-setup'],
-      ],
-    }
-  }
-  else {
-    # only if config file not exists
-    exec { 'r10k-config':
-      command => "cp ${r10k_vardir}/r10k.yaml ${r10k_config_file}",
-      creates => $r10k_config_file,
-      path    => '/bin:/usr/bin',
-      require => [
-        File["${r10k_vardir}/r10k.yaml"],
-        Exec['r10k-confpath-setup'],
-      ],
-    }
-  }
-
-  exec { 'environment-setup':
-    command     => "${r10k_path} deploy environment -p",
-    cwd         => '/',
-    refreshonly => !$setup_on_each_run,
-    path        => '/bin:/usr/bin',
-    timeout     => $environment_setup_timeout,
-    require     => Exec['r10k-installation'],
-    subscribe   => Exec['r10k-config'],
-  }
-
-  # Hardening of Hiera Eyaml keys
-  file { $eyaml_keys_path:
-    ensure => directory,
-    owner  => 'puppet',
-    group  => 'puppet',
-    mode   => '0500',
-  }
-
-  # poka-yoke
-  if '/etc/puppetlabs/puppet/' in $eyaml_keys_path {
-    File <| title == $eyaml_keys_path |> {
-      recurse => true,
-      purge   => true,
-    }
-  }
-
-  [$eyaml_public_key, $eyaml_private_key].each |$key| {
-    file { "${eyaml_keys_path}/${key}":
-      owner => 'puppet',
-      group => 'puppet',
-      mode  => '0400',
-    }
-  }
-
-  if $r10k_crontab_setup {
-    cron { 'r10k-crontab':
-      command => "/usr/bin/flock -n /run/r10k.lock ${r10k_path} deploy environment -p",
-      user    => 'root',
-      minute  => '*',
-      require => Exec['r10k-config'],
+    # no sense to have crontab without r10k configuration
+    if $r10k_crontab_setup {
+      include puppet::r10k::crontab
     }
 
-    Class['puppet::agent::install'] -> Cron['r10k-crontab']
+    Class['puppet::r10k::config'] ~> Class['puppet::r10k::run']
   }
-
-  Class['puppet::agent::install'] -> Exec['r10k-vardir']
-  Class['puppet::agent::install'] -> Exec['r10k-confpath-setup']
-  Class['puppet::agent::install'] -> File[$eyaml_keys_path]
 }

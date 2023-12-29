@@ -24,6 +24,9 @@ fixtures:
     lsys_postgresql:
       repo: aursu/lsys_postgresql
       ref: 0.47.0
+    openssh:
+      repo: aursu/openssh
+      ref: 0.9.1
     postgresql:
       repo: puppetlabs/postgresql
       ref: 9.1.0

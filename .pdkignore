@@ -45,4 +45,9 @@
 /.vscode/
 /.sync.yml
 /.devcontainer/
+/desc/
 /bootstrap/
+/tests/
+/.dockerignore
+/.env
+/docker-compose.yml
