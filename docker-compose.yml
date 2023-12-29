@@ -2,7 +2,8 @@ version: "3"
 services:
   rocky8puppet:
     build:
-      context: tests/redhat
+      context: .
+      dockerfile: tests/redhat/Dockerfile
       args:
         osrepo: aursu/rockylinux
         os: $RL8
@@ -17,7 +18,8 @@ services:
     image: "aursu/rockylinux:${RL8TAG}-puppet7"
   rocky8puppet8:
     build:
-      context: tests/redhat
+      context: .
+      dockerfile: tests/redhat/Dockerfile
       args:
         osrepo: aursu/rockylinux
         os: $RL8
@@ -33,7 +35,8 @@ services:
     image: "aursu/rockylinux:${RL8TAG}-puppet8"
   stream9puppet:
     build:
-      context: tests/redhat
+      context: .
+      dockerfile: tests/redhat/Dockerfile
       args:
         os: $OS9
     privileged: true
@@ -44,9 +47,25 @@ services:
       - /tmp
     user: root
     image: "aursu/centos:${OS9TAG}-puppet7"
+  stream9puppet8:
+    build:
+      context: .
+      dockerfile: tests/redhat/Dockerfile
+      args:
+        os: $OS9
+        platform: puppet8
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/centos:${OS9TAG}-puppet8"
   ubuntu20puppet:
     build:
-      context: tests/ubuntu
+      context: .
+      dockerfile: tests/ubuntu/Dockerfile
       args:
         os: $U20
         codename: $U20CODE
@@ -60,7 +79,8 @@ services:
     image: "aursu/ubuntu:${U20TAG}-puppet7"
   ubuntu20puppet8:
     build:
-      context: tests/ubuntu
+      context: .
+      dockerfile: tests/ubuntu/Dockerfile
       args:
         os: $U20
         codename: $U20CODE
@@ -75,7 +95,8 @@ services:
     image: "aursu/ubuntu:${U20TAG}-puppet8"
   ubuntu22puppet:
     build:
-      context: tests/ubuntu
+      context: .
+      dockerfile: tests/ubuntu/Dockerfile
       args:
         os: $U22
         codename: $U22CODE
@@ -89,7 +110,8 @@ services:
     image: "aursu/ubuntu:${U22TAG}-puppet7"
   ubuntu22puppet8:
     build:
-      context: tests/ubuntu
+      context: .
+      dockerfile: tests/ubuntu/Dockerfile
       args:
         os: $U22
         codename: $U22CODE
