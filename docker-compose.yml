@@ -58,6 +58,21 @@ services:
       - /tmp
     user: root
     image: "aursu/ubuntu:${U20TAG}-puppet7"
+  ubuntu20puppet8:
+    build:
+      context: tests/ubuntu
+      args:
+        os: $U20
+        codename: $U20CODE
+        platform: puppet8
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/ubuntu:${U20TAG}-puppet8"
   ubuntu22puppet:
     build:
       context: tests/ubuntu
@@ -72,3 +87,18 @@ services:
       - /tmp
     user: root
     image: "aursu/ubuntu:${U22TAG}-puppet7"
+  ubuntu22puppet8:
+    build:
+      context: tests/ubuntu
+      args:
+        os: $U22
+        codename: $U22CODE
+        platform: puppet8
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/ubuntu:${U22TAG}-puppet8"
