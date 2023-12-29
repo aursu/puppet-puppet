@@ -5,14 +5,15 @@
 # @example
 #   include puppet::server::bootstrap::ssh
 class puppet::server::bootstrap::ssh inherits puppet::params {
+  include puppet::server::bootstrap::globals
   include puppet::server::bootstrap::keys
   include puppet::server::bootstrap::hiera
-  include puppet::server::bootstrap::globals
 
   $ssh_keyscan_package = $facts['os']['family'] ? {
     'Debian' => 'openssh-client',
     default  => 'openssh-clients',
   }
+  $cwd = $puppet::server::bootstrap::globals::cwd
 
   package { $ssh_keyscan_package:
     ensure => 'present',
@@ -27,6 +28,7 @@ class puppet::server::bootstrap::ssh inherits puppet::params {
   exec { 'ssh-keyscan -f gitservers.txt -t rsa >> /root/.ssh/known_hosts':
     path    => '/usr/bin:/bin',
     onlyif  => 'test -f gitservers.txt',
+    cwd     => $cwd,
     unless  => 'grep -f gitservers.txt /root/.ssh/known_hosts',
     require => [
       Package[$ssh_keyscan_package],

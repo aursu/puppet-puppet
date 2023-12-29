@@ -2,6 +2,9 @@
 #
 # A description of what this class does
 #
+# @param cwd
+#   Path to bootstrap files (current path - if not provided, eg for puppet apply)
+#
 # @example
 #   include puppet::server::bootstrap::globals
 class puppet::server::bootstrap::globals (
@@ -16,6 +19,7 @@ class puppet::server::bootstrap::globals (
     }]
   ] $access_data = [],
   Array[Openssh::SshConfig] $ssh_config = [],
+  Optional[Stdlib::Unixpath] $cwd = undef,
 ) {
   $ssh_access_config = $access_data.reduce([]) |$memo, $creds| {
     $key_name    = $creds['name']

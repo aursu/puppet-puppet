@@ -7,8 +7,10 @@
 #   include puppet::server::bootstrap::hiera
 class puppet::server::bootstrap::hiera inherits puppet::params {
   require puppet::server::install
+  include puppet::server::bootstrap::globals
 
   $environmentpath = $puppet::params::environmentpath
+  $cwd = $puppet::server::bootstrap::globals::cwd
 
   # default production environment
   $env_path = "${environmentpath}/production"
@@ -21,7 +23,9 @@ class puppet::server::bootstrap::hiera inherits puppet::params {
 
   exec {
     default:
-      path => '/usr/bin:/bin';
+      path => '/usr/bin:/bin',
+      cwd  => $cwd,
+      ;
     "cp -a hiera.yaml ${env_path}/hiera.yaml":
       onlyif  => 'test -f hiera.yaml',
       unless  => "grep -q secrets.eyaml ${env_path}/hiera.yaml",
