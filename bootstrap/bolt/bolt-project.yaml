@@ -1,8 +1,8 @@
 ---
 name: puppet
 modules:
-- name: aursu-puppet
-  version_requirement: "=0.10.0"
+- git: https://github.com/aursu/puppet-puppet.git
+  ref: v0.10.0-3634988
 - name: aursu-openssh
   version_requirement: "=0.9.1"
 - name: aursu-lsys_postgresql
