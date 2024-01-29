@@ -1,0 +1,13 @@
+# This is an example inventory.yaml
+# To read more about inventory files, see https://pup.pt/bolt-inventory
+groups:
+- name: puppetservers
+  targets:
+    - name: puppet
+      uri: 127.0.0.1:22
+  config:
+    transport: ssh
+    ssh:
+      user: root
+      run-as: root
+      host-key-check: false

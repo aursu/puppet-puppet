@@ -1,0 +1,17 @@
+---
+name: puppet
+modules:
+- name: aursu-puppet
+  version_requirement: "=0.10.0"
+- name: aursu-openssh
+  version_requirement: "=0.9.1"
+- name: aursu-lsys_postgresql
+  version_requirement: "=0.47.0"
+- name: puppetlabs-inifile
+  version_requirement: "=5.4.1"
+- name: puppetlabs-puppetdb
+  version_requirement: "=7.13.0"
+- name: puppetlabs-puppet_agent
+  version_requirement: "=4.17.0"
+- name: puppet-r10k
+  version_requirement: "=12.1.0"
