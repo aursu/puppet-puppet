@@ -1,5 +1,6 @@
 ---
-name: puppet
+name: puppet_bootstrap
+analytics: false
 modules:
 - git: https://github.com/aursu/puppet-puppet.git
   ref: v0.10.0-3634988

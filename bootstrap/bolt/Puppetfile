@@ -1,0 +1,25 @@
+# This Puppetfile is managed by Bolt. Do not edit.
+# For more information, see https://pup.pt/bolt-modules
+
+# The following directive installs modules to the managed moduledir.
+moduledir '.modules'
+
+mod 'puppet/r10k', '12.1.0'
+mod 'puppetlabs/puppet_agent', '4.17.0'
+mod 'puppetlabs/puppetdb', '7.13.0'
+mod 'puppetlabs/inifile', '5.4.1'
+mod 'aursu/lsys_postgresql', '0.47.0'
+mod 'aursu/openssh', '0.9.1'
+mod 'puppet',
+  git: 'https://github.com/aursu/puppet-puppet.git',
+  ref: '3634988991312f2052e4bc02efef0237eb7d1b13'
+mod 'puppetlabs/stdlib', '8.6.0'
+mod 'puppetlabs/vcsrepo', '6.1.0'
+mod 'choria/mcollective', '0.14.4'
+mod 'puppet/systemd', '4.2.0'
+mod 'puppetlabs/apt', '9.0.2'
+mod 'puppetlabs/facts', '1.4.0'
+mod 'puppetlabs/postgresql', '8.3.0'
+mod 'puppetlabs/firewall', '3.6.0'
+mod 'aursu/bsys', '0.5.0'
+mod 'puppetlabs/concat', '7.4.0'
