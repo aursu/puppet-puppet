@@ -2,15 +2,15 @@
 #
 # Facts specified here will override the values provided by rspec-puppet-facts.
 ---
-ipaddress: "172.16.254.254"
-ipaddress6: "FE80:0000:0000:0000:AAAA:AAAA:AAAA"
 is_pe: false
-macaddress: "AA:AA:AA:AA:AA:AA"
 
 fqdn: puppetserver1.domain.tld
 clientcert: puppetserver1.domain.tld
 networking:
   fqdn: puppetserver1.domain.tld
+  ip: "172.16.254.254"
+  ip6: "FE80:0000:0000:0000:AAAA:AAAA:AAAA"
+  mac: "AA:AA:AA:AA:AA:AA"
 
 puppet_sslpaths:
   privatedir:

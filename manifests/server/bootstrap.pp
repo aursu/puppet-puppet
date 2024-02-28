@@ -7,6 +7,7 @@
 #   include puppet::server::bootstrap
 class puppet::server::bootstrap (
   Puppet::Platform $platform_name = 'puppet7',
+  String $agent_version = 'latest',
 ) {
   class { 'puppet::globals':
     platform_name => $platform_name,
@@ -18,7 +19,7 @@ class puppet::server::bootstrap (
   }
 
   class { 'puppet::agent::install':
-    agent_version => 'latest',
+    agent_version => $agent_version,
   }
 
   include puppet::r10k::install

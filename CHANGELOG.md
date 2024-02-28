@@ -279,3 +279,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.10.1
+
+**Features**
+
+* Added `agent_version` parameter into `puppet::server::bootstrap`
+* PDK upgrade to 3.0.0
+
+**Bugfixes**
+
+**Known Issues**
