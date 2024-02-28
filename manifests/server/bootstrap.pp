@@ -6,7 +6,7 @@
 # @example
 #   include puppet::server::bootstrap
 class puppet::server::bootstrap (
-  Puppet::Platform $platform_name = 'puppet7',
+  Puppet::Platform $platform_name = 'puppet8',
   String $agent_version = 'latest',
 ) {
   class { 'puppet::globals':

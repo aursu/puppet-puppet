@@ -3,7 +3,7 @@
 # Puppet installation
 #
 # @param platform_name
-#   Puppet platform name. Either puppet5, puppet6 or puppet7
+#   Puppet platform name. Either puppet5, puppet6, puppet7 or puppet8
 #
 # @param puppetserver
 #   Whether it is Puppet server or not
@@ -56,7 +56,7 @@
 # @example
 #   include puppet::profile::puppet
 class puppet::profile::puppet (
-  Puppet::Platform $platform_name = 'puppet7',
+  Puppet::Platform $platform_name = 'puppet8',
   Boolean $puppetserver = false,
   Boolean $sameca = false,
   Boolean $use_puppetdb = true,

@@ -284,6 +284,7 @@ All notable changes to this project will be documented in this file.
 
 **Features**
 
+* Set Puppet 8 as default version
 * Added `agent_version` parameter into `puppet::server::bootstrap`
 * PDK upgrade to 3.0.0
 

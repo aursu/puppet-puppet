@@ -8,7 +8,7 @@
 # @param platform_name
 #
 class puppet::globals (
-  Puppet::Platform $platform_name = 'puppet7',
+  Puppet::Platform $platform_name = 'puppet8',
 ) inherits puppet::params {
   $package_name     = "${platform_name}-release"
   $version_codename = $puppet::params::version_codename

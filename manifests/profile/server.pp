@@ -72,7 +72,7 @@
 #
 class puppet::profile::server (
   Boolean $sameca = true,
-  Puppet::Platform $platform_name = 'puppet7',
+  Puppet::Platform $platform_name = 'puppet8',
   String $server = 'puppet',
   String $server_ipaddress = '127.0.0.1',
   Boolean $use_puppetdb = true,

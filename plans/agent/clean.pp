@@ -1,6 +1,6 @@
 plan puppet::agent::clean (
   TargetSpec $targets,
-  Puppet::Platform $collection = 'puppet7',
+  Puppet::Platform $collection = 'puppet8',
 ) {
   run_plan(puppet::agent::install, $targets, collection => $collection)
   run_plan(facts, $targets)

@@ -13,36 +13,6 @@ describe 'puppet::repo' do
         it {
           is_expected.to contain_package('puppet-release')
             .without_ensure
-            .with_name('puppet7-release')
-        }
-
-        it {
-          is_expected.to contain_package('puppet5-release')
-            .with_ensure('absent')
-            .that_comes_before('Package[puppet-release]')
-        }
-
-        it {
-          is_expected.to contain_package('puppet6-release')
-            .with_ensure('absent')
-        }
-
-        it {
-          is_expected.to contain_package('puppet8-release')
-            .with_ensure('absent')
-        }
-      end
-
-      context 'check deccomission packages for Puppet 8' do
-        let(:pre_condition) do
-          <<-PRECOND
-          class { 'puppet::globals': platform_name => 'puppet8', }
-          PRECOND
-        end
-
-        it {
-          is_expected.to contain_package('puppet-release')
-            .without_ensure
             .with_name('puppet8-release')
         }
 
@@ -59,6 +29,36 @@ describe 'puppet::repo' do
 
         it {
           is_expected.to contain_package('puppet7-release')
+            .with_ensure('absent')
+        }
+      end
+
+      context 'check deccomission packages for Puppet 7' do
+        let(:pre_condition) do
+          <<-PRECOND
+          class { 'puppet::globals': platform_name => 'puppet7', }
+          PRECOND
+        end
+
+        it {
+          is_expected.to contain_package('puppet-release')
+            .without_ensure
+            .with_name('puppet7-release')
+        }
+
+        it {
+          is_expected.to contain_package('puppet5-release')
+            .with_ensure('absent')
+            .that_comes_before('Package[puppet-release]')
+        }
+
+        it {
+          is_expected.to contain_package('puppet6-release')
+            .with_ensure('absent')
+        }
+
+        it {
+          is_expected.to contain_package('puppet8-release')
             .with_ensure('absent')
         }
       end

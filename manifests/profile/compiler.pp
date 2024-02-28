@@ -26,7 +26,7 @@
 #
 class puppet::profile::compiler (
   Stdlib::Host $ca_server,
-  Puppet::Platform $platform_name = 'puppet7',
+  Puppet::Platform $platform_name = 'puppet8',
   Stdlib::Host $server = $ca_server,
   Boolean $use_common_env = false,
   Optional[String] $common_envname = undef,

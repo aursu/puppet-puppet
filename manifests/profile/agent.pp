@@ -5,7 +5,7 @@
 # @example
 #   include puppet::profile::agent
 class puppet::profile::agent (
-  Puppet::Platform $platform_name = 'puppet7',
+  Puppet::Platform $platform_name = 'puppet8',
   String $server = 'puppet',
   Boolean $hosts_update = false,
   Optional[String] $ca_server = undef,

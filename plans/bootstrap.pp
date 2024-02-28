@@ -1,7 +1,7 @@
 plan puppet::bootstrap (
   TargetSpec $targets,
   Stdlib::Fqdn $server,
-  Puppet::Platform $collection = 'puppet7',
+  Puppet::Platform $collection = 'puppet8',
 ) {
   run_plan(puppet::agent::install, $targets, collection => $collection)
   run_plan(facts, $targets)
