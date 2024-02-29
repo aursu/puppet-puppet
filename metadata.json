@@ -31,6 +31,10 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 8.6.0 < 10.0.0"
+    },
+    {
+      "name": "aursu/bsys",
+      "version_requirement": ">= 0.6.2 < 1.0.0"
     }
   ],
   "operatingsystem_support": [

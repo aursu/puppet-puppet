@@ -50,4 +50,4 @@ fixtures:
       puppet_version: ">= 6.0.0"
     bsys:
       repo: aursu/bsys
-      ref: 0.4.1
+      ref: 0.6.2
