@@ -11,3 +11,4 @@ groups:
       user: root
       run-as: root
       host-key-check: false
+      tmpdir: /var/tmp

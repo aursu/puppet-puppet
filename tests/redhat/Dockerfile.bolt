@@ -33,5 +33,7 @@ RUN ssh-keygen -f /root/.ssh/id_rsa -N '' <<<y \
 RUN cp /etc/skel/.bash_profile /etc/skel/.bashrc ~/ \
     && echo 'export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:$PATH' >> ~/.bashrc
 
+RUN mkdir -p /var/tmp && chmod 1777 /var/tmp
+
 COPY . /etc/puppetlabs/code/environments/production/modules/puppet
 WORKDIR /etc/puppetlabs/code/environments/production/modules/puppet/bootstrap/bolt
