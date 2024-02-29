@@ -9,6 +9,11 @@ plan puppet::server::bootstrap (
   return apply($targets) {
     include puppet
 
+    class { 'puppet::config':
+      # set it to 'production' because Bolt catalog's default is 'bolt_catalog'
+      node_environment => 'production',
+    }
+
     $access_data = lookup({
         name => $access_data_lookup_key,
         value_type => Array[
