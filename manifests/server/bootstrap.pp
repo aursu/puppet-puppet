@@ -24,6 +24,7 @@ class puppet::server::bootstrap (
 
   include puppet::r10k::install
   include puppet::server::bootstrap::globals
+  include puppet::server::bootstrap::hiera
   include puppet::server::bootstrap::ssh
 
   $access_data = $puppet::server::bootstrap::globals::access_data
