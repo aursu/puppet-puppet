@@ -4,22 +4,26 @@
 # The following directive installs modules to the managed moduledir.
 moduledir '.modules'
 
-mod 'puppet/r10k', '12.1.0'
-mod 'puppetlabs/puppet_agent', '4.17.0'
-mod 'puppetlabs/puppetdb', '7.13.0'
-mod 'puppetlabs/inifile', '5.4.1'
+mod 'puppet/r10k', '12.2.0'
+mod 'puppetlabs/puppet_agent', '4.18.0'
 mod 'aursu/lsys_postgresql', '0.47.0'
 mod 'aursu/openssh', '0.9.1'
+mod 'bsys',
+  git: 'https://github.com/aursu/puppet-bsys.git',
+  ref: '06ffbc87ec3cefa7c2c5c685923c83f976b6164f'
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
-  ref: '3634988991312f2052e4bc02efef0237eb7d1b13'
-mod 'puppetlabs/stdlib', '8.6.0'
+  ref: '31b5ab35c43ba62505995953b1a7b48b9f80b72f'
+mod 'puppetdb',
+  git: 'https://github.com/puppetlabs/puppetlabs-puppetdb.git',
+  ref: '0053513364d07f0c78ade801bcdcf322abfbab18'
+mod 'puppetlabs/stdlib', '9.4.1'
+mod 'puppetlabs/inifile', '6.1.0'
 mod 'puppetlabs/vcsrepo', '6.1.0'
-mod 'choria/mcollective', '0.14.4'
-mod 'puppet/systemd', '4.2.0'
-mod 'puppetlabs/apt', '9.0.2'
+mod 'choria/mcollective', '0.14.5'
+mod 'puppet/systemd', '5.2.0'
+mod 'puppetlabs/apt', '9.4.0'
 mod 'puppetlabs/facts', '1.4.0'
-mod 'puppetlabs/postgresql', '8.3.0'
-mod 'puppetlabs/firewall', '3.6.0'
-mod 'aursu/bsys', '0.5.0'
-mod 'puppetlabs/concat', '7.4.0'
+mod 'puppetlabs/postgresql', '9.2.0'
+mod 'puppetlabs/firewall', '6.0.0'
+mod 'puppetlabs/concat', '9.0.2'
