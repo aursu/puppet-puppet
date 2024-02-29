@@ -280,13 +280,14 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.10.1
+## Release 0.11.0
 
 **Features**
 
 * Set Puppet 8 as default version
 * Added `agent_version` parameter into `puppet::server::bootstrap`
 * PDK upgrade to 3.0.0
+* Force to use Hiera for SSH access_data and client configuration 
 
 **Bugfixes**
 
