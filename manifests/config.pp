@@ -196,6 +196,8 @@ class puppet::config (
 
   # https://www.puppet.com/docs/puppet/7/config_ssl_external_ca.html#config_puppet_server
   if $puppet_server {
+    include puppet::server::install
+
     class { 'puppet::server::ca::allow':
       server    => $server,
       ca_server => $ca_server,
@@ -206,6 +208,7 @@ class puppet::config (
     file { '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
       ensure  => file,
       content => template('puppet/services.ca.cfg.erb'),
+      require => Class['puppet::server::install'],
     }
 
     if $manage_webserver_conf {

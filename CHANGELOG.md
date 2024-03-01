@@ -294,5 +294,6 @@ All notable changes to this project will be documented in this file.
 
 * Added PDK ignore record `/bootstrap`
   see https://www.puppet.com/docs/pdk/2.x/pdk_testing.html#ignoring-files-during-module-validation
+* Added proper resource apply order during server installation
 
 **Known Issues**

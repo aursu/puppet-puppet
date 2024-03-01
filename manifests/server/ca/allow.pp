@@ -12,6 +12,8 @@ class puppet::server::ca::allow (
   String $server = $puppet::server,
   Optional[String] $ca_server = undef,
 ) {
+  include puppet::server::install
+
   # https://blog.example42.com/2018/10/08/puppet6-ca-upgrading/
   if $ca_server {
     $ca_server_allow = [$ca_server]
@@ -30,6 +32,7 @@ class puppet::server::ca::allow (
     match_request_type   => path,
     match_request_method => get,
     allow                => [{ 'extensions' => { 'pp_cli_auth' => true } }, $server] + $ca_server_allow,
+    require              => Class['puppet::server::install'],
   }
 
   # Forbidden request: puppet1.domain.tld(192.168.0.1) access to /puppet-ca/v1/certificate_statuses/any_key
@@ -40,5 +43,6 @@ class puppet::server::ca::allow (
     match_request_type   => path,
     match_request_method => [get, put, delete],
     allow                => [{ 'extensions' => { 'pp_cli_auth' => true } }, $server] + $ca_server_allow,
+    require              => Class['puppet::server::install'],
   }
 }

@@ -43,10 +43,13 @@ class puppet::config::webserver (
   Stdlib::Absolutepath $ssl_cert_chain = $puppet::params::localcacert,
   Stdlib::Absolutepath $ssl_crl_path = $puppet::params::hostcrl,
 ) inherits puppet::params {
+  include puppet::server::install
+
   # https://www.puppet.com/docs/puppet/7/server/config_file_webserver.html
   # https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/main/doc/jetty-config.md
   file { '/etc/puppetlabs/puppetserver/conf.d/webserver.conf':
     ensure  => file,
     content => template('puppet/webserver.conf.erb'),
+    require => Class['puppet::server::install'],
   }
 }

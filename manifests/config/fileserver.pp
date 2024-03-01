@@ -14,12 +14,14 @@ class puppet::config::fileserver (
   Hash[Pattern[/^[a-zA-Z0-9_]+$/], Stdlib::Absolutepath] $mount_points = {},
 ) {
   include puppet::params
+  include puppet::server::install
   $fileserverconfig = $puppet::params::fileserverconfig
 
   if size($mount_points) > 0 {
     file { $fileserverconfig:
       ensure  => file,
       content => template('puppet/fileserver.conf.erb'),
+      require => Class['puppet::server::install'],
     }
   }
 }
