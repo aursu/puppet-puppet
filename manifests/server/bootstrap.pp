@@ -3,14 +3,25 @@
 # Puppet server bootstrap
 # This is intended to be run via `puppet apply` command
 #
+# @param agent_version
+#   Version of Puppet agent to install on the Puppet server
+#
+# @param node_environment
+#   Puppet environment to assign to Puppet server node
+#
 # @example
 #   include puppet::server::bootstrap
 class puppet::server::bootstrap (
   Puppet::Platform $platform_name = 'puppet8',
   String $agent_version = 'latest',
+  Optional[String] $node_environment = undef,
 ) {
   class { 'puppet::globals':
     platform_name => $platform_name,
+  }
+
+  class { 'puppet::config':
+    node_environment => $node_environment,
   }
 
   class { 'puppet::setup':
