@@ -20,6 +20,10 @@ class puppet::server::bootstrap (
     platform_name => $platform_name,
   }
 
+  class { 'puppet::agent::install':
+    agent_version => $agent_version,
+  }
+
   class { 'puppet::config':
     node_environment => $node_environment,
   }
@@ -27,10 +31,6 @@ class puppet::server::bootstrap (
   class { 'puppet::setup':
     server_name      => 'puppet',
     server_ipaddress => '127.0.0.1',
-  }
-
-  class { 'puppet::agent::install':
-    agent_version => $agent_version,
   }
 
   include puppet::r10k::install
