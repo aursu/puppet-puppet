@@ -2,6 +2,14 @@
 #
 # Single r10k run
 #
+# @param setup_on_each_run
+#   Controls whether the r10k command is executed on every Puppet agent run on the Puppet server
+#   or only triggered by a notify event from other resources in the Puppet catalog.
+#
+# @param cwd
+#   The directory from which the r10k command is executed. It may include the r10k.yaml 
+#   configuration file.
+#
 # @example
 #   include puppet::r10k::run
 class puppet::r10k::run (
