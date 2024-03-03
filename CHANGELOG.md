@@ -299,6 +299,8 @@ All notable changes to this project will be documented in this file.
 
 * Added `node_environment` parameter into `puppet::server::bootstrap`
 * removed parameter `-t rsa` from `ssh-keyscan` command to fetch all host keys
+* Added flag `use_ssh` into `puppet::server::bootstrap` class in case if r10k
+does not require SSH keys for Puppet code deployment.
 
 **Bugfixes**
 
