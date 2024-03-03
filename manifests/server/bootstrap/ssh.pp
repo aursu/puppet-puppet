@@ -25,7 +25,7 @@ class puppet::server::bootstrap::ssh inherits puppet::params {
   }
 
   # Update ~/.ssh/known_hosts if gitservers.txt exists
-  exec { 'ssh-keyscan -f gitservers.txt -t rsa >> /root/.ssh/known_hosts':
+  exec { 'ssh-keyscan -f gitservers.txt >> /root/.ssh/known_hosts':
     path    => '/usr/bin:/bin',
     onlyif  => 'test -f gitservers.txt',
     cwd     => $cwd,

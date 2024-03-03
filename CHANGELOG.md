@@ -298,6 +298,7 @@ All notable changes to this project will be documented in this file.
 **Features**
 
 * Added `node_environment` parameter into `puppet::server::bootstrap`
+* removed parameter `-t rsa` from `ssh-keyscan` command to fetch all host keys
 
 **Bugfixes**
 
