@@ -8,7 +8,7 @@ plan puppet_bootstrap::server (
     collection => $platform_name
   )
 
-  run_plan( puppet::server::bootstrap, $targets,
+  return run_plan( puppet::server::bootstrap, $targets,
     collection             => $platform_name,
     access_data_lookup_key => 'puppet::server::bootstrap::access',
     ssh_config_lookup_key  => 'puppet::server::bootstrap::ssh_config',
