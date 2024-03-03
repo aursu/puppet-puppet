@@ -24,6 +24,14 @@ using [Puppet Bolt](https://www.puppet.com/community/open-source/bolt)
 
 ### Beginning with bootstrap_assets
 
+The `bootstrap_assets` Puppet module is designed to store essential bootstrap assets required for
+the initial setup process. Among these assets, you will find:
+
+* `files/gitservers.txt` - This file contains a list of Git server addresses. It is used by the
+Puppet server to execute the `ssh-keyscan -f gitservers.txt` command. This process retrieves the
+SSH host keys from the listed Git servers and stores them in the `known_hosts` file for the
+system's root account, ensuring secure SSH connections without manual host key verification.
+
 ## Usage
 
 ## Limitations
