@@ -2,15 +2,15 @@
 version: 5
 
 defaults:
-  datadir: modules/bootstrap_assets/files/data
+  datadir: data
   data_hash: yaml_data
 
 hierarchy:
   - name: "Encrypted YAML secrets"
     lookup_key: eyaml_lookup_key
     options:
-      pkcs7_private_key: 'modules/bootstrap_assets/files/keys/private_key.pkcs7.pem'
-      pkcs7_public_key: 'modules/bootstrap_assets/files/keys/public_key.pkcs7.pem'
+      pkcs7_private_key: 'keys/private_key.pkcs7.pem'
+      pkcs7_public_key: 'keys/public_key.pkcs7.pem'
     path: "secrets.eyaml"
   - name: "Other YAML hierarchy levels"
     path: "common.yaml"
