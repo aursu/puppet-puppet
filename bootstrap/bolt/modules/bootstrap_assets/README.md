@@ -31,6 +31,10 @@ the initial setup process. Among these assets, you will find:
 Puppet server to execute the `ssh-keyscan -f gitservers.txt` command. This process retrieves the
 SSH host keys from the listed Git servers and stores them in the `known_hosts` file for the
 system's root account, ensuring secure SSH connections without manual host key verification.
+* `files/r10k.yaml` - This configuration file outlines the Puppet environments utilized during the
+bootstrap process of the Puppet server. Currently, it includes two environments: `production` and
+`common`. These environments are configured with specific profiles that are sufficient for setting
+up the Puppet server, PuppetDB with PostgreSQL, and r10k.
 
 ## Usage
 

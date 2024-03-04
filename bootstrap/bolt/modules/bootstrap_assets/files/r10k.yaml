@@ -7,8 +7,8 @@
   # This will clone the git repository and instantiate an environment per
   # branch in /etc/puppetlabs/code/environments
   :production:
-    remote: "https://github.com/aursu/control-init.git"
-    basedir: "/etc/puppetlabs/code/environments"
+    remote: git@github.com-aursu-control-init:aursu/control-init.git
+    basedir: /etc/puppetlabs/code/environments
   :common:
-    remote: "https://github.com/aursu/control-common.git"
-    basedir: "/etc/puppetlabs/code/environments"
+    remote: git@github.com-aursu-control-common:aursu/control-common.git
+    basedir: /etc/puppetlabs/code/environments
