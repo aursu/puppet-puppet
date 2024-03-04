@@ -13,7 +13,7 @@ mod 'bsys',
   ref: '06ffbc87ec3cefa7c2c5c685923c83f976b6164f'
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
-  ref: '4c169d6d0bea5511e0ca473392f3654eadf0ff17'
+  ref: 'da782db623f5ebfdc9a3a5c793ff676e395541d9'
 mod 'puppetdb',
   git: 'https://github.com/puppetlabs/puppetlabs-puppetdb.git',
   ref: '0053513364d07f0c78ade801bcdcf322abfbab18'
