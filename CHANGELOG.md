@@ -309,3 +309,13 @@ does not require SSH keys for Puppet code deployment.
 * Added proper resource apply order during server installation
 
 **Known Issues**
+
+## Release 0.12.0
+
+**Features**
+
+* Added into Bolt project Puppet bootstrap module `bootstrap_assets`
+
+**Bugfixes**
+
+**Known Issues**
