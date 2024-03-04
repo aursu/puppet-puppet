@@ -4,9 +4,7 @@ plan bootstrap_assets::upload (
 ) {
   run_plan(facts, $targets)
 
-  apply($targets) {
-    file { $path: ensure => directory }
-  }
+  run_task(bootstrap_assets::assets_dir, $targets)
 
   upload_file('bootstrap_assets/gitservers.txt', "${path}/gitservers.txt", $targets)
   upload_file('bootstrap_assets/r10k.yaml', "${path}/r10k.yaml", $targets)

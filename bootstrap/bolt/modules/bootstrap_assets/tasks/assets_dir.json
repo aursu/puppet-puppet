@@ -1,0 +1,17 @@
+{
+    "description": "Create bootstrap directory",
+    "parameters": {
+      "path": {
+        "description": "Bootstrap directory path",
+        "type": "String",
+        "default": "/root/bootstrap"
+      }
+    },
+    "implementations": [
+      {
+        "name": "assets_dir.sh",
+        "requirements": ["shell"],
+        "input_method": "environment"
+      }
+    ]
+  }
