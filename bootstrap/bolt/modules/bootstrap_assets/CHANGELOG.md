@@ -12,3 +12,14 @@ on Puppet server
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.2.1
+
+**Features**
+
+* No Hiera configuration deployment to the server
+* Added `ca` and `keys` directories
+
+**Bugfixes**
+
+**Known Issues**
