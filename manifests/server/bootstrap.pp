@@ -61,22 +61,31 @@ class puppet::server::bootstrap (
   include puppet::server::bootstrap::ssh
 
   $access_data = $puppet::server::bootstrap::globals::access_data
+  $bootstrap_path = $puppet::server::bootstrap::globals::bootstrap_path
+  $cwd = $puppet::server::bootstrap::globals::cwd
 
   if $use_ssh {
     if $access_data[0] {
       class { 'puppet::r10k::run':
         setup_on_each_run => true,
+        cwd               => $cwd,
       }
     }
   }
   else {
     class { 'puppet::r10k::run':
       setup_on_each_run => true,
+      cwd               => $cwd,
     }
   }
 
+  file { [$bootstrap_path, "${bootstrap_path}/ca"]:
+    ensure => directory,
+  }
+
   class { 'puppet::server::ca::import':
-    import_path => '/root/ca',
+    import_path => "${bootstrap_path}/ca",
+    require     => File["${bootstrap_path}/ca"],
   }
 
   class { 'puppet::service':
