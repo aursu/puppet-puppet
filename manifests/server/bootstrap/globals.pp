@@ -1,9 +1,13 @@
-# @summary A short summary of the purpose of this class
+# @summary Global bootstrap parameters
 #
-# A description of what this class does
+# Global bootstrap parameters
+#
+# @param bootstrap_path
+#   Path to bootstrap files (defined by default as /root/bootstrap)
 #
 # @param cwd
-#   Path to bootstrap files (current path - if not provided, eg for puppet apply)
+#   Path where to run r10k command and look for resources with relative paths
+#   (current path - if not provided, eg for puppet apply).
 #
 # @example
 #   include puppet::server::bootstrap::globals
@@ -19,6 +23,7 @@ class puppet::server::bootstrap::globals (
     }]
   ] $access_data = [],
   Array[Openssh::SshConfig] $ssh_config = [],
+  Stdlib::Unixpath $bootstrap_path = '/root/bootstrap',
   Optional[Stdlib::Unixpath] $cwd = undef,
 ) {
   $ssh_access_config = $access_data.reduce([]) |$memo, $creds| {
