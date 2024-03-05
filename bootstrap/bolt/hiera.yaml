@@ -2,7 +2,7 @@
 version: 5
 
 defaults:
-  datadir: modules/bootstrap_assets/files/data
+  datadir: data
   data_hash: yaml_data
 
 hierarchy:
