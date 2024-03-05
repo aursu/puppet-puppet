@@ -319,3 +319,13 @@ does not require SSH keys for Puppet code deployment.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.13.0
+
+**Features**
+
+* Added into Bolt plans parmeters `use_ssh` and `bootstrap_path`
+
+**Bugfixes**
+
+**Known Issues**
