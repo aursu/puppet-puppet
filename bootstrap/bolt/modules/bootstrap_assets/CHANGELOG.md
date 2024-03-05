@@ -23,3 +23,13 @@ on Puppet server
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.2.2
+
+**Features**
+
+**Bugfixes**
+
+* Added Bolt tasks to create `ca` and `keys` directories
+
+**Known Issues**
