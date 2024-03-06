@@ -14,6 +14,11 @@ class puppet::server::bootstrap::setup {
     cwd     => '/',
     path    => '/usr/bin:/bin',
     creates => $bootstrap_path,
+    before  => File[$bootstrap_path],
+  }
+
+  file { [$bootstrap_path, "${bootstrap_path}/ca", "${bootstrap_path}/keys"]:
+    ensure => directory,
   }
 
   if $cwd and $cwd != $bootstrap_path {
@@ -21,6 +26,10 @@ class puppet::server::bootstrap::setup {
       cwd     => '/',
       path    => '/usr/bin:/bin',
       creates => $cwd,
+    }
+
+    file { $cwd:
+      ensure => directory,
     }
   }
 }
