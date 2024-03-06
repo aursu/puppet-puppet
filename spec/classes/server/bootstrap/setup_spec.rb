@@ -15,6 +15,22 @@ describe 'puppet::server::bootstrap::setup' do
             cwd: '/',
             creates: '/root/bootstrap',
           )
+          .that_comes_before('File[/root/bootstrap]')
+      }
+
+      it {
+        is_expected.to contain_file('/root/bootstrap')
+          .with_ensure(:directory)
+      }
+
+      it {
+        is_expected.to contain_file('/root/bootstrap/ca')
+          .with_ensure(:directory)
+      }
+
+      it {
+        is_expected.to contain_file('/root/bootstrap/keys')
+          .with_ensure(:directory)
       }
 
       context 'when cwd is different' do
@@ -32,6 +48,11 @@ describe 'puppet::server::bootstrap::setup' do
               cwd: '/',
               creates: '/tmp',
             )
+        }
+
+        it {
+          is_expected.to contain_file('/tmp')
+            .with_ensure(:directory)
         }
       end
     end
