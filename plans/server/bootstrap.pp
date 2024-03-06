@@ -38,7 +38,6 @@ plan puppet::server::bootstrap (
       access_data    => $access_data,
       ssh_config     => $ssh_config,
       bootstrap_path => $bootstrap_path,
-      cwd            => $bootstrap_path,
     }
 
     class { 'puppet::server::bootstrap':
