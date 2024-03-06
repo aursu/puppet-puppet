@@ -8,6 +8,7 @@
 class puppet::server::bootstrap::hiera inherits puppet::params {
   require puppet::server::install
   include puppet::server::bootstrap::globals
+  include puppet::server::bootstrap::setup
 
   $environmentpath = $puppet::params::environmentpath
   $cwd = $puppet::server::bootstrap::globals::cwd
@@ -29,13 +30,19 @@ class puppet::server::bootstrap::hiera inherits puppet::params {
     "cp -a hiera.yaml ${env_path}/hiera.yaml":
       onlyif  => 'test -f hiera.yaml',
       unless  => "grep -q secrets.eyaml ${env_path}/hiera.yaml",
-      require => File[$env_path],
+      require => [
+        File[$env_path],
+        Class['puppet::server::bootstrap::setup'],
+      ],
       before  => File["${env_path}/hiera.yaml"],
       ;
     "cp -a data/secrets.eyaml ${data_path}/secrets.eyaml":
       onlyif  => 'test -f data/secrets.eyaml',
       creates => "${data_path}/secrets.eyaml",
-      require => File[$data_path],
+      require => [
+        File[$data_path],
+        Class['puppet::server::bootstrap::setup'],
+      ],
       before  => File["${data_path}/secrets.eyaml"],
       ;
   }

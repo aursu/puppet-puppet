@@ -9,6 +9,7 @@ class puppet::server::bootstrap::keys inherits puppet::params {
   require puppet::server::install
   include puppet::server::keys
   include puppet::server::bootstrap::globals
+  include puppet::server::bootstrap::setup
 
   $eyaml_keys_path = $puppet::params::eyaml_keys_path
   $eyaml_public_key = $puppet::params::eyaml_public_key
@@ -18,7 +19,10 @@ class puppet::server::bootstrap::keys inherits puppet::params {
   exec {
     default:
       path    => '/usr/bin:/bin',
-      require => File[$eyaml_keys_path],
+      require => [
+        File[$eyaml_keys_path],
+        Class['puppet::server::bootstrap::setup'],
+      ],
       cwd     => $cwd,
       ;
     "cp -a keys/public_key.pkcs7.pem ${eyaml_keys_path}/${eyaml_public_key}":

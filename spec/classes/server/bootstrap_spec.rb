@@ -15,6 +15,16 @@ describe 'puppet::server::bootstrap' do
         is_expected.not_to contain_exec('environment-setup')
       }
 
+      it {
+        is_expected.to contain_file('/root/bootstrap')
+          .with_ensure(:directory)
+      }
+
+      it {
+        is_expected.to contain_file('/root/bootstrap/ca')
+          .with_ensure(:directory)
+      }
+
       context 'when use SSH for Git access' do
         let(:pre_condition) do
           <<-PRECOND
@@ -40,8 +50,8 @@ describe 'puppet::server::bootstrap' do
               command: '/opt/puppetlabs/puppet/bin/r10k deploy environment -p',
               refreshonly: false,
               timeout: 900,
+              cwd: '/root/bootstrap',
             )
-            .without_cwd
         }
 
         it {
@@ -63,8 +73,8 @@ describe 'puppet::server::bootstrap' do
               command: '/opt/puppetlabs/puppet/bin/r10k deploy environment -p',
               refreshonly: false,
               timeout: 900,
+              cwd: '/root/bootstrap',
             )
-            .without_cwd
         }
       end
     end
