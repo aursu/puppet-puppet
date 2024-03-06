@@ -6,14 +6,17 @@
 #   include puppet::server::bootstrap::ssh
 class puppet::server::bootstrap::ssh inherits puppet::params {
   include puppet::server::bootstrap::globals
-  include puppet::server::bootstrap::keys
-  include puppet::server::bootstrap::hiera
+  include puppet::server::bootstrap::setup
+
+  $access_data = $puppet::server::bootstrap::globals::access_data
+  $ssh_access_config = $puppet::server::bootstrap::globals::ssh_access_config
+  $ssh_config  = $puppet::server::bootstrap::globals::ssh_config
+  $cwd = $puppet::server::bootstrap::globals::cwd
 
   $ssh_keyscan_package = $facts['os']['family'] ? {
     'Debian' => 'openssh-client',
     default  => 'openssh-clients',
   }
-  $cwd = $puppet::server::bootstrap::globals::cwd
 
   package { $ssh_keyscan_package:
     ensure => 'present',
@@ -33,12 +36,9 @@ class puppet::server::bootstrap::ssh inherits puppet::params {
     require => [
       Package[$ssh_keyscan_package],
       File['/root/.ssh'],
+      Class['puppet::server::bootstrap::setup'],
     ],
   }
-
-  $access_data = $puppet::server::bootstrap::globals::access_data
-  $ssh_access_config = $puppet::server::bootstrap::globals::ssh_access_config
-  $ssh_config  = $puppet::server::bootstrap::globals::ssh_config
 
   if $ssh_access_config[0] or $ssh_config[0] {
     openssh::ssh_config { 'root':
