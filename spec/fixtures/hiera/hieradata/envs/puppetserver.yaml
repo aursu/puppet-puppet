@@ -1,0 +1,28 @@
+---
+puppet::server::bootstrap::access:
+  - name: github.com-aursu-control-init
+    key_prefix: control-init
+    key_data: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+      QyNTUxOQAAACCtYM2JTOP7yCCJuUZVTI6jyqs71qrrz794SMUyRjj7mgAAAKjn49K15+PS
+      tQAAAAtzc2gtZWQyNTUxOQAAACCtYM2JTOP7yCCJuUZVTI6jyqs71qrrz794SMUyRjj7mg
+      AAAECDbhtwHeU3rV28LXJtsCdes/YA3mc4J1ifWe+yHh56qK1gzYlM4/vIIIm5RlVMjqPK
+      qzvWquvPv3hIxTJGOPuaAAAAJWdpdEBnaXRodWIuY29tOmF1cnN1L2NvbnRyb2wtaW5pdC
+      5naXQ=
+      -----END OPENSSH PRIVATE KEY-----
+    ssh_options:
+      HostName: github.com
+  - name: github.com-aursu-control-common
+    key_prefix: control-common
+    key_data: |
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+      QyNTUxOQAAACCS83gopzeZgrLw8TZ6PvgXJQ+F+XBsz7Hm4CX5ssyoaAAAALCnIjh2pyI4
+      dgAAAAtzc2gtZWQyNTUxOQAAACCS83gopzeZgrLw8TZ6PvgXJQ+F+XBsz7Hm4CX5ssyoaA
+      AAAECj+drPXvww8tspLc+Z0J0Rg5tXlNQ3OqesAFdUdwDUFpLzeCinN5mCsvDxNno++Bcl
+      D4X5cGzPsebgJfmyzKhoAAAAJ2dpdEBnaXRodWIuY29tOmF1cnN1L2NvbnRyb2wtY29tbW
+      9uLmdpdAECAwQFBg==
+      -----END OPENSSH PRIVATE KEY-----
+    ssh_options:
+      HostName: github.com

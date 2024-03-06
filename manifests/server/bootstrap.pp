@@ -69,6 +69,7 @@ class puppet::server::bootstrap (
       class { 'puppet::r10k::run':
         setup_on_each_run => true,
         cwd               => $cwd,
+        require           => Class['puppet::server::bootstrap::ssh'],
       }
     }
   }
@@ -76,6 +77,7 @@ class puppet::server::bootstrap (
     class { 'puppet::r10k::run':
       setup_on_each_run => true,
       cwd               => $cwd,
+      require           => Class['puppet::server::bootstrap::ssh'],
     }
   }
 
