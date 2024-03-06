@@ -1,13 +1,15 @@
 # @summary Global bootstrap parameters
 #
-# Global bootstrap parameters
+# Defines parameters used globally during the bootstrap process
 #
 # @param bootstrap_path
-#   Path to bootstrap files (defined by default as /root/bootstrap)
+#   Specifies the path to the bootstrap files. This path is predefined as `/root/bootstrap`.
+#   It serves as the default location for all necessary bootstrap files and scripts.
 #
 # @param cwd
-#   Path where to run r10k command and look for resources with relative paths
-#   (current path - if not provided, eg for puppet apply).
+#   Defines the working directory for executing the r10k command and other related
+#   bootstrap commands. By default, this is set to the same path as `bootstrap_path`,
+#   ensuring a centralized location for running bootstrap operations.
 #
 # @example
 #   include puppet::server::bootstrap::globals
@@ -24,7 +26,7 @@ class puppet::server::bootstrap::globals (
   ] $access_data = [],
   Array[Openssh::SshConfig] $ssh_config = [],
   Stdlib::Unixpath $bootstrap_path = '/root/bootstrap',
-  Optional[Stdlib::Unixpath] $cwd = undef,
+  Optional[Stdlib::Unixpath] $cwd = $bootstrap_path,
 ) {
   $ssh_access_config = $access_data.reduce([]) |$memo, $creds| {
     $key_name    = $creds['name']
