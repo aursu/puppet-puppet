@@ -341,3 +341,19 @@ does not require SSH keys for Puppet code deployment.
 * Added dependency of r10k run on SSH config
 
 **Known Issues**
+
+## Release 0.14.0
+
+**Features**
+
+* Set `cwd` to be the same as `bootstrap_path` by default.
+* Added a class to set up the bootstrap directory on the Puppet server.
+
+**Bugfixes**
+
+* Removed the dependency of SSH configuration bootstrap process on eyaml keys
+and Hiera configuration.
+* Excluded PuppetDB settings from the Puppet configuration during
+the bootstrap stage.
+
+**Known Issues**
