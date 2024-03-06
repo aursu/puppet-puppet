@@ -329,3 +329,15 @@ does not require SSH keys for Puppet code deployment.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.13.1
+
+**Features**
+
+* Added rspec testing for r10k run during bootstrap
+
+**Bugfixes**
+
+* Added dependency of r10k run on SSH config
+
+**Known Issues**
