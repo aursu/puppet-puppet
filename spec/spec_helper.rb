@@ -36,6 +36,10 @@ default_facts.each do |fact, value|
   add_custom_fact fact, value
 end
 
+def fixture_path
+  File.expand_path(File.join(__FILE__, '..', 'fixtures'))
+end
+
 RSpec.configure do |c|
   c.default_facts = default_facts
   c.before :each do
@@ -48,6 +52,7 @@ RSpec.configure do |c|
   c.after(:suite) do
     RSpec::Puppet::Coverage.report!(0)
   end
+  c.hiera_config = File.join(fixture_path, '/hiera/hiera.yaml')
 
   # Filter backtrace noise
   backtrace_exclusion_patterns = [
