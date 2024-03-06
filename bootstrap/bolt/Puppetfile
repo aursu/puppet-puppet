@@ -6,19 +6,17 @@ moduledir '.modules'
 
 mod 'puppet/r10k', '12.2.0'
 mod 'puppetlabs/puppet_agent', '4.18.0'
-mod 'aursu/lsys_postgresql', '0.47.0'
-mod 'aursu/openssh', '0.9.1'
-mod 'bsys',
-  git: 'https://github.com/aursu/puppet-bsys.git',
-  ref: '06ffbc87ec3cefa7c2c5c685923c83f976b6164f'
+mod 'puppetlabs/inifile', '6.1.0'
+mod 'aursu/lsys_postgresql', '0.49.0'
+mod 'aursu/openssh', '0.9.4'
+mod 'aursu/bsys', '0.6.2'
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
-  ref: 'da782db623f5ebfdc9a3a5c793ff676e395541d9'
+  ref: '0e3c074e723283d31b1f39f8d4424866a22e32b5'
 mod 'puppetdb',
   git: 'https://github.com/puppetlabs/puppetlabs-puppetdb.git',
   ref: '0053513364d07f0c78ade801bcdcf322abfbab18'
 mod 'puppetlabs/stdlib', '9.4.1'
-mod 'puppetlabs/inifile', '6.1.0'
 mod 'puppetlabs/vcsrepo', '6.1.0'
 mod 'choria/mcollective', '0.14.5'
 mod 'puppet/systemd', '5.2.0'

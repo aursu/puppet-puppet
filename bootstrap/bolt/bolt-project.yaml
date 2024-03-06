@@ -5,13 +5,13 @@ modules:
 - git: https://github.com/puppetlabs/puppetlabs-puppetdb.git
   ref: 7.14.0
 - git: https://github.com/aursu/puppet-puppet.git
-  ref: v0.12.0
-- git: https://github.com/aursu/puppet-bsys.git
-  ref: v0.6.2
+  ref: v0.13.1
+- name: aursu-bsys
+  version_requirement: "=0.6.2"
 - name: aursu-openssh
-  version_requirement: "=0.9.1"
+  version_requirement: "=0.9.4"
 - name: aursu-lsys_postgresql
-  version_requirement: "=0.47.0"
+  version_requirement: "=0.49.0"
 - name: puppetlabs-inifile
   version_requirement: "=6.1.0"
 - name: puppetlabs-puppet_agent
