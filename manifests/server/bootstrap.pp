@@ -47,6 +47,9 @@ class puppet::server::bootstrap (
 
   class { 'puppet::config':
     node_environment => $node_environment,
+    # to avoid "Server Error: Could not find terminus puppetdb for indirection facts"
+    # as PuppetDB is not installed yet
+    use_puppetdb     => false,
   }
 
   class { 'puppet::setup':
@@ -56,6 +59,7 @@ class puppet::server::bootstrap (
 
   include puppet::r10k::install
   include puppet::server::bootstrap::globals
+  include puppet::server::bootstrap::setup
   include puppet::server::bootstrap::keys
   include puppet::server::bootstrap::hiera
   include puppet::server::bootstrap::ssh
@@ -70,10 +74,6 @@ class puppet::server::bootstrap (
       cwd               => $cwd,
       require           => Class['puppet::server::bootstrap::ssh'],
     }
-  }
-
-  file { [$bootstrap_path, "${bootstrap_path}/ca"]:
-    ensure => directory,
   }
 
   class { 'puppet::server::ca::import':
