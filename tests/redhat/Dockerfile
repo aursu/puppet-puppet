@@ -23,6 +23,7 @@ RUN rpm -Uvh https://yum.puppet.com/${platform}-release-${codename}-${osmajor}.n
         puppet-bolt \
         openssh-server \
         procps-ng \
+        cronie \
     && dnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
 
 COPY tests/redhat/sshd/sshd_config /etc/ssh/sshd_config
