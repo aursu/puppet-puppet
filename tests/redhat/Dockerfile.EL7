@@ -1,27 +1,26 @@
 ARG osrepo=aursu/centos
-ARG os=stream9-20230605.0
+ARG os=7.9.2009
 
-FROM ${osrepo}:${os}-systemd
+FROM ${osrepo}:${os}-scm
 
 ARG codename=el
-ARG osmajor=9
-ARG platform=puppet7
+ARG osmajor=7
+ARG platform=puppet8
 
 ENV PATH=/opt/puppetlabs/puppet/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 WORKDIR /root
 
-RUN microdnf -y install \
+RUN yum -y install \
         diffutils \
-        dnf \
         tar \
         vim \
-    && microdnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
+    && yum clean all && rm -rf /var/cache/yum /var/lib/rpm/__db*
 
 RUN rpm -Uvh https://yum.puppet.com/${platform}-release-${codename}-${osmajor}.noarch.rpm \
-    && dnf -y install puppet-bolt \
+    && yum -y install puppet-bolt \
        openssh-server \
-    && dnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
+    && yum clean all && rm -rf /var/cache/yum /var/lib/rpm/__db*
 
 COPY tests/redhat/sshd/sshd_config /etc/ssh/sshd_config
 COPY --chmod=600 tests/redhat/sshd/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key
@@ -35,5 +34,7 @@ RUN cp /etc/skel/.bash_profile /etc/skel/.bashrc ~/ \
 
 RUN mkdir -p /var/tmp && chmod 1777 /var/tmp
 
-COPY . /etc/puppetlabs/code/environments/production/modules/puppet
-WORKDIR /etc/puppetlabs/code/environments/production/modules/puppet/bootstrap/bolt
+COPY . /root/puppet/lsys_postgresql
+WORKDIR /root/puppet/lsys_postgresql/tests/bolt
+
+CMD ["/usr/sbin/sshd", "-D"]

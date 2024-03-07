@@ -1,47 +1,13 @@
 version: "3"
 services:
-  rocky8puppet:
-    build:
-      context: .
-      dockerfile: tests/redhat/Dockerfile
-      args:
-        osrepo: aursu/rockylinux
-        os: $RL8
-        osmajor: 8
-    privileged: true
-    cap_add:
-      - SYS_ADMIN
-    tmpfs:
-      - /run
-      - /tmp
-    user: root
-    image: "aursu/rockylinux:${RL8TAG}-puppet7"
-  rocky8puppet8:
-    build:
-      context: .
-      dockerfile: tests/redhat/Dockerfile
-      args:
-        osrepo: aursu/rockylinux
-        os: $RL8
-        osmajor: 8
-        platform: puppet8
-    privileged: true
-    cap_add:
-      - SYS_ADMIN
-    tmpfs:
-      - /run
-      - /tmp
-    user: root
-    image: "aursu/rockylinux:${RL8TAG}-puppet8"
   rocky8puppet8bolt:
     build:
       context: .
-      dockerfile: tests/redhat/Dockerfile.bolt
+      dockerfile: tests/redhat/Dockerfile
       args:
         osrepo: aursu/rockylinux
         os: $RL8
         osmajor: 8
-        platform: puppet8
     privileged: true
     cap_add:
       - SYS_ADMIN
@@ -50,21 +16,7 @@ services:
       - /tmp
     user: root
     image: "aursu/rockylinux:${RL8TAG}-puppet8-bolt"
-  stream9puppet:
-    build:
-      context: .
-      dockerfile: tests/redhat/Dockerfile
-      args:
-        os: $OS9
-    privileged: true
-    cap_add:
-      - SYS_ADMIN
-    tmpfs:
-      - /run
-      - /tmp
-    user: root
-    image: "aursu/centos:${OS9TAG}-puppet7"
-  stream9puppet8:
+  stream9puppet8bolt:
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile
@@ -78,8 +30,8 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/centos:${OS9TAG}-puppet8"
-  ubuntu20puppet:
+    image: "aursu/centos:${OS9TAG}-puppet8-bolt"
+  ubuntu20puppet8bolt:
     build:
       context: .
       dockerfile: tests/ubuntu/Dockerfile
@@ -93,24 +45,8 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/ubuntu:${U20TAG}-puppet7"
-  ubuntu20puppet8:
-    build:
-      context: .
-      dockerfile: tests/ubuntu/Dockerfile
-      args:
-        os: $U20
-        codename: $U20CODE
-        platform: puppet8
-    privileged: true
-    cap_add:
-      - SYS_ADMIN
-    tmpfs:
-      - /run
-      - /tmp
-    user: root
-    image: "aursu/ubuntu:${U20TAG}-puppet8"
-  ubuntu22puppet:
+    image: "aursu/ubuntu:${U20TAG}-puppet8-bolt"
+  ubuntu22puppet8bolt:
     build:
       context: .
       dockerfile: tests/ubuntu/Dockerfile
@@ -124,20 +60,4 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/ubuntu:${U22TAG}-puppet7"
-  ubuntu22puppet8:
-    build:
-      context: .
-      dockerfile: tests/ubuntu/Dockerfile
-      args:
-        os: $U22
-        codename: $U22CODE
-        platform: puppet8
-    privileged: true
-    cap_add:
-      - SYS_ADMIN
-    tmpfs:
-      - /run
-      - /tmp
-    user: root
-    image: "aursu/ubuntu:${U22TAG}-puppet8"
+    image: "aursu/ubuntu:${U22TAG}-puppet8-bolt"
