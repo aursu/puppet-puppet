@@ -10,6 +10,8 @@ ENV LANG=C
 RUN apt-get update && apt-get install -y \
         g++ \
         git \
+        iproute2 \
+        iputils-ping \
         make \
         wget \
         ruby ruby-dev \
