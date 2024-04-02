@@ -48,4 +48,4 @@ spec
 pdk.yaml
 desc
 .env
-docker-compose.yml
+tests/compose

@@ -1,0 +1,32 @@
+version: "3"
+services:
+  ubuntu20puppet:
+    build:
+      context: .
+      dockerfile: tests/ubuntu/Dockerfile
+      args:
+        os: $U20
+        codename: $U20CODE
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/ubuntu:${U20TAG}-puppet"
+  ubuntu20puppetdb:
+    build:
+      context: .
+      dockerfile: tests/ubuntu/Dockerfile
+      args:
+        os: $U20
+        codename: $U20CODE
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/ubuntu:${U20TAG}-puppet"

@@ -1,0 +1,32 @@
+version: "3"
+services:
+  stream9puppet:
+    build:
+      context: .
+      dockerfile: tests/redhat/Dockerfile
+      args:
+        os: $OS9
+        platform: puppet8
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/centos:${OS9TAG}-puppet"
+  stream9puppetdb:
+    build:
+      context: .
+      dockerfile: tests/redhat/Dockerfile
+      args:
+        os: $OS9
+        platform: puppet8
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/centos:${OS9TAG}-puppet"
