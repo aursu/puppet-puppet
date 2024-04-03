@@ -76,7 +76,7 @@ describe 'puppet::config' do
         it {
           is_expected.to contain_file('puppet-config')
             .with_path('/etc/puppetlabs/puppet/puppet.conf')
-            .with_content(%r{^\[server\]\ncertname =})
+            .with_content(%r{^\[main\]\ncertname =})
         }
 
         context 'with defined static name' do
@@ -89,7 +89,7 @@ describe 'puppet::config' do
           it {
             is_expected.to contain_file('puppet-config')
               .with_path('/etc/puppetlabs/puppet/puppet.conf')
-              .with_content(%r{^\[server\]\ncertname = puppet-ca.domain.tld$})
+              .with_content(%r{^\[main\]\ncertname = puppet-ca.domain.tld$})
           }
         end
       end

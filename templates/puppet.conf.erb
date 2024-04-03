@@ -5,6 +5,17 @@
 # - https://puppet.com/docs/puppet/latest/config_file_main.html
 # - https://puppet.com/docs/puppet/latest/configuration.html
 [main]
+<% if @puppet_server -%>
+<%   if @static_certname -%>
+<%# Default: node's fully qualified domain name -%>
+certname = <%= @certname %>
+<%   end -%>
+strict = <%= @strict %>
+<%   if @strict_variables -%>
+<%# Default: false -%>
+strict_variables = true
+<%   end -%>
+<% end -%>
 <% if @node_environment -%>
 environment = <%= @node_environment %>
 <% else -%>
@@ -12,17 +23,6 @@ environment = <%= @environment %>
 <% end -%>
 <% if @ca_server -%>
 ca_server = <%= @ca_server %>
-<% end -%>
-<% if @puppet_server -%>
-strict = <%= @strict %>
-<%   if @strict_variables -%>
-<%# Default: false -%>
-strict_variables = true
-<%   end -%>
-<%   if @static_certname -%>
-<%# Default: node's fully qualified domain name -%>
-certname = <%= @certname %>
-<%   end -%>
 <% end -%>
 
 [agent]
