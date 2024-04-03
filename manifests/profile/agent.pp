@@ -26,7 +26,9 @@ class puppet::profile::agent (
   class { 'puppet::agent::config':
     server           => $server,
     ca_server        => $ca_server,
+    # lint:ignore:top_scope_facts
     node_environment => $::environment,
+    # lint:endignore
   }
 
   class { 'puppet::setup':
