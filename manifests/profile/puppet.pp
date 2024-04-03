@@ -82,7 +82,7 @@ class puppet::profile::puppet (
         platform_name            => $platform_name,
         ca_server                => $ca_server,
         server                   => $server,
-        sameca                   => $sameca,
+        sameca                   => true,
         hosts_update             => $hosts_update,
         use_puppetdb             => $use_puppetdb,
         puppetdb_server          => $puppetdb_server,
