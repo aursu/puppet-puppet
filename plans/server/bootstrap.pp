@@ -5,6 +5,7 @@ plan puppet::server::bootstrap (
   String $ssh_config_lookup_key = 'puppet::server::bootstrap::ssh_config',
   Stdlib::Unixpath $bootstrap_path = '/root/bootstrap',
   Boolean $use_ssh = true,
+  Optional[String] $certname = undef,
 ) {
   run_plan(facts, $targets)
 
@@ -45,6 +46,7 @@ plan puppet::server::bootstrap (
       # set it to 'production' because Bolt catalog's default is 'bolt_catalog'
       node_environment => 'production',
       use_ssh          => $use_ssh,
+      certname         => $certname,
     }
   }
 }

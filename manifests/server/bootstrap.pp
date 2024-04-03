@@ -36,6 +36,7 @@ class puppet::server::bootstrap (
   String $agent_version = 'latest',
   Optional[String] $node_environment = undef,
   Boolean $use_ssh = true,
+  Optional[String] $certname = undef,
 ) {
   class { 'puppet::globals':
     platform_name => $platform_name,
@@ -45,11 +46,18 @@ class puppet::server::bootstrap (
     agent_version => $agent_version,
   }
 
+  $static_certname = $certname ? {
+    String  => true,
+    default => false,
+  }
+
   class { 'puppet::config':
     node_environment => $node_environment,
     # to avoid "Server Error: Could not find terminus puppetdb for indirection facts"
     # as PuppetDB is not installed yet
     use_puppetdb     => false,
+    static_certname  => $static_certname,
+    certname         => $certname,
   }
 
   class { 'puppet::setup':

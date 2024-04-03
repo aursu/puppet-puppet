@@ -3,6 +3,7 @@ plan puppet_bootstrap::server (
   Puppet::Platform $platform_name = 'puppet8',
   Stdlib::Unixpath $bootstrap_path = '/root/bootstrap',
   Boolean $git_use_ssh = true,
+  Optional[String] $certname = undef,
 ) {
   run_plan(facts, $targets)
 
@@ -20,5 +21,6 @@ plan puppet_bootstrap::server (
     ssh_config_lookup_key  => 'puppet::server::bootstrap::ssh_config',
     bootstrap_path         => $bootstrap_path,
     use_ssh                => $git_use_ssh,
+    certname               => $certname,
   )
 }
