@@ -368,3 +368,13 @@ the bootstrap stage.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.15.0
+
+**Features**
+
+* Added ability to pass `certname` during bootstrap
+
+**Bugfixes**
+
+**Known Issues**
