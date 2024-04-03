@@ -357,3 +357,14 @@ and Hiera configuration.
 the bootstrap stage.
 
 **Known Issues**
+
+## Release 0.14.1
+
+**Features**
+
+* Added ability to install PuppetDB on Puppet compiler
+* Added ENC bootstrap repo into bootstrap process
+
+**Bugfixes**
+
+**Known Issues**
