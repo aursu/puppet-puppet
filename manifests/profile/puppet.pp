@@ -78,17 +78,6 @@ class puppet::profile::puppet (
 ) {
   if $puppetserver {
     if $sameca {
-      if $puppetdb_local and $postgres_local {
-        if $platform_name == 'puppet5' {
-          class { 'lsys_postgresql':
-            package_version => '9.6.23',
-          }
-        }
-        else {
-          class { 'lsys_postgresql': }
-        }
-      }
-
       class { 'puppet::profile::server':
         platform_name            => $platform_name,
         ca_server                => $ca_server,
@@ -118,6 +107,8 @@ class puppet::profile::puppet (
         common_envname           => $common_envname,
         use_puppetdb             => $use_puppetdb,
         puppetdb_server          => $puppetdb_server,
+        puppetdb_local           => $puppetdb_local,
+        manage_database          => $manage_database,
         enc_envname              => $enc_envname,
         r10k_crontab_setup       => $r10k_crontab_setup,
         manage_webserver_conf    => $manage_webserver_conf,
