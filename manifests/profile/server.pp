@@ -16,6 +16,10 @@
 #   puppetlabs-puppetdb module (including PostgreSQL database)
 #
 # @param puppetdb_local
+#   This parameter controls whether PuppetDB should be installed on the same
+#   server as the Puppet Server. Setting this parameter to true enables a local
+#   installation of PuppetDB alongside the Puppet Server, facilitating a
+#   compact setup where both services run on a single machine.
 #
 # @param puppetdb_server
 #   String. Default is 'puppet'. Server name for PuppetDB. Puppetdb::Master::Config

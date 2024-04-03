@@ -14,6 +14,12 @@
 # @param use_puppetdb
 # @param puppetdb_server
 #
+# @param puppetdb_local
+#   This parameter controls whether PuppetDB should be installed on the same
+#   server as the Puppet Server. Setting this parameter to true enables a local
+#   installation of PuppetDB alongside the Puppet Server, facilitating a
+#   compact setup where both services run on a single machine.
+#
 # @param enc_envname
 #   The name of ENC environment inside Puppet environments path.
 #   Use it to override default value 'enc'
@@ -31,6 +37,9 @@ class puppet::profile::compiler (
   Boolean $use_common_env = false,
   Optional[String] $common_envname = undef,
   Boolean $use_puppetdb = true,
+  Boolean $puppetdb_local = false,
+  Boolean $postgres_local = false,
+  Boolean $manage_database = $postgres_local,
   Stdlib::Host $puppetdb_server = 'puppet',
   Optional[String] $enc_envname  = undef,
   Boolean $r10k_crontab_setup = false,
@@ -40,8 +49,8 @@ class puppet::profile::compiler (
 ) {
   class { 'puppet::profile::server':
     sameca                   => false,
-    puppetdb_local           => false,
-    postgres_local           => false,
+    puppetdb_local           => $puppetdb_local,
+    manage_database          => $manage_database,
 
     platform_name            => $platform_name,
 
