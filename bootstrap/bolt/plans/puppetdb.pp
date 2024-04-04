@@ -1,5 +1,6 @@
 plan puppet_bootstrap::puppetdb (
   TargetSpec $targets,
+  Puppet::Platform $platform_name = 'puppet8',
   Boolean $manage_database = true,
   Stdlib::Host $database_host = 'localhost',
   String $database_name = 'puppetdb',
