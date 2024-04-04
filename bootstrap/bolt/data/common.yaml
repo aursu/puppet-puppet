@@ -1,2 +1,6 @@
 ---
 puppet::server::bootstrap::ssh_config: []
+
+puppet::puppetdb::postgres_database_host: localhost
+puppet::puppetdb::postgres_database_name: puppetdb
+puppet::puppetdb::postgres_database_username: puppetdb
