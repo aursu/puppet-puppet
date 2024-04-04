@@ -4,11 +4,14 @@ groups:
 - name: puppetservers
   targets:
     - name: puppet
-      uri: 127.0.0.1:22
-  config:
-    transport: ssh
-    ssh:
-      user: root
-      run-as: root
-      host-key-check: false
-      tmpdir: /var/tmp
+      uri: puppet-puppet-puppet-1:22
+targets:
+  - name: puppetdb
+    uri: puppet-puppet-puppetdb-1:22
+config:
+  transport: ssh
+  ssh:
+    user: root
+    run-as: root
+    host-key-check: false
+    tmpdir: /var/tmp
