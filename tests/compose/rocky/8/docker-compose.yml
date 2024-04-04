@@ -1,6 +1,6 @@
 version: "3"
 services:
-  rocky8puppet:
+  puppet:
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile
@@ -16,7 +16,7 @@ services:
       - /tmp
     user: root
     image: "aursu/rockylinux:${RL8TAG}-puppet"
-  rocky8puppetdb:
+  puppetdb:
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile

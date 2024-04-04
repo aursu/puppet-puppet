@@ -1,6 +1,6 @@
 version: "3"
 services:
-  stream9puppet:
+  puppet:
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile
@@ -15,7 +15,7 @@ services:
       - /tmp
     user: root
     image: "aursu/centos:${OS9TAG}-puppet"
-  stream9puppetdb:
+  puppetdb:
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile

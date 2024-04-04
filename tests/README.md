@@ -40,7 +40,7 @@ command is recommended. This command facilitates the start of a specified servic
 only the container designated for Puppet Server testing, the following command is advised:
 
 ```
-docker-compose --project-directory $(pwd) -f tests/compose/rocky/8/docker-compose.yml run -d rocky8puppet
+docker-compose --project-directory $(pwd) -f tests/compose/rocky/8/docker-compose.yml run -d puppet
 ```
 
 ## Accessing containers for testing inside
@@ -50,7 +50,7 @@ followed by the service name and the command you wish to execute. Here's an exam
 bash shell inside a container based on the Rocky Linux 8 configuration:
 
 ```
-docker-compose --project-directory $(pwd) -f tests/compose/rocky/8/docker-compose.yml exec rocky8puppet /bin/bash
+docker-compose --project-directory $(pwd) -f tests/compose/rocky/8/docker-compose.yml exec puppet /bin/bash
 ```
 
 To exit the shell session and return to your host machine, simply type `exit` or press `Ctrl+D`.

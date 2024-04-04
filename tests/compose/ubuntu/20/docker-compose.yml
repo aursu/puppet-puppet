@@ -1,6 +1,6 @@
 version: "3"
 services:
-  ubuntu20puppet:
+  puppet:
     build:
       context: .
       dockerfile: tests/ubuntu/Dockerfile
@@ -15,7 +15,7 @@ services:
       - /tmp
     user: root
     image: "aursu/ubuntu:${U20TAG}-puppet"
-  ubuntu20puppetdb:
+  puppetdb:
     build:
       context: .
       dockerfile: tests/ubuntu/Dockerfile
