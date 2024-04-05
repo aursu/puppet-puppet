@@ -6,6 +6,7 @@ plan puppet::server::bootstrap (
   Stdlib::Unixpath $bootstrap_path = '/root/bootstrap',
   Boolean $use_ssh = true,
   Optional[String] $certname = undef,
+  Optional[String] $dns_alt_names = undef,
 ) {
   run_plan(facts, $targets)
 
@@ -35,6 +36,15 @@ plan puppet::server::bootstrap (
         default_value => [],
     })
 
+    $dns_alt_names_list = lookup({
+        name          => 'puppet::server::bootstrap::dns_alt_names',
+        value_type    => Array[Stdlib::Host],
+        default_value => $dns_alt_names ? {
+          String  => split($dns_alt_names, /,/),
+          default => [],
+        },
+    })
+
     class { 'puppet::server::bootstrap::globals':
       access_data    => $access_data,
       ssh_config     => $ssh_config,
@@ -47,6 +57,7 @@ plan puppet::server::bootstrap (
       node_environment => 'production',
       use_ssh          => $use_ssh,
       certname         => $certname,
+      dns_alt_names    => $dns_alt_names_list,
     }
   }
 }

@@ -28,6 +28,12 @@
 #   Specifies if SSH is required for authentication or authorization to access 
 #   Puppet repositories on Git.
 #
+# @param certname
+# @param dns_alt_names
+#   Additional hostnames that the Puppet server can use to identify itself. This is particularly
+#   useful when you have a Puppet server that needs to be accessible under multiple hostnames or
+#   aliases, not just its primary hostname
+#
 # @example
 #   include puppet::server::bootstrap
 class puppet::server::bootstrap (
@@ -37,6 +43,7 @@ class puppet::server::bootstrap (
   Optional[String] $node_environment = undef,
   Boolean $use_ssh = true,
   Optional[String] $certname = undef,
+  Array[Stdlib::Host] $dns_alt_names = [],
 ) {
   class { 'puppet::globals':
     platform_name => $platform_name,
@@ -58,6 +65,7 @@ class puppet::server::bootstrap (
     use_puppetdb     => false,
     static_certname  => $static_certname,
     certname         => $certname,
+    dns_alt_names    => $dns_alt_names,
   }
 
   class { 'puppet::setup':

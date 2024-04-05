@@ -53,6 +53,26 @@ describe 'puppet::config' do
         is_expected.not_to contain_file('/etc/puppetlabs/puppetserver/conf.d/webserver.conf')
       }
 
+      it {
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
+          .without_content(%r{dns_alt_names})
+      }
+
+      context 'check dns_alt_names when empty Array' do
+        let(:params) do
+          {
+            dns_alt_names: [],
+          }
+        end
+
+        it {
+          is_expected.to contain_file('puppet-config')
+            .with_path('/etc/puppetlabs/puppet/puppet.conf')
+            .without_content(%r{dns_alt_names})
+        }
+      end
+
       context 'check webserver.conf management' do
         let(:params) do
           {

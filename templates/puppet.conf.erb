@@ -50,7 +50,7 @@ report = true
 
 <% if @puppet_server -%>
 [<%= @server_section %>]
-<%   if @dns_alt_names.is_a?(Array) -%>
+<%   if @dns_alt_names.is_a?(Array) && @dns_alt_names.any? -%>
 dns_alt_names = <%= @dns_alt_names.join(',') %>
 <%   end -%>
 vardir = /opt/puppetlabs/server/data/puppetserver

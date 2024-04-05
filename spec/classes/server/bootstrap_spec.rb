@@ -77,6 +77,23 @@ describe 'puppet::server::bootstrap' do
             )
         }
       end
+
+      context 'with dns_alt_names' do
+        let(:params) do
+          {
+            dns_alt_names: [
+              'puppet',
+              'puppet-puppet-puppet-1',
+            ],
+          }
+        end
+
+        it {
+          is_expected.to contain_file('puppet-config')
+            .with_path('/etc/puppetlabs/puppet/puppet.conf')
+            .with_content(%r{dns_alt_names = puppet,puppet-puppet-puppet-1})
+        }
+      end
     end
   end
 end
