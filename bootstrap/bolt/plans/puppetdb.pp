@@ -8,11 +8,11 @@ plan puppet_bootstrap::puppetdb (
   String $database_password = 'puppetdb',
   Boolean $manage_firewall = false,
 ) {
-  run_plan(facts, $targets)
-
   run_plan( puppet::agent::install, $targets,
     collection => $platform_name,
   )
+
+  run_plan(facts, $targets)
 
   return apply($targets) {
     include puppet
