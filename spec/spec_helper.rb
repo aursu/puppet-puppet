@@ -11,6 +11,13 @@ require 'spec_helper_local' if File.file?(File.join(File.dirname(__FILE__), 'spe
 
 include RspecPuppetFacts
 
+class ::Hash
+  def deep_merge(second)
+    merger = proc { |_, v1, v2| (v1.is_a?(Hash) && v2.is_a?(Hash)) ? v1.merge(v2, &merger) : v2 }
+    merge(second, &merger)
+  end
+end
+
 default_facts = {
   puppetversion: Puppet.version,
   facterversion: Facter.version,

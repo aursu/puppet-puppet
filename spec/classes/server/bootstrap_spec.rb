@@ -7,7 +7,7 @@ describe 'puppet::server::bootstrap' do
 
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { os_facts.deep_merge('networking' => { 'fqdn' => 'hostname.domain.tld' }) }
 
       it { is_expected.to compile.with_all_deps }
 
@@ -23,6 +23,12 @@ describe 'puppet::server::bootstrap' do
       it {
         is_expected.to contain_file('/root/bootstrap/ca')
           .with_ensure(:directory)
+      }
+
+      it {
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
+          .with_content(%r{dns_alt_names = puppet,hostname.domain.tld})
       }
 
       context 'when use SSH for Git access' do
@@ -81,8 +87,21 @@ describe 'puppet::server::bootstrap' do
       context 'with dns_alt_names' do
         let(:params) do
           {
+            dns_alt_names: %w[puppet puppet-puppet-puppet-1],
+          }
+        end
+
+        it {
+          is_expected.to contain_file('puppet-config')
+            .with_path('/etc/puppetlabs/puppet/puppet.conf')
+            .with_content(%r{dns_alt_names = puppet,puppet-puppet-puppet-1,hostname.domain.tld})
+        }
+      end
+
+      context 'with dns_alt_names single name' do
+        let(:params) do
+          {
             dns_alt_names: [
-              'puppet',
               'puppet-puppet-puppet-1',
             ],
           }
@@ -91,7 +110,7 @@ describe 'puppet::server::bootstrap' do
         it {
           is_expected.to contain_file('puppet-config')
             .with_path('/etc/puppetlabs/puppet/puppet.conf')
-            .with_content(%r{dns_alt_names = puppet,puppet-puppet-puppet-1})
+            .with_content(%r{dns_alt_names = puppet-puppet-puppet-1,puppet,hostname.domain.tld})
         }
       end
     end

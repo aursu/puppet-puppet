@@ -58,6 +58,8 @@ class puppet::server::bootstrap (
     default => false,
   }
 
+  $dns_alt_names_bootstrap = $dns_alt_names + ['puppet', $facts['networking']['fqdn']]
+
   class { 'puppet::config':
     node_environment => $node_environment,
     # to avoid "Server Error: Could not find terminus puppetdb for indirection facts"
@@ -65,7 +67,7 @@ class puppet::server::bootstrap (
     use_puppetdb     => false,
     static_certname  => $static_certname,
     certname         => $certname,
-    dns_alt_names    => $dns_alt_names,
+    dns_alt_names    => $dns_alt_names_bootstrap.unique,
   }
 
   class { 'puppet::setup':
@@ -93,8 +95,9 @@ class puppet::server::bootstrap (
   }
 
   class { 'puppet::server::ca::import':
-    import_path => "${bootstrap_path}/ca",
-    require     => File["${bootstrap_path}/ca"],
+    dns_alt_names => $dns_alt_names_bootstrap.unique,
+    import_path   => "${bootstrap_path}/ca",
+    require       => File["${bootstrap_path}/ca"],
   }
 
   class { 'puppet::service':
