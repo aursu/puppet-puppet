@@ -10,6 +10,13 @@ describe 'puppet::server::bootstrap::hiera' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile.with_all_deps }
+
+      it {
+        is_expected.to contain_exec('cp -a hiera/common.yaml /etc/puppetlabs/code/environments/production/data/common.yaml')
+          .with(
+            cwd: '/root/bootstrap',
+          )
+      }
     end
   end
 end

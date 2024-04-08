@@ -24,25 +24,21 @@ class puppet::server::bootstrap::hiera inherits puppet::params {
 
   exec {
     default:
-      path => '/usr/bin:/bin',
-      cwd  => $cwd,
-      ;
-    "cp -a hiera.yaml ${env_path}/hiera.yaml":
-      onlyif  => 'test -f hiera.yaml',
-      unless  => "grep -q secrets.eyaml ${env_path}/hiera.yaml",
-      require => [
-        File[$env_path],
-        Class['puppet::server::bootstrap::setup'],
-      ],
-      before  => File["${env_path}/hiera.yaml"],
-      ;
-    "cp -a data/secrets.eyaml ${data_path}/secrets.eyaml":
-      onlyif  => 'test -f data/secrets.eyaml',
-      creates => "${data_path}/secrets.eyaml",
+      path    => '/usr/bin:/bin',
+      cwd     => $cwd,
       require => [
         File[$data_path],
         Class['puppet::server::bootstrap::setup'],
       ],
+      ;
+    "cp -a hiera/common.yaml ${data_path}/common.yaml":
+      onlyif  => 'test -f hiera/common.yaml',
+      creates => "${data_path}/common.yaml",
+      before  => File["${data_path}/common.yaml"],
+      ;
+    "cp -a hiera/secrets.eyaml ${data_path}/secrets.eyaml":
+      onlyif  => 'test -f hiera/secrets.eyaml',
+      creates => "${data_path}/secrets.eyaml",
       before  => File["${data_path}/secrets.eyaml"],
       ;
   }
@@ -52,7 +48,7 @@ class puppet::server::bootstrap::hiera inherits puppet::params {
       mode  => '0440',
       group => 'puppet',
       ;
-    "${env_path}/hiera.yaml": ;
+    "${data_path}/common.yaml": ;
     "${data_path}/secrets.eyaml": ;
   }
 }

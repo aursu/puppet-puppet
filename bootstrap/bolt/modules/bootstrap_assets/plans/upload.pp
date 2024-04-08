@@ -24,4 +24,13 @@ plan bootstrap_assets::upload (
       upload_file("bootstrap_assets/${comp}", "${path}/${comp}", $targets)
     }
   }
+
+  run_task(bootstrap_assets::assets_dir, $targets, path => "${path}/hiera")
+
+  $hiera_configs = ['hiera/common.yaml', 'hiera/secrets.eyaml']
+  $hiera_configs.each |$conf| {
+    if file::exists("bootstrap_assets/${conf}") {
+      upload_file("bootstrap_assets/${conf}", "${path}/${conf}", $targets)
+    }
+  }
 }
