@@ -1,13 +1,13 @@
-# @summary Sign node certificates on Puppet server
+# @summary Signs node certificates on the Puppet server.
 #
-# Bolt plan which run puppetserver ca sign command for each node on Puppet
-# controller node. The Bolt plan targets are Nodes
+# This Bolt plan runs the 'puppetserver ca sign' command for each node on the
+# Puppet controller node. The Bolt plan targets are the Nodes themselves.
 #
 # @param targets
-#   Nodes for which certificate signing requests should be signed
+#   Nodes for which the certificate signing requests should be signed.
 #
 # @param server
-#   Puppet controller server(s) on which certificate should be signed
+#   The Puppet controller server(s) on which the certificates should be signed.
 #
 plan puppet::cert::sign (
   TargetSpec $targets,
@@ -15,7 +15,11 @@ plan puppet::cert::sign (
 ) {
   $puppet_server = get_targets($server)
 
-  $nodes = get_targets($targets).map |$node| { $node.name }
+  run_plan(facts, $targets)
+
+  # By default, the certname of the node is the host's fully qualified domain name (FQDN), as
+  # determined by Facter.
+  $nodes = get_targets($targets).map |$node| { $node.facts['fqdn'] }
 
   return run_plan('puppet::server::sign', 'targets' => $puppet_server, 'nodes' => $nodes)
 }
