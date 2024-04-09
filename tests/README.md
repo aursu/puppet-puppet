@@ -73,8 +73,14 @@ Repeat the process with the appropriate file path for other services you wish to
 bolt plan run puppet_bootstrap::server -t puppetservers dns_alt_names=puppet-puppet-puppet-1
 ```
 
-### PuppetDB sserver bootstrap
+### PuppetDB server bootstrap
 
 ```
-bolt plan run puppet_bootstrap::puppetdb -t puppetdb puppet_server=puppet-puppet-puppet-1
+bolt plan run puppet_bootstrap::puppetdb -t puppetdb puppet_server=puppet-puppet-puppet-1 certname=puppet-puppet-puppetdb-1
+```
+
+### Puppet Server final bootstrap
+
+```
+bolt plan run puppet_agent::run -t puppetservers environment=production
 ```
