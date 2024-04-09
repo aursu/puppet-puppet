@@ -11,7 +11,7 @@ plan puppet_bootstrap::puppetdb (
 ) {
   run_plan( puppet_bootstrap::puppetdb::node, $targets,
     puppet_server => $puppet_server,
-    collection    => $platform_name,
+    platform_name => $platform_name,
   )
 
   return apply($targets) {
