@@ -378,3 +378,20 @@ the bootstrap stage.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.16.0
+
+**Features**
+
+* Added puppet_bootstrap::puppetdb Bolt plan for initializing PuppetDB.
+* Introduced the ability to provide `dns_alt_names` during Puppet server
+bootstrap
+* Added `puppet::profile::puppetdb` profile, offering a predefined set of
+configurations for easier PuppetDB integration
+* Introduced `puppet_bootstrap::puppetdb::node` Bolt plan to authorise PuppetDB
+node on Puppet server.
+* Added support for specifying `certname` during PuppetDB bootstrap
+
+**Bugfixes**
+
+**Known Issues**
