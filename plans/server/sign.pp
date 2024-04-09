@@ -1,13 +1,16 @@
-# @summary Sign node certificates on Puppet controller node
+# @summary Signs node certificates on the Puppet controller node.
 #
-# Bolt plan which run puppetserver ca sign command for each node on Puppet
-# controller node as Bolt plan target
+# This Bolt plan runs the 'puppetserver ca sign' command for each specified node on the
+# Puppet controller node, treating it as the target for this Bolt plan. The
+# `$nodes` parameter can include both fully qualified domain names (FQDNs) and
+# separate certificate names (certnames), allowing for flexible specification of
+# targets for certificate signing.
 #
 # @param targets
-#   Puppet server(s) where certificate should be signed
+#   Puppet server(s) on which certificates should be signed.
 #
 # @param nodes
-#   Nodes for which certificate signing requesgts should be signed
+#   Nodes or certnames for which certificate signing requests should be signed.
 #
 plan puppet::server::sign (
   TargetSpec $targets,
