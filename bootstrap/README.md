@@ -68,7 +68,7 @@ To kickstart the bootstrap process, follow these essential preliminary steps:
 
    Securing access to r10k tool repositories is essential, particularly when dealing with private repositories that contain proprietary settings and data unique to your organization. For managing SSH private keys, Puppet Bolt Hiera facilitates this through the configuration of the `puppet::server::bootstrap::access` parameter. This parameter accepts an array of SSH keys, ensuring controlled access based on your operational requirements.
 
-   For example, to configure access to a GitHub repository, you can see example provided in the `secrets.eyaml` file within the [puppet-puppet repository (version 0.16.0)](https://github.com/aursu/puppet-puppet/blob/v0.16.0/bootstrap/bolt/data/secrets.eyaml#L5). Here's an illustrative snippet:
+   For example, to configure access to a GitHub repository, you can see example provided in the `secrets.eyaml` file within the [puppet-puppet repository (version 0.17.0)](https://github.com/aursu/puppet-puppet/blob/v0.17.0/bootstrap/bolt/data/secrets.eyaml#L5). Here's an illustrative snippet:
 
    ```
    # The `key_data` field contains the eYAML encrypted SSH private key, compacted to preserve formatting.
