@@ -52,6 +52,14 @@ maintaining the integrity of the CA's trust network. It lists all certificates t
 revoked and are no longer considered valid. By referencing this list, the Puppet server can prevent
 compromised or unauthorized certificates from being used, thereby safeguarding the security of
 communications within the Puppet infrastructure.
+* `hiera/common.yaml` - This file serves as the Hiera configuration intended to replace the
+identical configuration within the already deployed `production` environment during the bootstrap
+process. This adjustment allows for real-time modifications to the bootstrap process using
+Puppet Bolt.
+* `hiera/secrets.eyaml` - Similar to `hiera/common.yaml`, but it also supports eYAML encrypted
+values. The encryption relies on the keys located at `keys/private_key.pkcs7.pem`
+and `keys/public_key.pkcs7.pem` mentioned above. This feature enables the secure handling of
+sensitive data within the configuration.
 
 ## Usage
 

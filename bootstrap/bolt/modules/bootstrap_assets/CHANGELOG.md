@@ -33,3 +33,14 @@ on Puppet server
 * Added Bolt tasks to create `ca` and `keys` directories
 
 **Known Issues**
+
+## Release 0.2.3
+
+**Features**
+
+**Bugfixes**
+
+* Added bootstrap assets `hiera/common.yaml` and `hiera/secrets.eyaml`
+support
+
+**Known Issues**
