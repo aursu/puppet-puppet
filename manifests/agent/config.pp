@@ -10,6 +10,7 @@
 # @param onetime
 # @param runtimeout
 # @param ca_server
+# @param certname
 #
 class puppet::agent::config (
   Stdlib::Fqdn $server = 'puppet',
@@ -17,7 +18,13 @@ class puppet::agent::config (
   Boolean $onetime = true,
   Puppet::TimeUnit $runtimeout = '10m',
   Optional[String] $ca_server = undef,
+  Optional[String] $certname = undef,
 ) {
+  $static_certname = $certname ? {
+    String  => true,
+    default => false,
+  }
+
   class { 'puppet::config':
     puppet_server    => false,
     server           => $server,
@@ -25,5 +32,7 @@ class puppet::agent::config (
     node_environment => $node_environment,
     onetime          => $onetime,
     runtimeout       => $runtimeout,
+    static_certname  => $static_certname,
+    certname         => $certname,
   }
 }

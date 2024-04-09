@@ -5,11 +5,11 @@
 # - https://puppet.com/docs/puppet/latest/config_file_main.html
 # - https://puppet.com/docs/puppet/latest/configuration.html
 [main]
-<% if @puppet_server -%>
 <%   if @static_certname -%>
 <%# Default: node's fully qualified domain name -%>
 certname = <%= @certname %>
 <%   end -%>
+<% if @puppet_server -%>
 strict = <%= @strict %>
 <%   if @strict_variables -%>
 <%# Default: false -%>

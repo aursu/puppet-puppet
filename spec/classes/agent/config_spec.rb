@@ -28,6 +28,26 @@ describe 'puppet::agent::config' do
           .with_path('/etc/puppetlabs/puppet/puppet.conf')
           .with_content(%r{onetime = true})
       }
+
+      it {
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
+          .without_content(%r{certname})
+      }
+
+      context 'with defined static name' do
+        let(:params) do
+          {
+            certname: 'puppet-ca.domain.tld',
+          }
+        end
+
+        it {
+          is_expected.to contain_file('puppet-config')
+            .with_path('/etc/puppetlabs/puppet/puppet.conf')
+            .with_content(%r{^\[main\]\ncertname = puppet-ca.domain.tld$})
+        }
+      end
     end
   end
 end
