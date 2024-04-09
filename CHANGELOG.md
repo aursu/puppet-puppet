@@ -395,3 +395,13 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.17.0
+
+**Features**
+
+* Updated documentation
+
+**Bugfixes**
+
+**Known Issues**
