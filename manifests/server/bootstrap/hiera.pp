@@ -33,12 +33,12 @@ class puppet::server::bootstrap::hiera inherits puppet::params {
       ;
     "cp -a hiera/common.yaml ${data_path}/common.yaml":
       onlyif  => 'test -f hiera/common.yaml',
-      creates => "${data_path}/common.yaml",
+      unless  => "diff -q hiera/common.yaml ${data_path}/common.yaml",
       before  => File["${data_path}/common.yaml"],
       ;
     "cp -a hiera/secrets.eyaml ${data_path}/secrets.eyaml":
       onlyif  => 'test -f hiera/secrets.eyaml',
-      creates => "${data_path}/secrets.eyaml",
+      unless  => "diff -q hiera/secrets.eyaml ${data_path}/secrets.eyaml",
       before  => File["${data_path}/secrets.eyaml"],
       ;
   }
