@@ -20,7 +20,28 @@ using [Puppet Bolt](https://www.puppet.com/community/open-source/bolt)
 
 ### What bootstrap_assets affects **OPTIONAL**
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
+
+If an existing Puppet server with Puppet CA is already in place, you can back up the current keys
+using the following command:
+
+```
+tar czf keys.tar.gz -C /etc/puppetlabs puppetserver/ca/ca_key.pem puppetserver/ca/ca_crt.pem puppetserver/ca/ca_crl.pem puppet/keys/private_key.pkcs7.pem puppet/keys/public_key.pkcs7.pem
+```
+
+This command consolidates the essential CA keys and certificates into a single archive (`keys.tar.gz`),
+simplifying the process of securing and transferring these critical components.
+
+This archive can then be downloaded into your Bolt project and unpacked for the bootstrap of these
+components on a new Puppet server with the following commands:
+
+```
+tar zxf keys.tar.gz -C modules/bootstrap_assets/files/ --strip-components=1 puppetserver/ca
+tar zxf keys.tar.gz -C modules/bootstrap_assets/files/ --strip-components=1 puppet/keys
+```
+
+These steps ensure a seamless migration or duplication of essential security components to a new
+Puppet server setup, preserving the integrity of your Puppet infrastructure's security.
 
 ### Beginning with bootstrap_assets
 
