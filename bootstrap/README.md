@@ -157,3 +157,31 @@ To kickstart the bootstrap process, follow these essential preliminary steps:
    All the aforementioned Hiera settings can also be defined within the Hiera configuration files located in the Puppet Bolt project directory. The relevant paths for these configurations are `modules/bootstrap_assets/files/hiera/common.yaml` for standard settings and `modules/bootstrap_assets/files/hiera/secrets.eyaml` for encrypted values.
 
    When running Puppet Bolt, it automatically uploads these configurations into the `production` environment, specifically to `data/common.yaml` and `data/secrets.eyaml`, effectively replacing the existing files. This mechanism ensures that your `production` environment is configured with the precise settings defined in your Puppet Bolt project, streamlining the setup process.
+
+## Bootstrap process
+
+1. **Installing the Puppet server in a basic setup:**
+
+   Begin by installing and configuring a basic Puppet server setup. Use the following command to run the Puppet Bolt plan, specifying any DNS alternative names as needed:
+
+   ```
+   bolt plan run puppet_bootstrap::server -t puppetservers dns_alt_names=puppet-puppet-puppet-1
+   ```
+
+   2. **Bootstrapping the PuppetDB Server Using Puppet Bolt**
+
+   Once the Puppet server is up, the next step involves setting up the PuppetDB server. This step is critical for managing and storing your configuration data effectively. Execute the following command to bootstrap PuppetDB, specifying the Puppet server and the desired certificate name:
+
+   ```
+   bolt plan run puppet_bootstrap::puppetdb -t puppetdb \
+      puppet_server=puppet-puppet-puppet-1 \
+      certname=puppet-puppet-puppetdb-1
+   ```
+
+   3. **Installing the Puppet Server for Full-Scale Production**
+
+   With the basic setup of the Puppet server and PuppetDB complete, the next step is to install the Puppet server for a full-scale production environment. This involves running the Puppet agent in the production environment to apply all configurations and settings:
+
+   ```
+   bolt plan run puppet_agent::run -t puppetservers environment=production
+```

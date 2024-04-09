@@ -26,7 +26,7 @@ Module could be used as regural Puppet module (eg in Puppetfile):
 ```
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
-  tag: 'v0.14.0'
+  tag: 'v0.17.0'
 ```
 
 or
