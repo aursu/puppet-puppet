@@ -79,7 +79,7 @@ To kickstart the bootstrap process, follow these essential preliminary steps:
 
    Puppet Bolt will then transfer these assets to the Puppet server, specifically to the default bootstrap folder for the Puppet CA, located at `/root/bootstrap/ca`. Following this transfer, the files will be imported into the new Puppet CA using the `puppetserver ca import` command. This process is facilitated by the `puppet::server::ca::import` Puppet class.
 
-   See [Bootstrap assets description](modules/bootstrap_assets/README.md) for details
+   See [Bootstrap assets description](bolt/modules/bootstrap_assets/README.md) for details
 
 ## Bootstrap stages
 
