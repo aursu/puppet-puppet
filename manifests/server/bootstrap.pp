@@ -92,6 +92,8 @@ class puppet::server::bootstrap (
       cwd               => $cwd,
       require           => Class['puppet::server::bootstrap::ssh'],
     }
+
+    Class['puppet::r10k::run'] -> Class['puppet::server::bootstrap::hiera']
   }
 
   class { 'puppet::server::ca::import':
