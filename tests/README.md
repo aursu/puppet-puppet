@@ -76,8 +76,5 @@ bolt plan run puppet_bootstrap::server -t puppetservers dns_alt_names=puppet-pup
 ### PuppetDB sserver bootstrap
 
 ```
-bolt plan run puppet::bootstrap -t puppetdb server=puppet-puppet-puppet-1
-bolt plan run puppet::cert::sign -t puppetdb server=puppet-puppet-puppet-1
-bolt plan run puppet::bootstrap -t puppetdb server=puppet-puppet-puppet-1
-bolt plan run puppet_bootstrap::puppetdb -t puppetdb
+bolt plan run puppet_bootstrap::puppetdb -t puppetdb puppet_server=puppet-puppet-puppet-1
 ```
