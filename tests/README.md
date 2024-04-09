@@ -67,19 +67,51 @@ docker-compose --project-directory $(pwd) -f tests/compose/rocky/8/docker-compos
 
 Repeat the process with the appropriate file path for other services you wish to stop.
 
-## Puppet Server bootstrap
+## Puppet Server Bootstrap in Docker Compose
+
+### Puppet Server Bootstrap
+
+In environments using Docker Compose, a service discovery mechanism allows for connecting to the
+Puppet server Docker container via its container name or the service name defined in the
+`docker-compose.yml` file. In this scenario, where the project folder name is `puppet-puppet`, the
+container is automatically named `puppet-puppet-puppet-1`. Additionally, the predefined service name
+within the Docker Compose file is `puppet`. To ensure seamless communication with the Puppet service
+through these names, they must be included in the subject alternative names (SANs) of the Puppet
+server's SSL certificate.
+
+By default, the name `puppet` and the Fully Qualified Domain Name (FQDN) are automatically added to
+the certificate's SANs by the `puppet::server::bootstrap` class. However, to include the container
+name (e.g., `puppet-puppet-puppet-1`), it must be specified manually via the `dns_alt_names` parameter
+when running the Bolt plan:
 
 ```
 bolt plan run puppet_bootstrap::server -t puppetservers dns_alt_names=puppet-puppet-puppet-1
 ```
 
-### PuppetDB server bootstrap
+This approach ensures that all necessary names are recognized as valid identities of the Puppet
+server, facilitating trusted connections within the Docker Compose network.
+
+### PuppetDB Server Bootstrap
+
+For the PuppetDB container to communicate using either the `puppetdb` name (as predefined in the
+`docker-compose.yml` file) or the container name `puppet-puppet-puppetdb-1`, it's necessary to set
+the PuppetDB container's `certname` to one of these names. This can be achieved by using the
+`certname` CLI parameter when running the `puppet_bootstrap::puppetdb` Bolt plan. This action
+configures the `certname` option within the `main` section of the `puppet.conf` file.
+
+Furthermore, to enable PuppetDB to communicate with the Puppet server using the name
+`puppet-puppet-puppet-1`, this name must be specified as the `puppet_server` parameter to the
+`puppet_bootstrap::puppetdb` Bolt plan. Here's how you can run the Bolt plan with the necessary
+parameters:
 
 ```
 bolt plan run puppet_bootstrap::puppetdb -t puppetdb puppet_server=puppet-puppet-puppet-1 certname=puppet-puppet-puppetdb-1
 ```
 
-### Puppet Server final bootstrap
+This setup ensures that PuppetDB can establish a secure and recognized connection with the Puppet
+server within the Docker Compose network, using the specified container and service names.
+
+### Puppet Server Final Bootstrap
 
 ```
 bolt plan run puppet_agent::run -t puppetservers environment=production
