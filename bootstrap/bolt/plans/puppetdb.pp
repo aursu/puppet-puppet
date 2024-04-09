@@ -1,5 +1,6 @@
 plan puppet_bootstrap::puppetdb (
-  TargetSpec $targets,
+  TargetSpec $targets = 'puppetdb',
+  Stdlib::Fqdn $puppet_server = 'puppet',
   Puppet::Platform $platform_name = 'puppet8',
   Boolean $manage_database = true,
   Stdlib::Host $database_host = 'localhost',
@@ -8,11 +9,10 @@ plan puppet_bootstrap::puppetdb (
   String $database_password = 'puppetdb',
   Boolean $manage_firewall = false,
 ) {
-  run_plan( puppet::agent::install, $targets,
-    collection => $platform_name,
+  run_plan( puppet_bootstrap::puppetdb::node, $targets,
+    puppet_server => $puppet_server,
+    collection    => $platform_name,
   )
-
-  run_plan(facts, $targets)
 
   return apply($targets) {
     $postgres_database_host = lookup({ name => 'puppet::puppetdb::postgres_database_host',
