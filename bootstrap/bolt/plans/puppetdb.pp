@@ -9,6 +9,9 @@ plan puppet_bootstrap::puppetdb (
   String $database_password = 'puppetdb',
   Boolean $manage_firewall = false,
 ) {
+  # Unable to connect to puppetdb server (https://puppet-puppet-puppetdb-1:8081):
+  # Server hostname 'puppet-puppet-puppetdb-1' did not match server certificate;
+  # expected one of e7475213c9fe, DNS:e7475213c9fe
   run_plan( puppet_bootstrap::puppetdb::node, $targets,
     puppet_server => $puppet_server,
     platform_name => $platform_name,
