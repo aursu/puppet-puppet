@@ -66,3 +66,18 @@ docker-compose --project-directory $(pwd) -f tests/compose/rocky/8/docker-compos
 ```
 
 Repeat the process with the appropriate file path for other services you wish to stop.
+
+## Puppet Server bootstrap
+
+```
+bolt plan run puppet_bootstrap::server -t puppetservers dns_alt_names=puppet-puppet-puppet-1
+```
+
+### PuppetDB sserver bootstrap
+
+```
+bolt plan run puppet::bootstrap -t puppetdb server=puppet-puppet-puppet-1
+bolt plan run puppet::cert::sign -t puppetdb server=puppet-puppet-puppet-1
+bolt plan run puppet::bootstrap -t puppetdb server=puppet-puppet-puppet-1
+bolt plan run puppet_bootstrap::puppetdb -t puppetdb
+```
