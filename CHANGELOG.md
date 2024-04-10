@@ -408,3 +408,13 @@ node on Puppet server.
 * Do not manage Puppet service init template only on RedHat 7 and below
 
 **Known Issues**
+
+## Release 0.18.0
+
+**Features**
+
+* Added Ubuntu into supported OSes
+
+**Bugfixes**
+
+**Known Issues**
