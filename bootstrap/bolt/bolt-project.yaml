@@ -5,7 +5,7 @@ modules:
 - git: https://github.com/puppetlabs/puppetlabs-puppetdb.git
   ref: 7.14.0
 - git: https://github.com/aursu/puppet-puppet.git
-  ref: v0.17.0
+  ref: v0.17.1
 - name: aursu-bsys
   version_requirement: "=0.6.3"
 - name: aursu-openssh
