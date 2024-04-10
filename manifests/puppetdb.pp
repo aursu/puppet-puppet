@@ -56,7 +56,7 @@ class puppet::puppetdb (
   }
 
   if $manage_cron {
-    include puppetdb::globals
+    include puppetdb::params
     $automatic_dlo_cleanup = $puppetdb::params::automatic_dlo_cleanup
   }
   else {
