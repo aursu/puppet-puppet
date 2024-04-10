@@ -60,6 +60,28 @@ describe 'puppet::service' do
           }
         end
       end
+
+      if os_facts[:os]['name'] == 'Ubuntu'
+        context 'on Ubuntu' do
+          it {
+            is_expected.to contain_file('/etc/default/puppetserver')
+              .with_content(%r{"-Xms2g -Xmx2g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"})
+          }
+
+          context 'with different tmp path' do
+            let(:params) do
+              {
+                tmpdir: '/usr/local/tmp',
+              }
+            end
+
+            it {
+              is_expected.to contain_file('/etc/default/puppetserver')
+                .with_content(%r{"-Xms2g -Xmx2g -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger -Djava.io.tmpdir=/usr/local/tmp"})
+            }
+          end
+        end
+      end
     end
   end
 end

@@ -60,8 +60,12 @@ class puppet::params {
       }
       else {
         $manage_init_config = true
-        $init_config_template = 'puppet/init/puppetserver.RedHat.epp'
+        $init_config_template = 'puppet/init/puppetserver.epp'
       }
+    }
+    'Ubuntu': {
+      $manage_init_config = true
+      $init_config_template = 'puppet/init/puppetserver.epp'
     }
     default: {
       $manage_init_config   = false # not implemented
