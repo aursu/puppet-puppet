@@ -396,7 +396,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.17.1
+## Release 0.17.2
 
 **Features**
 
@@ -405,5 +405,6 @@ node on Puppet server.
 **Bugfixes**
 
 * Added CA serial file sync to avoid new certificates automatic revocation
+* Do not manage Puppet service init template only on RedHat 7 and below
 
 **Known Issues**
