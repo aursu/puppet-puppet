@@ -5,3 +5,4 @@
 /files/ca/ca_key.pem
 /files/ca/ca_crt.pem
 /files/ca/ca_crl.pem
+/files/ca/serial

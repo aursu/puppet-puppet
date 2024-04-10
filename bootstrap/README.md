@@ -184,4 +184,4 @@ To kickstart the bootstrap process, follow these essential preliminary steps:
 
    ```
    bolt plan run puppet_agent::run -t puppetservers environment=production
-```
+   ```

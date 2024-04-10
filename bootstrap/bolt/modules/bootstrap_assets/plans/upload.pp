@@ -18,7 +18,7 @@ plan bootstrap_assets::upload (
 
   run_task(bootstrap_assets::assets_dir, $targets, path => "${path}/ca")
 
-  $pki_components = ['ca/ca_key.pem', 'ca/ca_crt.pem', 'ca/ca_crl.pem']
+  $pki_components = ['ca/ca_key.pem', 'ca/ca_crt.pem', 'ca/ca_crl.pem', 'ca/serial']
   $pki_components.each |$comp| {
     if file::exists("bootstrap_assets/${comp}") {
       upload_file("bootstrap_assets/${comp}", "${path}/${comp}", $targets)

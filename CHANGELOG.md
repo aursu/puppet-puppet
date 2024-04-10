@@ -396,12 +396,14 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.17.0
+## Release 0.17.1
 
 **Features**
 
 * Updated documentation
 
 **Bugfixes**
+
+* Added CA serial file sync to avoid new certificates automatic revocation
 
 **Known Issues**

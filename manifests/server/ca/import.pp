@@ -25,6 +25,7 @@ class puppet::server::ca::import (
   $import_cakey  = "${import_path}/ca_key.pem"
   $import_cacert = "${import_path}/ca_crt.pem"
   $import_cacrl  = "${import_path}/ca_crl.pem"
+  $import_serial = "${import_path}/serial"
 
   $import_condition = [
     "test -f ${import_cakey}",
@@ -35,6 +36,7 @@ class puppet::server::ca::import (
   $cacert           = $puppet::globals::cacert
   $ca_public_files  = $puppet::globals::ca_public_files
   $ca_private_files = $puppet::globals::ca_private_files
+  $serial           = $puppet::globals::serial
 
   $ca_files         = $ca_public_files + $ca_private_files
 
@@ -66,6 +68,13 @@ class puppet::server::ca::import (
     command => "puppetserver ca import ${subject_alt_names_param} ${certname_param} --private-key ${import_cakey} --cert-bundle ${import_cacert} --crl-chain ${import_cacrl}", # lint:ignore:140chars
     onlyif  => $import_condition,
     creates => $cacert,
+  }
+
+  exec { "cat ${import_serial} > ${serial}":
+    path    => '/bin:/usr/bin',
+    onlyif  => "test -f ${import_serial}",
+    unless  => "diff -q ${import_serial} ${serial}",
+    require => Exec['puppetserver ca import'],
   }
 
   Class['puppet::server::install'] -> Exec['puppetserver ca import']

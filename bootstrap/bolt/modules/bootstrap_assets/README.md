@@ -26,7 +26,7 @@ If an existing Puppet server with Puppet CA is already in place, you can back up
 using the following command:
 
 ```
-tar czf keys.tar.gz -C /etc/puppetlabs puppetserver/ca/ca_key.pem puppetserver/ca/ca_crt.pem puppetserver/ca/ca_crl.pem puppet/keys/private_key.pkcs7.pem puppet/keys/public_key.pkcs7.pem
+tar czf keys.tar.gz -C /etc/puppetlabs puppetserver/ca/ca_key.pem puppetserver/ca/ca_crt.pem puppetserver/ca/ca_crl.pem puppetserver/ca/serial puppet/keys/private_key.pkcs7.pem puppet/keys/public_key.pkcs7.pem
 ```
 
 This command consolidates the essential CA keys and certificates into a single archive (`keys.tar.gz`),
