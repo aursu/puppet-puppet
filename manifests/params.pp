@@ -7,8 +7,10 @@
 # @example
 #   include puppet::params
 class puppet::params {
-  $os_version = $facts['os']['release']['major']
-  $os_name = $facts['os']['name']
+  include bsys::params
+
+  $os_version = $bsys::params::osmaj
+  $os_name = $bsys::params::osname
 
   if $facts['mountpoints'] and $facts['mountpoints']['/tmp'] {
     $tmp_mountpoint_noexec = ('noexec' in $facts['mountpoints']['/tmp']['options'])
@@ -51,9 +53,15 @@ class puppet::params {
   }
 
   case $os_name {
-    'Rocky': {
-      $manage_init_config   = true
-      $init_config_template = 'puppet/init/puppetserver.Rocky.epp'
+    'CentOS', 'Rocky': {
+      if $os_version in ['6', '7'] {
+        $manage_init_config   = false # not implemented
+        $init_config_template = undef
+      }
+      else {
+        $manage_init_config = true
+        $init_config_template = 'puppet/init/puppetserver.RedHat.epp'
+      }
     }
     default: {
       $manage_init_config   = false # not implemented
