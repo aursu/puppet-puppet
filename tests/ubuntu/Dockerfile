@@ -8,6 +8,7 @@ ENV PATH=/opt/puppetlabs/puppet/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/us
 ENV LANG=C
 
 RUN apt-get update && apt-get install -y \
+        curl \
         g++ \
         git \
         iproute2 \
