@@ -418,3 +418,13 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.18.1
+
+**Features**
+
+**Bugfixes**
+
+* Disable crontab manage during PuppetDB bootstrap
+
+**Known Issues**

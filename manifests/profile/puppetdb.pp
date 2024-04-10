@@ -9,6 +9,10 @@
 # @param database_password
 # @param manage_firewall
 #
+# @param manage_cron
+#   Specifies whether to manage crontab entries. This setting is critical for
+#   containerized environments where crontab may not be available.
+#
 # @example
 #   include puppet::profile::puppetdb
 class puppet::profile::puppetdb (
@@ -18,6 +22,7 @@ class puppet::profile::puppetdb (
   String $database_username = 'puppetdb',
   String $database_password = 'puppetdb',
   Boolean $manage_firewall = false,
+  Boolean $manage_cron = true,
 ) {
   include puppet
 
@@ -41,5 +46,6 @@ class puppet::profile::puppetdb (
       'TLS_DHE_RSA_WITH_CHACHA20_POLY1305_SHA256',
     ],
     manage_firewall            => $manage_firewall,
+    manage_cron                => $manage_cron,
   }
 }

@@ -21,6 +21,10 @@
 #   puppetlabs/firewall for firewall rules setup, iptables/ip6tables services
 #   management
 #
+# @param manage_cron
+#   Specifies whether to manage crontab entries. This setting is critical for
+#   containerized environments where crontab may not be available.
+#
 class puppet::puppetdb (
   Boolean $manage_database = true,
   Stdlib::Host $postgres_database_host = 'localhost',
@@ -37,6 +41,7 @@ class puppet::puppetdb (
     'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256',
   ],
   Boolean $manage_firewall = false,
+  Boolean $manage_cron = true,
 ) {
   if $manage_database {
     include lsys_postgresql
@@ -50,19 +55,29 @@ class puppet::puppetdb (
     Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"] -> Class['puppetdb']
   }
 
+  if $manage_cron {
+    include puppetdb::globals
+    $automatic_dlo_cleanup = $puppetdb::params::automatic_dlo_cleanup
+  }
+  else {
+    $automatic_dlo_cleanup = false
+  }
+
   class { 'puppetdb':
-    database          => 'postgres',
-    manage_dbserver   => false,
-    database_host     => $postgres_database_host,
-    database_name     => $postgres_database_name,
-    database_username => $postgres_database_username,
-    database_password => $postgres_database_password,
-    manage_firewall   => $manage_firewall,
+    database              => 'postgres',
+    manage_dbserver       => false,
+    database_host         => $postgres_database_host,
+    database_name         => $postgres_database_name,
+    database_username     => $postgres_database_username,
+    database_password     => $postgres_database_password,
+    manage_firewall       => $manage_firewall,
 
-    manage_database   => $manage_database,
+    manage_database       => $manage_database,
 
-    ssl_protocols     => join($ssl_protocols, ','),
-    cipher_suites     => join($cipher_suites, ','),
+    ssl_protocols         => join($ssl_protocols, ','),
+    cipher_suites         => join($cipher_suites, ','),
+
+    automatic_dlo_cleanup => $automatic_dlo_cleanup,
   }
 
   contain puppetdb

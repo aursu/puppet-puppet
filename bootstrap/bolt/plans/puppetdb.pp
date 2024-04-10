@@ -43,6 +43,7 @@ plan puppet_bootstrap::puppetdb (
       database_username => $postgres_database_username,
       database_password => $postgres_database_password,
       manage_firewall   => $manage_firewall,
+      manage_cron       => false,
     }
   }
 }
