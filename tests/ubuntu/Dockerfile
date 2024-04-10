@@ -14,8 +14,9 @@ RUN apt-get update && apt-get install -y \
         iproute2 \
         iputils-ping \
         make \
-        wget \
         ruby ruby-dev \
+        tzdata \
+        wget \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://apt.puppet.com/${platform}-release-${codename}.deb && dpkg -i ${platform}-release-${codename}.deb \

@@ -19,6 +19,7 @@ RUN microdnf -y install \
         iputils \
         procps-ng \
         tar \
+        tzdata \
         vim \
     && microdnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
 
@@ -43,6 +44,9 @@ RUN cp /etc/skel/.bash_profile /etc/skel/.bashrc ~/ \
     && echo 'export PATH=/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin:$PATH' >> ~/.bashrc
 
 RUN mkdir -p /var/tmp && chmod 1777 /var/tmp
+
+# CentOS 9 timezone fix
+RUN ln -sf ../usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
 COPY . /root/bootstrap/puppet
 WORKDIR /root/bootstrap/puppet/bootstrap/bolt
