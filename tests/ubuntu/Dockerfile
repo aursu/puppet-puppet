@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y \
         iputils-ping \
         make \
         ruby ruby-dev \
-        tzdata \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
@@ -23,6 +22,7 @@ RUN wget https://apt.puppet.com/${platform}-release-${codename}.deb && dpkg -i $
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         puppet-bolt \
         openssh-server \
+        tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 COPY tests/ubuntu/sshd/sshd_config /etc/ssh/sshd_config
