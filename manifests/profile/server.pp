@@ -110,7 +110,13 @@ class puppet::profile::server (
   Boolean $manage_webserver_conf = false,
   Boolean $manage_fileserver_config = true,
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
+  Optional[String] $certname = undef,
 ) inherits puppet::params {
+  $static_certname = $certname ? {
+    String  => true,
+    default => false,
+  }
+
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
     master           => true,
@@ -136,6 +142,8 @@ class puppet::profile::server (
     manage_webserver_conf    => $manage_webserver_conf,
     manage_fileserver_config => $manage_fileserver_config,
     mount_points             => $mount_points,
+    static_certname          => $static_certname,
+    certname                 => $certname,
   }
 
   # r10k is not optional in our workflow, it should replace initial setup with

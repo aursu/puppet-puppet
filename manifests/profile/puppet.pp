@@ -75,6 +75,7 @@ class puppet::profile::puppet (
   Boolean $manage_webserver_conf = false,
   Boolean $manage_fileserver_config = true,
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
+  Optional[String] $certname = undef,
 ) {
   if $puppetserver {
     if $sameca {
@@ -95,6 +96,7 @@ class puppet::profile::puppet (
         manage_webserver_conf    => $manage_webserver_conf,
         manage_fileserver_config => $manage_fileserver_config,
         mount_points             => $mount_points,
+        certname                 => $certname,
       }
       contain puppet::profile::server
     }
@@ -114,6 +116,7 @@ class puppet::profile::puppet (
         manage_webserver_conf    => $manage_webserver_conf,
         manage_fileserver_config => $manage_fileserver_config,
         mount_points             => $mount_points,
+        certname                 => $certname,
       }
       contain puppet::profile::compiler
     }
@@ -123,6 +126,7 @@ class puppet::profile::puppet (
       platform_name => $platform_name,
       server        => $server,
       ca_server     => $ca_server,
+      certname      => $certname,
     }
   }
 }

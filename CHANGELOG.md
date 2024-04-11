@@ -428,3 +428,13 @@ node on Puppet server.
 * Disable crontab manage during PuppetDB bootstrap
 
 **Known Issues**
+
+## Release 0.19.0
+
+**Features**
+
+* Added `certname` parameter into profiles
+
+**Bugfixes**
+
+**Known Issues**

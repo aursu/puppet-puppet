@@ -9,6 +9,7 @@ class puppet::profile::agent (
   String $server = 'puppet',
   Boolean $hosts_update = false,
   Optional[String] $ca_server = undef,
+  Optional[String] $certname = undef,
 ) {
   class { 'puppet':
     server    => $server,
@@ -29,6 +30,7 @@ class puppet::profile::agent (
     # lint:ignore:top_scope_facts
     node_environment => $::environment,
     # lint:endignore
+    certname         => $certname,
   }
 
   class { 'puppet::setup':

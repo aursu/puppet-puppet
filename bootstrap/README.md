@@ -168,6 +168,12 @@ To kickstart the bootstrap process, follow these essential preliminary steps:
    bolt plan run puppet_bootstrap::server -t puppetservers dns_alt_names=puppet-puppet-puppet-1
    ```
 
+   or
+
+   ```
+   bolt plan run puppet_bootstrap::server -t puppetservers certname=puppet-puppet-puppet-1
+   ```
+
    2. **Bootstrapping the PuppetDB Server Using Puppet Bolt**
 
    Once the Puppet server is up, the next step involves setting up the PuppetDB server. This step is critical for managing and storing your configuration data effectively. Execute the following command to bootstrap PuppetDB, specifying the Puppet server and the desired certificate name:
