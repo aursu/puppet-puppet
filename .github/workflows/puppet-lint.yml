@@ -45,7 +45,7 @@ jobs:
         run: gem install puppet-lint
 
       - name: Run puppet-lint
-        run: puppet-lint . --sarif > puppet-lint-results.sarif
+        run: puppet-lint ./manifests --sarif > puppet-lint-results.sarif
         continue-on-error: true
 
       - name: Upload analysis results to GitHub
