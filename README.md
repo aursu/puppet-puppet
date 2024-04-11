@@ -54,7 +54,9 @@ This module can be utilized in two primary ways:
 
    For a more detailed description, refer to the [`bootstrap`](bootstrap/README.md) directory.
 
-### What `puppet` affects **OPTIONAL**
+### What `puppet` affects
+
+When integrated into a Puppet catalog to configure a Puppet server, the `puppet` module offers comprehensive control over several crucial configurations and components of both the Puppet server and the overall Puppet infrastructure:
 
 ### Setup Requirements **OPTIONAL**
 
