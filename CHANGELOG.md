@@ -438,3 +438,15 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.19.1
+
+**Features**
+
+* Added plan `puppet::agent::run` with only puppet agent output
+* Added ability to set up specific hostname in `puppet::agent::hostname`
+* Updated some documentation
+
+**Bugfixes**
+
+**Known Issues**

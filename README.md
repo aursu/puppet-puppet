@@ -30,13 +30,13 @@ This module can be utilized in two primary ways:
    ```
    mod 'puppet',
      git: 'https://github.com/aursu/puppet-puppet.git',
-     tag: 'v0.19.0'
+     tag: 'v0.19.1'
    ```
 
    Alternatively, you can specify the version directly if it’s available from the module repository on [Puppet Forge](https://forge.puppet.com/modules/aursu/puppet/readme):
 
    ```
-   mod 'aursu/puppet', '0.14.0'
+   mod 'aursu/puppet', '0.19.1'
    ```
 
 2. **As a Puppet Server Bootstrap Tool Using Puppet Bolt**
