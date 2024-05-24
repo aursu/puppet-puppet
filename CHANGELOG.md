@@ -450,3 +450,14 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.19.2
+
+**Features**
+
+* Added ability to disable upstream repo management
+  Flag `puppet::manage_repo`
+
+**Bugfixes**
+
+**Known Issues**

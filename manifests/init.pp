@@ -52,5 +52,6 @@ class puppet (
   Boolean $manage_webserver_conf,
   Boolean $manage_fileserver_config,
   Hash[String, Stdlib::Absolutepath] $mount_points,
+  Boolean $manage_repo,
   String  $certname = $facts['networking']['fqdn'],
 ) {}
