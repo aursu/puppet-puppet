@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'puppet::repo' do
+  let(:pre_condition) { 'include puppet' }
+
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
@@ -36,6 +38,7 @@ describe 'puppet::repo' do
       context 'check deccomission packages for Puppet 7' do
         let(:pre_condition) do
           <<-PRECOND
+          include puppet
           class { 'puppet::globals': platform_name => 'puppet7', }
           PRECOND
         end
