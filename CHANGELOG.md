@@ -461,3 +461,13 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.19.3
+
+**Features**
+
+**Bugfixes**
+
+* Make dependency on puppetlabs/puppet_agent >= 4.20.0 as it has environment validation fix 
+
+**Known Issues**

@@ -1,8 +1,7 @@
 plan puppet::agent::run (
   TargetSpec $targets,
   Boolean $noop = false,
-  # run.rb:145:in `environment': undefined method `length' for nil:NilClass
-  Optional[String[1]] $environment = 'x',
+  Optional[String[1]] $environment = undef,
 ) {
   $results = run_plan('puppet_agent::run', $targets, 'noop' => $noop, 'environment' => $environment)
 
