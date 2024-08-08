@@ -15,7 +15,7 @@ class puppet::profile::agent (
   class { 'puppet':
     server      => $server,
     ca_server   => $ca_server,
-    manage_repo => manage_repo,
+    manage_repo => $manage_repo,
   }
 
   class { 'puppet::globals':
