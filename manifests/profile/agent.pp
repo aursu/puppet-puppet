@@ -10,10 +10,12 @@ class puppet::profile::agent (
   Boolean $hosts_update = false,
   Optional[String] $ca_server = undef,
   Optional[String] $certname = undef,
+  Boolean $manage_repo = true,
 ) {
   class { 'puppet':
-    server    => $server,
-    ca_server => $ca_server,
+    server      => $server,
+    ca_server   => $ca_server,
+    manage_repo => manage_repo,
   }
 
   class { 'puppet::globals':

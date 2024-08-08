@@ -47,6 +47,7 @@ class puppet::profile::compiler (
   Boolean $manage_fileserver_config = true,
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
   Optional[String] $certname = undef,
+  Boolean $manage_repo = true,
 ) {
   class { 'puppet::profile::server':
     sameca                   => false,
@@ -75,6 +76,7 @@ class puppet::profile::compiler (
     mount_points             => $mount_points,
 
     certname                 => $certname,
+    manage_repo              => $manage_repo,
   }
   contain puppet::profile::server
 }

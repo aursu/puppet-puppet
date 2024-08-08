@@ -111,6 +111,7 @@ class puppet::profile::server (
   Boolean $manage_fileserver_config = true,
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
   Optional[String] $certname = undef,
+  Boolean $manage_repo = true,
 ) inherits puppet::params {
   $static_certname = $certname ? {
     String  => true,
@@ -127,6 +128,7 @@ class puppet::profile::server (
     use_common_env   => $use_common_env,
     common_envname   => $common_envname,
     enc_envname      => $enc_envname,
+    manage_repo      => $manage_repo,
   }
 
   class { 'puppet::globals':

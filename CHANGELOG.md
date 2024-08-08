@@ -462,7 +462,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.19.4
+## Release 0.19.5
 
 **Features**
 
@@ -470,5 +470,6 @@ node on Puppet server.
 
 * Make dependency on puppetlabs/puppet_agent >= 4.20.0 as it has environment validation fix
 * Moved the decommissioning of other Puppet platform repositories under the repository management section
+* Added ability to disable upstream repo management into profiles
 
 **Known Issues**

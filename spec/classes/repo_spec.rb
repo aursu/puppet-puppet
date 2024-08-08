@@ -65,6 +65,32 @@ describe 'puppet::repo' do
             .with_ensure('absent')
         }
       end
+
+      context 'when repo management disabled' do
+        let(:pre_condition) do
+          <<-PRECOND
+          class { 'puppet': manage_repo => false, }
+          PRECOND
+        end
+
+        it { is_expected.to compile }
+
+        it {
+          is_expected.not_to contain_package('puppet-release')
+        }
+
+        it {
+          is_expected.not_to contain_package('puppet5-release')
+        }
+
+        it {
+          is_expected.not_to contain_package('puppet6-release')
+        }
+
+        it {
+          is_expected.not_to contain_package('puppet8-release')
+        }
+      end
     end
   end
 end
