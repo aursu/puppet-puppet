@@ -462,12 +462,13 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.19.3
+## Release 0.19.4
 
 **Features**
 
 **Bugfixes**
 
-* Make dependency on puppetlabs/puppet_agent >= 4.20.0 as it has environment validation fix 
+* Make dependency on puppetlabs/puppet_agent >= 4.20.0 as it has environment validation fix
+* Moved the decommissioning of other Puppet platform repositories under the repository management section
 
 **Known Issues**
