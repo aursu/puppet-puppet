@@ -36,12 +36,12 @@ class puppet::repo (
       source   => "/tmp/${package_filename}",
       require  => Exec['puppet-release'],
     }
-  }
 
-  $deccomission_packages.each |String $puppet_release| {
-    package { $puppet_release:
-      ensure => absent,
-      before => Package['puppet-release'],
+    $deccomission_packages.each |String $puppet_release| {
+      package { $puppet_release:
+        ensure => absent,
+        before => Package['puppet-release'],
+      }
     }
   }
 }
