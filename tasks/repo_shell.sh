@@ -638,23 +638,6 @@ case $platform in
     filename="${collection}-release-${deb_codename}.deb"
     download_url="${apt_source}/${filename}"
     ;;
-  "Linuxmint"|"LinuxMint")
-    info "Mint platform! Lets get you a DEB..."
-    case $major_version in
-      "3")  deb_codename="stretch";;
-      "4")  deb_codename="buster";;
-      "5")  deb_codename="bullseye";;
-      "6")  deb_codename="bookworm";;
-      "21") deb_codename="jammy";;
-      "20") deb_codename="focal";;
-      "19") deb_codename="bionic";;
-      "18") deb_codename="xenial";;
-      "17") deb_codename="trusty";;
-    esac
-    filetype="deb"
-    filename="${collection}-release-${deb_codename}.deb"
-    download_url="${apt_source}/${filename}"
-    ;;
   "Ubuntu")
     info "Ubuntu platform! Lets get you a DEB..."
     case $platform_version in
