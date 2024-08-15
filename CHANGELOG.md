@@ -473,3 +473,13 @@ node on Puppet server.
 * Added ability to disable upstream repo management into profiles
 
 **Known Issues**
+
+## Release 0.19.6
+
+**Features**
+
+* Added Bolt plan `puppet::server::sync`
+
+**Bugfixes**
+
+**Known Issues**
