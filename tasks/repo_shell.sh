@@ -93,13 +93,6 @@ if [ -n "$PT_version" ]; then
 fi
 
 if [ -n "$PT_collection" ]; then
-  # Check whether collection is nightly
-  if [[ "$PT_collection" == *"nightly"* ]]; then
-    nightly=true
-  else
-    nightly=false
-  fi
-
   collection=$PT_collection
 else
   collection='puppet'
@@ -108,31 +101,19 @@ fi
 if [ -n "$PT_yum_source" ]; then
   yum_source=$PT_yum_source
 else
-  if [ "$nightly" = true ]; then
-    yum_source='http://nightlies.puppet.com/yum'
-  else
-    yum_source='http://yum.puppet.com'
-  fi
+  yum_source='http://yum.puppet.com'
 fi
 
 if [ -n "$PT_apt_source" ]; then
   apt_source=$PT_apt_source
 else
-  if [ "$nightly" = true ]; then
-    apt_source='http://nightlies.puppet.com/apt'
-  else
-    apt_source='http://apt.puppet.com'
-  fi
+  apt_source='http://apt.puppet.com'
 fi
 
 if [ -n "$PT_mac_source" ]; then
   mac_source=$PT_mac_source
 else
-  if [ "$nightly" = true ]; then
-    mac_source='http://nightlies.puppet.com/downloads'
-  else
-    mac_source='http://downloads.puppet.com'
-  fi
+  mac_source='http://downloads.puppet.com'
 fi
 
 if [ -n "$PT_retry" ]; then
