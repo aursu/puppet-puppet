@@ -147,7 +147,7 @@ fi
 
 # Error if non-root
 if [ `id -u` -ne 0 ]; then
-  echo "puppet_agent::install task must be run as root"
+  echo "puppet::repo task must be run as root"
   exit 1
 fi
 
@@ -274,10 +274,10 @@ else
   random_number="`date +%N`"
 fi
 
-tmp_dir="$tmp/install.sh.$$.$random_number"
+tmp_dir="$tmp/repo.sh.$$.$random_number"
 (umask 077 && mkdir $tmp_dir) || exit 1
 
-tmp_stderr="$tmp/stderr.$$.$random_number"
+tmp_stderr="$tmp/repo_stderr.$$.$random_number"
 
 capture_tmp_stderr() {
   # spool up tmp_stderr from all the commands we called
