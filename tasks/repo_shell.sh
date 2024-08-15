@@ -110,12 +110,6 @@ else
   apt_source='http://apt.puppet.com'
 fi
 
-if [ -n "$PT_mac_source" ]; then
-  mac_source=$PT_mac_source
-else
-  mac_source='http://downloads.puppet.com'
-fi
-
 if [ -n "$PT_retry" ]; then
   retry=$PT_retry
 else
@@ -210,27 +204,6 @@ if [ -f "$PT__installdir/facts/tasks/bash.sh" ]; then
       platform="el"
       platform_version=`sed 's/^.\+ release \([.0-9]\+\).*/\1/' /etc/redhat-release`
     fi
-
-  # Handle macOS
-  elif test "x$platform" = "xDarwin"; then
-    platform="mac_os_x"
-    # Matching the tab-space with sed is error-prone
-    platform_version=`sw_vers | awk '/^ProductVersion:/ { print $2 }'`
-
-    major_version=`echo $platform_version | cut -d. -f1,2`
-
-    # The major version is the first number only
-    major_version=$(echo "${major_version}" | cut -d '.' -f 1);
-
-    case $major_version in
-      "11")    platform_version="11";;
-      "12")    platform_version="12";;
-      "13")    platform_version="13";;
-      "14")    platform_version="14";;
-      *) echo "No builds for platform: $major_version"
-         exit 1
-         ;;
-    esac
   fi
 else
   echo "This module depends on the puppetlabs-facts module"
@@ -695,21 +668,6 @@ case $platform in
     filetype="deb"
     filename="${collection}-release-${deb_codename}.deb"
     download_url="${apt_source}/${filename}"
-    ;;
-  "mac_os_x")
-    info "Mac platform! Lets get you a DMG..."
-    filetype="dmg"
-    if test "$version" = "latest"; then
-      filename="puppet-agent-latest.dmg"
-    else
-      filename="puppet-agent-${version}-1.osx${platform_version}.dmg"
-    fi
-
-    arch="x86_64"
-    if [[ $(uname -p) == "arm" ]]; then
-        arch="arm64"
-    fi
-    download_url="${mac_source}/mac/${collection}/${platform_version}/${arch}/${filename}"
     ;;
   *)
     critical "Sorry $platform is not supported yet!"
