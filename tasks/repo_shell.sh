@@ -641,8 +641,7 @@ case $platform in
   "Ubuntu")
     info "Ubuntu platform! Lets get you a DEB..."
     case $platform_version in
-      "16.10") deb_codename="yakkety";;
-      "17.04") deb_codename="zesty";;
+      "16.04") deb_codename="xenial";;
       "18.04") deb_codename="bionic";;
       "20.04") deb_codename="focal";;
       "22.04") deb_codename="jammy";;
