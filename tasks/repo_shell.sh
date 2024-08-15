@@ -564,14 +564,6 @@ install_file() {
         fi
       fi
       ;;
-    "dmg" )
-      info "installing puppetlabs dmg with hdiutil and installer"
-      mountpoint="$(mktemp -d -t $(random_hexdump))"
-      /usr/bin/hdiutil attach "${download_filename?}" -nobrowse -readonly -mountpoint "${mountpoint?}"
-      /usr/sbin/installer -pkg ${mountpoint?}/puppet-agent-*-installer.pkg -target /
-      /usr/bin/hdiutil detach "${mountpoint?}"
-      rm -f $download_filename
-      ;;
     *)
       critical "Unknown filetype: $1"
       exit 1
