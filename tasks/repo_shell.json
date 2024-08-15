@@ -1,0 +1,14 @@
+{
+    "description": "A task to install Puppet platform repository",
+    "private": true,
+    "input_method": "environment",
+    "parameters": {
+        "collection": {
+          "description": "The Puppet collection to install from (defaults to puppet8, which maps to the latest collection released)",
+          "type": "Enum[puppet5, puppet6, puppet7, puppet8]",
+          "default": "puppet8"
+        }
+    },
+    "files": ["facts/tasks/bash.sh"],
+    "supports_noop": true
+}

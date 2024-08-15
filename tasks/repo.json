@@ -1,0 +1,19 @@
+{
+    "description": "Install Puppet platform repository",
+    "parameters": {
+      "collection": {
+        "description": "The Puppet collection to install from (defaults to puppet8, which maps to the latest collection released)",
+        "type": "Enum[puppet5, puppet6, puppet7, puppet8]",
+        "default": "puppet8"
+      }
+    },
+    "implementations": [
+      {
+        "name": "repo_shell.sh",
+        "requirements": ["shell"],
+        "files": ["facts/tasks/bash.sh"],
+        "input_method": "environment"
+      }
+    ],
+    "supports_noop": false
+  }
