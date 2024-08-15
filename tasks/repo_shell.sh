@@ -95,7 +95,7 @@ fi
 if [ -n "$PT_collection" ]; then
   collection=$PT_collection
 else
-  collection='puppet'
+  collection='puppet8'
 fi
 
 if [ -n "$PT_yum_source" ]; then
