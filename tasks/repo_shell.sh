@@ -116,33 +116,11 @@ else
   retry=5
 fi
 
-# Track to handle puppet5 to puppet6
-if [ -f /opt/puppetlabs/puppet/VERSION ]; then
-  installed_version=`cat /opt/puppetlabs/puppet/VERSION`
-elif type -p puppet >/dev/null; then
-  installed_version=`puppet --version`
-else
-  installed_version=uninstalled
-fi
-
 # Only install the agent in cases where no agent is present, or the version of the agent
 # has been explicitly defined and does not match the version of an installed agent.
 if [ -z "$version" ]; then
-  if [ "$installed_version" == "uninstalled" ]; then
     info "Version parameter not defined and no agent detected. Assuming latest."
     version=latest
-  else
-    info "Version parameter not defined and agent detected. Nothing to do."
-    exit 0
-  fi
-else
-  info "Version parameter defined: ${version}"
-  if [ "$version" == "$installed_version" ]; then
-    info "Version parameter defined: ${version}. Puppet Agent ${version} detected. Nothing to do."
-    exit 0
-  elif [ "$version" != "latest" ]; then
-    puppet_agent_version="$version"
-  fi
 fi
 
 # Error if non-root
@@ -489,80 +467,19 @@ install_file() {
         mv /etc/yum.repos.d/puppetlabs-pc1.repo /etc/yum.repos.d/puppetlabs-pc1.repo.backup
       fi
 
-      if test "x$installed_version" != "xuninstalled"; then
-        info "Version ${installed_version} detected..."
-        major=$(echo $installed_version | cut -d. -f1)
-        pkg="puppet${major}-release"
-
-        if echo $2 | grep $pkg; then
-          info "No collection upgrade detected"
-        else
-          info "Collection upgrade detected, replacing puppet${major}-release"
-          rpm -e "puppet${major}-release"
-        fi
-      fi
-
       rpm -Uvh --oldpackage --replacepkgs "$2"
-      exists dnf && PKGCMD=dnf || PKGCMD=yum
-      if test "$version" = 'latest'; then
-        run_cmd "${PKGCMD} install -y puppet-agent && ${PKGCMD} upgrade -y puppet-agent"
-      else
-        run_cmd "${PKGCMD} install -y 'puppet-agent-${puppet_agent_version}'"
-      fi
       ;;
     "noarch.rpm")
       info "installing puppetlabs yum repo with zypper..."
 
-      if test "x$installed_version" != "xuninstalled"; then
-        info "Version ${installed_version} detected..."
-        major=$(echo $installed_version | cut -d. -f1)
-        pkg="puppet${major}-release"
-
-        if echo $2 | grep $pkg; then
-          info "No collection upgrade detected"
-        else
-          info "Collection upgrade detected, replacing puppet${major}-release"
-          zypper remove --no-confirm "puppet${major}-release"
-        fi
-      fi
-
       run_cmd "zypper install --no-confirm '$2'"
-      if test "$version" = "latest"; then
-        run_cmd "zypper install --no-confirm 'puppet-agent'"
-      else
-        run_cmd "zypper install --no-confirm --oldpackage --no-recommends --no-confirm 'puppet-agent-${puppet_agent_version}'"
-      fi
       ;;
     "deb")
       info "Installing puppetlabs apt repo with dpkg..."
 
-      if test "x$installed_version" != "xuninstalled"; then
-        info "Version ${installed_version} detected..."
-        major=$(echo $installed_version | cut -d. -f1)
-        pkg="puppet${major}-release"
-
-        if echo $2 | grep $pkg; then
-          info "No collection upgrade detected"
-        else
-          info "Collection upgrade detected, replacing puppet${major}-release"
-          dpkg --purge "puppet${major}-release"
-        fi
-      fi
-
       assert_unmodified_apt_config
 
       dpkg -i --force-confmiss "$2"
-      run_cmd 'apt-get update -y'
-
-      if test "$version" = 'latest'; then
-        run_cmd "apt-get install -y puppet-agent"
-      else
-        if test "x$deb_codename" != "x"; then
-          run_cmd "apt-get install -y 'puppet-agent=${puppet_agent_version}-1${deb_codename}'"
-        else
-          run_cmd "apt-get install -y 'puppet-agent=${puppet_agent_version}'"
-        fi
-      fi
       ;;
     *)
       critical "Unknown filetype: $1"
@@ -655,10 +572,6 @@ if [[ $PT__noop != true ]]; then
   do_download "$download_url" "$download_filename"
 
   install_file $filetype "$download_filename"
-
-  if [[ $PT_stop_service = true ]]; then
-    /opt/puppetlabs/bin/puppet resource service puppet ensure=stopped enable=false
-  fi
 
   #Cleanup
   if test "x$tmp_dir" != "x"; then
