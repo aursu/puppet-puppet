@@ -14,9 +14,7 @@ log () {
 }
 
 info () {
-  if [[ $PT__noop != true ]]; then
     log "INFO: ${1}"
-  fi
 }
 
 warn () {
@@ -492,14 +490,12 @@ case $platform in
   "SLES")
     info "SLES platform! Lets get you an RPM..."
 
-    if [[ $PT__noop != true ]]; then
-      for key in "puppet" "puppet-20250406"; do
-        gpg_key="${tmp_dir}/RPM-GPG-KEY-${key}"
-        do_download "https://yum.puppet.com/RPM-GPG-KEY-${key}" "$gpg_key"
-        rpm --import "$gpg_key"
-        rm -f "$gpg_key"
-      done
-    fi
+    for key in "puppet" "puppet-20250406"; do
+      gpg_key="${tmp_dir}/RPM-GPG-KEY-${key}"
+      do_download "https://yum.puppet.com/RPM-GPG-KEY-${key}" "$gpg_key"
+      rpm --import "$gpg_key"
+      rm -f "$gpg_key"
+    done
 
     filetype="noarch.rpm"
     filename="${collection}-release-sles-${platform_version}.noarch.rpm"
@@ -561,15 +557,13 @@ case $platform in
     ;;
 esac
 
-if [[ $PT__noop != true ]]; then
-  download_filename="${tmp_dir}/${filename}"
+download_filename="${tmp_dir}/${filename}"
 
-  do_download "$download_url" "$download_filename"
+do_download "$download_url" "$download_filename"
 
-  install_file $filetype "$download_filename"
+install_file $filetype "$download_filename"
 
-  #Cleanup
-  if test "x$tmp_dir" != "x"; then
-    rm -r "$tmp_dir"
-  fi
+#Cleanup
+if test "x$tmp_dir" != "x"; then
+  rm -r "$tmp_dir"
 fi
