@@ -4,14 +4,14 @@ plan puppet::repo (
 ) {
   run_plan(facts, $targets)
 
-  return apply($targets) {
+  get_targets($targets).each |$target| {
     run_task(
       'puppet::repo',
       $target,
-      "Install Puppet platform repo on ${target_name}",
+      "Install Puppet platform repo on ${target.name}",
       '_catch_errors' => true,
       '_run_as'       => 'root',
-      'collection'    => $collection
+      'collection'    => $collection,
     )
   }
 }
