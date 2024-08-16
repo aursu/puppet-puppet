@@ -8,6 +8,7 @@
 #
 plan puppet::server::sync (
   TargetSpec $targets,
+  Puppet::Platform $collection = 'puppet8',
 ) {
   # Gather facts about the target nodes
   run_plan('facts', $targets)
@@ -15,6 +16,10 @@ plan puppet::server::sync (
   # Apply the puppet::r10k::run class on each target node
   return apply($targets) {
     include puppet
+
+    class { 'puppet::globals':
+      platform_name => $collection,
+    }
 
     class { 'puppet::r10k::run':
       cwd               => '/',
