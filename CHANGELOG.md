@@ -483,3 +483,13 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.19.7
+
+**Features**
+
+* Added Bolt task and plan `puppet::repo`
+
+**Bugfixes**
+
+**Known Issues**
