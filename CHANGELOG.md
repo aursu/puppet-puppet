@@ -484,12 +484,14 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.19.7
+## Release 0.19.8
 
 **Features**
 
 * Added Bolt task and plan `puppet::repo`
 
 **Bugfixes**
+
+* Added collection parameter into Bolt plan `puppet::server::sync`
 
 **Known Issues**
