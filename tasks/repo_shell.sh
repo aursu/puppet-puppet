@@ -87,11 +87,6 @@ exists_perl_ff() {
   return 1
 }
 
-# Get command line arguments
-if [ -n "$PT_version" ]; then
-  version=$PT_version
-fi
-
 if [ -n "$PT_collection" ]; then
   collection=$PT_collection
 else
