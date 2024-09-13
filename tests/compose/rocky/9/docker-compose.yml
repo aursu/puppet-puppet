@@ -1,12 +1,10 @@
-version: "3"
 services:
   puppet:
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile
       args:
-        os: $OS9
-        osrepo: aursu/centos
+        os: $RL9
     privileged: true
     cap_add:
       - SYS_ADMIN
@@ -14,14 +12,13 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/centos:${OS9TAG}-puppet"
+    image: "aursu/rockylinux:${RL9TAG}-puppet"
   puppetdb:
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile
       args:
-        os: $OS9
-        osrepo: aursu/centos
+        os: $RL9
     privileged: true
     cap_add:
       - SYS_ADMIN
@@ -29,4 +26,4 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/centos:${OS9TAG}-puppet"
+    image: "aursu/rockylinux:${RL9TAG}-puppet"
