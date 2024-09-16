@@ -7,11 +7,9 @@ moduledir '.modules'
 mod 'puppet/r10k', '12.2.0'
 mod 'puppetlabs/puppet_agent', '4.18.0'
 mod 'puppetlabs/inifile', '6.1.0'
-mod 'lsys_postgresql',
-  git: 'https://github.com/aursu/puppet-lsys_postgresql.git',
-  ref: '904b2eb23fe4d6b1a91204cbf4e92fc249415da6'
+mod 'aursu/lsys_postgresql', '0.50.4'
 mod 'aursu/openssh', '0.9.4'
-mod 'aursu/bsys', '0.6.3'
+mod 'aursu/bsys', '0.7.2'
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
   ref: '00f7eb303f7e04c2a73410e27c64e67fe9744e62'

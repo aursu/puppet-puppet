@@ -12,7 +12,7 @@ describe 'puppet::agent::install' do
       it {
         is_expected.to contain_package('puppet-agent')
           .with_name('puppet-agent')
-          .with_ensure('latest')
+          .with_ensure('installed')
       }
 
       context 'check version setup' do

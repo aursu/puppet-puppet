@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.19.8",
+  "version": "0.19.9",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -22,7 +22,7 @@
     },
     {
       "name": "aursu/lsys_postgresql",
-      "version_requirement": ">= 0.50.1 < 1.0.0"
+      "version_requirement": ">= 0.50.4 < 1.0.0"
     },
     {
       "name": "aursu/openssh",
@@ -34,7 +34,7 @@
     },
     {
       "name": "aursu/bsys",
-      "version_requirement": ">= 0.6.2 < 1.0.0"
+      "version_requirement": ">= 0.7.2 < 1.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -47,7 +47,8 @@
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {

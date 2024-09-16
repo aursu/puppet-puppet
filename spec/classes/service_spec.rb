@@ -22,7 +22,7 @@ describe 'puppet::service' do
       it {
         is_expected.to contain_package('puppet-server')
           .with(
-            ensure: 'latest',
+            ensure: 'installed',
             name: 'puppetserver',
           )
       }

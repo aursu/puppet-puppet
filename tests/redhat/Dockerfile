@@ -1,5 +1,5 @@
-ARG osrepo=aursu/centos
-ARG os=stream9-20230605.0
+ARG osrepo=aursu/rockylinux
+ARG os=9.4.20240523
 
 FROM ${osrepo}:${os}-systemd
 

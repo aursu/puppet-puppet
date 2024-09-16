@@ -495,3 +495,13 @@ node on Puppet server.
 * Added collection parameter into Bolt plan `puppet::server::sync`
 
 **Known Issues**
+
+## Release 0.19.9
+
+**Features**
+
+* Updated `aursu/lsys_postgresql` module to 0.50.4
+
+**Bugfixes**
+
+**Known Issues**
