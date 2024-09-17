@@ -23,18 +23,19 @@ class puppet::globals (
 
   $deccomission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release', 'puppet8-release'] - [$package_name]
 
+  # https://www.puppet.com/docs/puppet/7/install_puppet.html#enable_the_puppet_platform_repository
   case $facts['os']['family'] {
     'Suse': {
-      $repo_urlbase = "https://yum.puppet.com/${platform_name}"
+      $repo_urlbase = 'https://yum.puppet.com'
       $package_filename = "${package_name}-${version_codename}.noarch.rpm"
     }
     'Debian': {
-      $repo_urlbase = 'https://apt.puppetlabs.com'
+      $repo_urlbase = 'https://apt.puppet.com'
       $package_filename = "${package_name}-${version_codename}.deb"
     }
     # default is RedHat based systems
     default: {
-      $repo_urlbase = "https://yum.puppet.com/${platform_name}"
+      $repo_urlbase = 'https://yum.puppet.com'
       $package_filename = "${package_name}-${version_codename}.noarch.rpm"
     }
   }

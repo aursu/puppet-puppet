@@ -506,12 +506,13 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.19.10
+## Release 0.19.11
 
 **Features**
 
 **Bugfixes**
 
 * SSH access configuration compilation fix
+* Puppet platform repository URL fix
 
 **Known Issues**
