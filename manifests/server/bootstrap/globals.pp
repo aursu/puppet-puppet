@@ -43,11 +43,21 @@ class puppet::server::bootstrap::globals (
       default => 'ed25519'
     }
 
+    $identity_file = $key_prefix ? {
+      String  => "~/.ssh/${key_prefix}.id_${sshkey_type}",
+      default => "~/.ssh/id_${sshkey_type}"
+    }
+
+    $ssh_options = $creds['ssh_options'] ? {
+      Hash    => $creds['ssh_options'],
+      default => {}
+    }
+
     $config      = {
       'Host'                  => $server,
       'StrictHostKeyChecking' => 'no',
-      'IdentityFile'          => "~/.ssh/${key_prefix}.id_${sshkey_type}",
-    } + $creds['ssh_options']
+      'IdentityFile'          => $identity_file,
+    } + $ssh_options
 
     $memo + [$config]
   }

@@ -505,3 +505,13 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.19.10
+
+**Features**
+
+**Bugfixes**
+
+* SSH access configuration compilation fix
+
+**Known Issues**
