@@ -15,6 +15,6 @@ modules:
 - name: puppetlabs-inifile
   version_requirement: "=6.1.0"
 - name: puppetlabs-puppet_agent
-  version_requirement: "=4.18.0"
+  version_requirement: "=4.20.1"
 - name: puppet-r10k
   version_requirement: "=12.2.0"
