@@ -506,7 +506,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.19.11
+## Release 0.19.12
 
 **Features**
 
@@ -514,5 +514,6 @@ node on Puppet server.
 
 * SSH access configuration compilation fix
 * Puppet platform repository URL fix
+* r10k installation for Puppet 7
 
 **Known Issues**

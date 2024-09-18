@@ -28,6 +28,7 @@ class puppet::repo (
       cwd     => '/tmp',
       path    => '/bin:/usr/bin',
       creates => "/tmp/${package_filename}",
+      unless  => "rpm --quiet -qip ${package_filename}",
     }
 
     package { 'puppet-release':
