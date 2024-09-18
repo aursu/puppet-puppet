@@ -506,14 +506,15 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.19.12
+## Release 0.20.0
 
 **Features**
 
 **Bugfixes**
 
-* SSH access configuration compilation fix
-* Puppet platform repository URL fix
-* r10k installation for Puppet 7
+* Fixed SSH access configuration compilation issue
+* Corrected Puppet platform repository URL
+* Added support for r10k installation on Puppet 7
+* Fixed `gem install` command by adding the `--no-document` option
 
 **Known Issues**

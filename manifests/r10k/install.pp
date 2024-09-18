@@ -20,7 +20,7 @@ class puppet::r10k::install (
   include puppet::r10k::dependencies
 
   exec { 'r10k-installation':
-    command => "${gem_path} install ${r10k_package_name}",
+    command => "${gem_path} install --no-document ${r10k_package_name}",
     creates => $r10k_path,
   }
 

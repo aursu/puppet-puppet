@@ -1,0 +1,31 @@
+services:
+  puppet:
+    build:
+      context: .
+      dockerfile: tests/redhat/Dockerfile
+      args:
+        os: $RL9
+        platform: puppet7
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/rockylinux:${RL9TAG}-puppet7"
+  puppetdb:
+    build:
+      context: .
+      dockerfile: tests/redhat/Dockerfile
+      args:
+        os: $RL9
+        platform: puppet7
+    privileged: true
+    cap_add:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    user: root
+    image: "aursu/rockylinux:${RL9TAG}-puppet7"
