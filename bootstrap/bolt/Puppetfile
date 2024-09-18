@@ -16,12 +16,12 @@ mod 'puppet',
 mod 'puppetdb',
   git: 'https://github.com/puppetlabs/puppetlabs-puppetdb.git',
   ref: '0053513364d07f0c78ade801bcdcf322abfbab18'
-mod 'puppetlabs/stdlib', '9.4.1'
+mod 'puppetlabs/stdlib', '9.6.0'
 mod 'puppetlabs/vcsrepo', '6.1.0'
-mod 'choria/mcollective', '0.14.5'
+mod 'choria/mcollective', '0.14.6'
 mod 'puppet/systemd', '5.2.0'
 mod 'puppetlabs/apt', '9.4.0'
-mod 'puppetlabs/facts', '1.4.0'
+mod 'puppetlabs/facts', '1.6.0'
 mod 'puppetlabs/postgresql', '9.2.0'
 mod 'puppetlabs/firewall', '6.0.0'
 mod 'puppetlabs/concat', '9.0.2'
