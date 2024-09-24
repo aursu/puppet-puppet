@@ -23,19 +23,19 @@ fixtures:
       ref: 6.1.0
     lsys_postgresql:
       repo: aursu/lsys_postgresql
-      ref: 0.50.4
+      ref: 0.50.5
     openssh:
       repo: aursu/openssh
       ref: 0.9.1
     postgresql:
       repo: puppetlabs/postgresql
-      ref: 9.1.0
+      ref: 10.3.0
     puppet_agent:
       repo: puppetlabs/puppet_agent
       ref: 4.20.1
     puppetdb:
       repo: puppetlabs/puppetdb
-      ref: 7.13.0
+      ref: 8.1.0
     r10k:
       repo: puppet/r10k
       ref: 12.1.1

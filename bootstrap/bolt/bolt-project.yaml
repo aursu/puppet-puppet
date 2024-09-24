@@ -11,7 +11,7 @@ modules:
 - name: aursu-openssh
   version_requirement: "=0.9.4"
 - name: aursu-lsys_postgresql
-  version_requirement: "=0.50.4"
+  version_requirement: "=0.50.5"
 - name: puppetlabs-inifile
   version_requirement: "=6.1.0"
 - name: puppetlabs-puppet_agent
