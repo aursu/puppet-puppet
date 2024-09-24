@@ -56,7 +56,6 @@ plan puppet::server::bootstrap (
     }
 
     class { 'puppet::server::bootstrap':
-      platform_name    => $collection,
       # set it to 'production' because Bolt catalog's default is 'bolt_catalog'
       node_environment => 'production',
       use_ssh          => $use_ssh,

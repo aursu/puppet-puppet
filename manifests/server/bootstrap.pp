@@ -25,7 +25,7 @@
 #   Puppet environment to assign to Puppet server node
 #
 # @param use_ssh
-#   Specifies if SSH is required for authentication or authorization to access 
+#   Specifies if SSH is required for authentication or authorization to access
 #   Puppet repositories on Git.
 #
 # @param certname
@@ -37,7 +37,6 @@
 # @example
 #   include puppet::server::bootstrap
 class puppet::server::bootstrap (
-  Puppet::Platform $platform_name = 'puppet8',
   Optional[Stdlib::Unixpath] $path = undef,
   String $agent_version = 'latest',
   Optional[String] $node_environment = undef,
@@ -45,10 +44,6 @@ class puppet::server::bootstrap (
   Optional[String] $certname = undef,
   Array[Stdlib::Host] $dns_alt_names = [],
 ) {
-  class { 'puppet::globals':
-    platform_name => $platform_name,
-  }
-
   class { 'puppet::agent::install':
     agent_version => $agent_version,
   }
