@@ -24,7 +24,8 @@ plan puppet_bootstrap::puppetdb::node (
 
   # download certificate onto the PuppetDB node.
   run_plan( puppet::bootstrap, $targets,
-    server   => $puppet_server,
-    certname => $certname,
+    server     => $puppet_server,
+    certname   => $certname,
+    collection => $platform_name,
   )
 }

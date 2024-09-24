@@ -45,6 +45,10 @@ plan puppet::server::bootstrap (
         },
     })
 
+    class { 'puppet::globals':
+      platform_name => $collection,
+    }
+
     class { 'puppet::server::bootstrap::globals':
       access_data    => $access_data,
       ssh_config     => $ssh_config,

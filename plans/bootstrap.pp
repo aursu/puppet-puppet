@@ -9,6 +9,11 @@ plan puppet::bootstrap (
 
   return apply($targets) {
     include puppet
+
+    class { 'puppet::globals':
+      platform_name => $collection,
+    }
+
     class { 'puppet::agent::config':
       server   => $server,
       certname => $certname,
