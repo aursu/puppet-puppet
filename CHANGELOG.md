@@ -506,7 +506,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.20.3
+## Release 0.20.4
 
 **Features**
 
