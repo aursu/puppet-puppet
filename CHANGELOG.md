@@ -506,7 +506,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.20.0
+## Release 0.20.1
 
 **Features**
 
@@ -516,5 +516,6 @@ node on Puppet server.
 * Corrected Puppet platform repository URL
 * Added support for r10k installation on Puppet 7
 * Fixed `gem install` command by adding the `--no-document` option
+* Fixed puppetdb bootstrap error for Puppet 7
 
 **Known Issues**

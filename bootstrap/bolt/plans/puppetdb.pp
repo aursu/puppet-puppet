@@ -37,6 +37,7 @@ plan puppet_bootstrap::puppetdb (
     })
 
     class { 'puppet::profile::puppetdb':
+      platform_name     => $platform_name,
       manage_database   => $manage_database,
       database_host     => $postgres_database_host,
       database_name     => $postgres_database_name,

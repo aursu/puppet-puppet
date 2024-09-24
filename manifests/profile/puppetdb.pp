@@ -2,6 +2,7 @@
 #
 # A description of what this class does
 #
+# @param platform_name
 # @param manage_database
 # @param database_host
 # @param database_name
@@ -16,6 +17,7 @@
 # @example
 #   include puppet::profile::puppetdb
 class puppet::profile::puppetdb (
+  Puppet::Platform $platform_name = 'puppet8',
   Boolean $manage_database = true,
   Stdlib::Host $database_host = 'localhost',
   String $database_name = 'puppetdb',
@@ -25,6 +27,10 @@ class puppet::profile::puppetdb (
   Boolean $manage_cron = true,
 ) {
   include puppet
+
+  class { 'puppet::globals':
+    platform_name => $platform_name,
+  }
 
   class { 'puppet::puppetdb':
     manage_database            => $manage_database,
