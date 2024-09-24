@@ -3,9 +3,9 @@ name: puppet_bootstrap
 analytics: false
 modules:
 - git: https://github.com/puppetlabs/puppetlabs-puppetdb.git
-  ref: 7.14.0
+  ref: v8.1.0
 - git: https://github.com/aursu/puppet-puppet.git
-  ref: v0.20.3
+  ref: v0.20.4
 - name: aursu-bsys
   version_requirement: "=0.7.2"
 - name: aursu-openssh
