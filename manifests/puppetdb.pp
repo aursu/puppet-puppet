@@ -64,7 +64,6 @@ class puppet::puppetdb (
   }
 
   class { 'puppetdb':
-    database              => 'postgres',
     manage_dbserver       => false,
     database_host         => $postgres_database_host,
     database_name         => $postgres_database_name,
