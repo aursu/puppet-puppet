@@ -10,6 +10,8 @@ plan puppet_bootstrap::puppetdb (
   Boolean $manage_firewall = false,
   Optional[String] $certname = undef,
 ) {
+  run_plan(facts, $targets)
+
   # Unable to connect to puppetdb server (https://puppet-puppet-puppetdb-1:8081):
   # Server hostname 'puppet-puppet-puppetdb-1' did not match server certificate;
   # expected one of e7475213c9fe, DNS:e7475213c9fe

@@ -18,3 +18,11 @@ modules:
   version_requirement: "=4.20.1"
 - name: puppet-r10k
   version_requirement: "=12.2.0"
+
+log:
+  "logs/bolt-trace.log":
+    append: true
+    level: trace
+  "logs/bolt-info.log":
+    append: false
+    level: info
