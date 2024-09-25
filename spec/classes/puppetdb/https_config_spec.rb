@@ -37,6 +37,7 @@ describe 'puppet::puppetdb::https_config' do
             source: '/etc/puppetlabs/puppet/ssl/certs/puppetserver1.domain.tld.pem',
           )
           .that_notifies('Service[puppetdb]')
+          .that_requires('Package[puppetdb]')
       }
     end
   end

@@ -14,6 +14,7 @@ class puppet::puppetdb::https_config {
   $hostprivkey = assert_type(Stdlib::Unixpath, $puppet::params::hostprivkey)
 
   $puppetdb_group   = assert_type(String, $puppetdb::params::puppetdb_group)
+  $puppetdb_package = assert_type(String, $puppetdb::params::puppetdb_package)
   $puppetdb_service = assert_type(String, $puppetdb::params::puppetdb_service)
 
   $ssl_dir          = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_dir)
@@ -21,32 +22,26 @@ class puppet::puppetdb::https_config {
   $ssl_cert_path    = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_cert_path)
   $ssl_ca_cert_path = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_ca_cert_path)
 
+  file { $ssl_dir:
+    ensure => directory,
+    owner  => 'root',
+    group  => $puppetdb_group,
+    mode   => '0750',
+  }
+
   file {
-    $ssl_dir:
-      ensure => directory,
-      owner  => 'root',
-      group  => $puppetdb_group,
-      mode   => '0750';
+    default:
+      ensure  => file,
+      owner   => 'root',
+      group   => $puppetdb_group,
+      mode    => '0640',
+      require => Package[$puppetdb_package],
+      notify  => Service[$puppetdb_service];
     $ssl_key_path:
-      ensure => file,
-      owner  => 'root',
-      group  => $puppetdb_group,
-      mode   => '0640',
-      source => $hostprivkey,
-      notify => Service[$puppetdb_service];
+      source => $hostprivkey;
     $ssl_cert_path:
-      ensure  => file,
-      owner   => 'root',
-      group   => $puppetdb_group,
-      mode    => '0640',
-      source  => $hostcert,
-      notify  => Service[$puppetdb_service];
+      source => $hostcert;
     $ssl_ca_cert_path:
-      ensure  => file,
-      owner   => 'root',
-      group   => $puppetdb_group,
-      mode    => '0640',
-      source  => $localcacert,
-      notify  => Service[$puppetdb_service];
+      source => $localcacert;
   }
 }
