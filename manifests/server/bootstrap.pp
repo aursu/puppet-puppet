@@ -38,7 +38,7 @@
 #   include puppet::server::bootstrap
 class puppet::server::bootstrap (
   Optional[Stdlib::Unixpath] $path = undef,
-  String $agent_version = 'latest',
+  String $agent_version = 'installed',
   Optional[String] $node_environment = undef,
   Boolean $use_ssh = true,
   Optional[String] $certname = undef,
