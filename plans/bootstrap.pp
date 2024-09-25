@@ -18,6 +18,7 @@ plan puppet::bootstrap (
       server   => $server,
       certname => $certname,
     }
+
     class { 'puppet::agent::bootstrap':
       require => Class['puppet::agent::config'],
     }
