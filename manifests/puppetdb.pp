@@ -73,6 +73,7 @@ class puppet::puppetdb (
 
     manage_database       => $manage_database,
 
+    ssl_set_cert_paths    => true,
     ssl_protocols         => join($ssl_protocols, ','),
     cipher_suites         => join($cipher_suites, ','),
 
