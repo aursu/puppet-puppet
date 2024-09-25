@@ -506,7 +506,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.20.5
+## Release 0.20.6
 
 **Features**
 
@@ -518,5 +518,6 @@ node on Puppet server.
 * Fixed `gem install` command by adding the `--no-document` option
 * Fixed puppetdb bootstrap error for Puppet 7
 * Fixed node bootstrap Bolt plan `puppet::bootstrap` for Puppet 7
+* Fix into startup issue for PuppetDB
 
 **Known Issues**
