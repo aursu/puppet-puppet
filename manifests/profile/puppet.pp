@@ -77,7 +77,8 @@ class puppet::profile::puppet (
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
   Optional[String] $certname = undef,
   Boolean $manage_repo = true,
-) {
+  Stdlib::Unixpath $r10k_cachedir = $puppet::params::r10k_cachedir,
+) inherits puppet::params {
   if $puppetserver {
     if $sameca {
       class { 'puppet::profile::server':
@@ -99,6 +100,7 @@ class puppet::profile::puppet (
         mount_points             => $mount_points,
         certname                 => $certname,
         manage_repo              => $manage_repo,
+        r10k_cachedir            => $r10k_cachedir,
       }
       contain puppet::profile::server
     }
@@ -120,6 +122,7 @@ class puppet::profile::puppet (
         mount_points             => $mount_points,
         certname                 => $certname,
         manage_repo              => $manage_repo,
+        r10k_cachedir            => $r10k_cachedir,
       }
       contain puppet::profile::compiler
     }

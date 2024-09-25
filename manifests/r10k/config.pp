@@ -48,7 +48,7 @@
 #
 class puppet::r10k::config (
   String  $r10k_yaml_template = $puppet::r10k_yaml_template,
-  Stdlib::Absolutepath $cachedir = $puppet::params::r10k_cachedir,
+  Stdlib::Absolutepath $cachedir = $puppet::globals::r10k_cachedir,
   Stdlib::Absolutepath $environmentpath = $puppet::params::environmentpath,
   Boolean $r10k_config_setup = $puppet::r10k_config_setup,
   String  $production_remote = $puppet::production_remote,
@@ -56,11 +56,11 @@ class puppet::r10k::config (
   String  $common_remote = $puppet::common_remote,
   Boolean $use_enc = $puppet::use_enc,
   String  $enc_remote = $puppet::enc_remote,
-) inherits puppet::params {
+) inherits puppet::globals {
   include puppet::r10k::setup
 
   # /opt/puppetlabs/puppet/cache/r10k
-  $r10k_vardir = "${facts['puppet_vardir']}/r10k"
+  $r10k_vardir = $puppet::params::r10k_vardir
   $r10k_config_file = $puppet::params::r10k_config_file
 
   # this should be one time installation

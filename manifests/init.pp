@@ -44,7 +44,6 @@ class puppet (
   Boolean $use_puppetdb,
   Boolean $r10k_config_setup,
   String $r10k_yaml_template,
-  String $r10k_cachedir,
   Boolean $r10k_crontab_setup,
   Boolean $environment_setup_on_each_run,
   Boolean $external_facts_setup,

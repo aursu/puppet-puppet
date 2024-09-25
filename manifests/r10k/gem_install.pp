@@ -10,8 +10,8 @@
 #
 class puppet::r10k::gem_install (
   Boolean $manage_puppet_config = false,
-  Stdlib::Absolutepath $r10k_cachedir = $puppet::params::r10k_cachedir,
-) inherits puppet::params {
+  Stdlib::Absolutepath $r10k_cachedir = $puppet::globals::r10k_cachedir,
+) inherits puppet::globals {
   include puppet::agent::install
   include puppet::r10k::dependencies
 

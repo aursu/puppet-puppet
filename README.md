@@ -64,4 +64,19 @@ When integrated into a Puppet catalog to configure a Puppet server, the `puppet`
 
 ## Usage
 
+### r10k Cache Directory Setup
+
+To configure a custom cache directory for `r10k` instead of the default (`/var/cache/r10k`, as defined in `puppet::params`), there are a few options:
+
+1. **Define the `r10k_cachedir` parameter**:
+   - If the `puppet::profile::server` profile is in use, you can set the `r10k_cachedir` parameter to the desired cache directory.
+   - Similarly, if the `puppet::profile::puppet` profile is in use, you can also define this parameter for that profile.
+
+2. **Set the global variable `puppet::globals::r10k_cachedir`**:
+   - Alternatively, define the global variable `puppet::globals::r10k_cachedir`. This corresponds to the `r10k_cachedir` parameter in the `puppet::globals` class, allowing you to override the default cache directory across the entire configuration. This option is particularly useful when Bolt plans, such as `puppet_bootstrap::server` or `puppet::server::bootstrap`, are in use.
+
+### Adding r10k to Cron
+
+To schedule the `r10k` command in `cron`, use the `puppet::r10k_crontab_setup` flag. Set this flag to `true` to enable the setup of `r10k` in the crontab.
+
 ## Limitations

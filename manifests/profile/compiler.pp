@@ -48,7 +48,8 @@ class puppet::profile::compiler (
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
   Optional[String] $certname = undef,
   Boolean $manage_repo = true,
-) {
+  Stdlib::Unixpath $r10k_cachedir = $puppet::params::r10k_cachedir,
+) inherits puppet::params {
   class { 'puppet::profile::server':
     sameca                   => false,
     puppetdb_local           => $puppetdb_local,
@@ -70,6 +71,8 @@ class puppet::profile::compiler (
     ca_server                => $ca_server,
 
     r10k_crontab_setup       => $r10k_crontab_setup,
+    r10k_cachedir            => $r10k_cachedir,
+
     manage_webserver_conf    => $manage_webserver_conf,
 
     manage_fileserver_config => $manage_fileserver_config,

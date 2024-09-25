@@ -545,3 +545,14 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.22.2
+
+**Features**
+
+* Moved the `r10k_vardir` variable into `puppet::params`.
+* Added the ability to define a custom value for `r10k_cachedir`.
+
+**Bugfixes**
+
+**Known Issues**

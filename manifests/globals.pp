@@ -9,6 +9,7 @@
 #
 class puppet::globals (
   Puppet::Platform $platform_name = 'puppet8',
+  Stdlib::Absolutepath $r10k_cachedir = $puppet::params::r10k_cachedir,
 ) inherits puppet::params {
   $package_name     = "${platform_name}-release"
   $version_codename = $puppet::params::version_codename

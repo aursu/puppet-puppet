@@ -133,6 +133,7 @@ class puppet::profile::server (
 
   class { 'puppet::globals':
     platform_name => $platform_name,
+    r10k_cachedir => $r10k_cachedir,
   }
 
   class { 'puppet::agent::install': }
