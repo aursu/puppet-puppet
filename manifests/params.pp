@@ -169,4 +169,6 @@ class puppet::params {
   $hostprivkey   = "${privatekeydir}/${clientcert}.pem"
   $hostpubkey    = "${publickeydir}/${clientcert}.pem"
   $hostreq       = "${requestdir}/${clientcert}.pem"
+
+  $r10k_vardir = "${facts['puppet_vardir']}/r10k"
 }

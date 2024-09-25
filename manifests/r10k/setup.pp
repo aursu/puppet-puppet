@@ -11,7 +11,7 @@ class puppet::r10k::setup inherits puppet::params {
   $r10k_config_path = dirname($r10k_config_file)
 
   # /opt/puppetlabs/puppet/cache/r10k
-  $r10k_vardir = "${facts['puppet_vardir']}/r10k"
+  $r10k_vardir = $puppet::params::r10k_vardir
 
   exec { 'r10k-vardir':
     command => "mkdir -p ${r10k_vardir}",
