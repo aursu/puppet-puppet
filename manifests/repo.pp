@@ -22,19 +22,29 @@ class puppet::repo (
   String $package_provider = $puppet::params::package_provider,
 ) inherits puppet::globals {
   $manage_repo = $puppet::manage_repo
+
+  $tmpdir = $puppet::params::tmpdir
+  $package_source = "${tmpdir}/${package_filename}"
+
   if $manage_repo {
+    # use own tmp directory to not interferre with puppet_agent module
+    file { $tmpdir:
+      ensure => directory,
+    }
+
     exec { 'puppet-release':
-      command => "curl ${platform_repository} -s -o ${package_filename}",
-      cwd     => '/tmp',
+      command => "curl ${platform_repository} -f -s -o ${package_source}",
+      cwd     => $tmpdir,
       path    => '/bin:/usr/bin',
-      creates => "/tmp/${package_filename}",
-      unless  => "rpm --quiet -qip ${package_filename}",
+      creates => $package_source,
+      unless  => "rpm --quiet -qip ${package_source}",
+      require => File[$tmpdir],
     }
 
     package { 'puppet-release':
       name     => $package_name,
       provider => $package_provider,
-      source   => "/tmp/${package_filename}",
+      source   => $package_source,
       require  => Exec['puppet-release'],
     }
 

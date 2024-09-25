@@ -27,6 +27,7 @@ class puppet::profile::puppetdb (
   Boolean $manage_cron = true,
 ) {
   include puppet
+  include puppet::repo
 
   class { 'puppet::globals':
     platform_name => $platform_name,

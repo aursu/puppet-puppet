@@ -9,6 +9,8 @@
 class puppet::params {
   include bsys::params
 
+  $tmpdir = '/tmp/puppet-puppet'
+
   $os_version = $bsys::params::osmaj
   $os_name = $bsys::params::osname
 
