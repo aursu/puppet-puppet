@@ -118,7 +118,7 @@ class puppet::params {
 
   # dont't change values below - never!
   $vardir              = '/opt/puppetlabs/server/data/puppetserver'
-  $puppet_server       = '/opt/puppetlabs/bin/puppetserver'
+  $puppet_sbin         = '/opt/puppetlabs/bin/puppetserver'
   $logdir              = '/var/log/puppetlabs/puppetserver'
   $rundir              = '/var/run/puppetlabs/puppetserver'
   $pidfile             = '/var/run/puppetlabs/puppetserver/puppetserver.pid'

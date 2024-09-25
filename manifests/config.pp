@@ -2,7 +2,7 @@
 #
 # Setup Puppet configuration file (puppet.conf)
 #
-# @param puppet_server
+# @param server_mode
 #   Flag - if set to true then host will be set up as Puppet server
 #
 # @param server
@@ -141,7 +141,7 @@
 # @example
 #   include puppet::config
 class puppet::config (
-  Boolean $puppet_server = $puppet::master,
+  Boolean $server_mode = $puppet::master,
   String $server = $puppet::server,
   Optional[String] $ca_server = $puppet::ca_server,
   Boolean $use_common_env = $puppet::use_common_env,
@@ -195,7 +195,7 @@ class puppet::config (
   }
 
   # https://www.puppet.com/docs/puppet/7/config_ssl_external_ca.html#config_puppet_server
-  if $puppet_server {
+  if $server_mode {
     include puppet::server::install
 
     class { 'puppet::server::ca::allow':

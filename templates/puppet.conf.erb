@@ -9,7 +9,7 @@
 <%# Default: node's fully qualified domain name -%>
 certname = <%= @certname %>
 <%   end -%>
-<% if @puppet_server -%>
+<% if @server_mode -%>
 strict = <%= @strict %>
 <%   if @strict_variables -%>
 <%# Default: false -%>
@@ -48,7 +48,7 @@ usecacheonfailure = false
 <% end -%>
 report = true
 
-<% if @puppet_server -%>
+<% if @server_mode -%>
 [<%= @server_section %>]
 <%   if @dns_alt_names.is_a?(Array) && @dns_alt_names.any? -%>
 dns_alt_names = <%= @dns_alt_names.join(',') %>

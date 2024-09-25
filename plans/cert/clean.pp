@@ -13,9 +13,9 @@ plan puppet::cert::clean (
   TargetSpec $targets,
   Stdlib::Fqdn $server,
 ) {
-  $puppet_server = get_targets($server)
+  $server_name = get_targets($server)
 
   $nodes = get_targets($targets).map |$node| { $node.name }
 
-  return run_plan('puppet::server::clean', 'targets' => $puppet_server, 'nodes' => $nodes)
+  return run_plan('puppet::server::clean', 'targets' => $server_name, 'nodes' => $nodes)
 }

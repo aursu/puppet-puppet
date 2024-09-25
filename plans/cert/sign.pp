@@ -21,7 +21,7 @@ plan puppet::cert::sign (
   Stdlib::Fqdn $server,
   Optional[String] $certname = undef,
 ) {
-  $puppet_server = get_targets($server)
+  $server_name = get_targets($server)
 
   run_plan(facts, $targets)
 
@@ -34,5 +34,5 @@ plan puppet::cert::sign (
     $nodes = get_targets($targets).map |$node| { $node.facts['fqdn'] }
   }
 
-  return run_plan('puppet::server::sign', 'targets' => $puppet_server, 'nodes' => $nodes)
+  return run_plan('puppet::server::sign', 'targets' => $server_name, 'nodes' => $nodes)
 }

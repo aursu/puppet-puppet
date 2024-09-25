@@ -26,7 +26,7 @@ class puppet::agent::config (
   }
 
   class { 'puppet::config':
-    puppet_server    => false,
+    server_mode      => false,
     server           => $server,
     ca_server        => $ca_server,
     node_environment => $node_environment,
