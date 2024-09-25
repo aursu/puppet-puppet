@@ -27,11 +27,13 @@ class puppet::profile::puppetdb (
   Boolean $manage_cron = true,
 ) {
   include puppet
-  include puppet::repo
 
+  # puppet::globals must be declared before puppet::repo include
   class { 'puppet::globals':
     platform_name => $platform_name,
   }
+
+  include puppet::repo
 
   class { 'puppet::puppetdb':
     manage_database            => $manage_database,
