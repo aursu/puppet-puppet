@@ -510,6 +510,8 @@ node on Puppet server.
 
 **Features**
 
+* Repo installation process isolation
+
 **Bugfixes**
 
 * Fixed SSH access configuration compilation issue
