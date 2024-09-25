@@ -523,3 +523,15 @@ node on Puppet server.
 * Fix into startup issue for PuppetDB
 
 **Known Issues**
+
+## Release 0.21.0
+
+**Features**
+
+* Renamed `puppet_server` variable to avoid conflicts with the `puppet_server` fact.
+
+**Bugfixes**
+
+* Set `ssl_set_cert_paths` flag to true for PuppetDB installation
+
+**Known Issues**
