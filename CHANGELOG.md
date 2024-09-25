@@ -535,3 +535,13 @@ node on Puppet server.
 * Set `ssl_set_cert_paths` flag to true for PuppetDB installation
 
 **Known Issues**
+
+## Release 0.22.0
+
+**Features**
+
+* Added TLS assets setup for PuppetDB web service HTTPS
+
+**Bugfixes**
+
+**Known Issues**

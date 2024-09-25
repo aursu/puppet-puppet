@@ -14,6 +14,11 @@
 #   Specifies whether to manage crontab entries. This setting is critical for
 #   containerized environments where crontab may not be available.
 #
+# @param ssl_deploy_certs
+#   This parameter will be passed into the class `puppetdb`.
+#   The class `puppetdb` expects the parameters `puppetdb::ssl_key`, `puppetdb::ssl_cert`, and `puppetdb::ssl_ca_cert`
+#   to be set with the appropriate SSL asset content.
+#
 # @example
 #   include puppet::profile::puppetdb
 class puppet::profile::puppetdb (
@@ -25,6 +30,7 @@ class puppet::profile::puppetdb (
   String $database_password = 'puppetdb',
   Boolean $manage_firewall = false,
   Boolean $manage_cron = true,
+  Boolean $ssl_deploy_certs = false,
 ) {
   include puppet
 
@@ -56,5 +62,6 @@ class puppet::profile::puppetdb (
     ],
     manage_firewall            => $manage_firewall,
     manage_cron                => $manage_cron,
+    ssl_deploy_certs           => $ssl_deploy_certs,
   }
 }
