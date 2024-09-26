@@ -22,13 +22,6 @@ class puppet::puppetdb::https_config {
   $ssl_cert_path    = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_cert_path)
   $ssl_ca_cert_path = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_ca_cert_path)
 
-  file { $ssl_dir:
-    ensure => directory,
-    owner  => 'root',
-    group  => $puppetdb_group,
-    mode   => '0750',
-  }
-
   file {
     default:
       ensure  => file,
@@ -37,6 +30,9 @@ class puppet::puppetdb::https_config {
       mode    => '0640',
       require => Package[$puppetdb_package],
       notify  => Service[$puppetdb_service];
+    $ssl_dir:
+      ensure => directory,
+      mode   => '0750';
     $ssl_key_path:
       source => $hostprivkey;
     $ssl_cert_path:
