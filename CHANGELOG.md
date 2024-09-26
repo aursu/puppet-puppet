@@ -546,7 +546,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.22.2
+## Release 0.22.3
 
 **Features**
 
@@ -554,5 +554,7 @@ node on Puppet server.
 * Added the ability to define a custom value for `r10k_cachedir`.
 
 **Bugfixes**
+
+* Bugfix: added proper dependencies for PuppetDB $ssl_dir File resource
 
 **Known Issues**
