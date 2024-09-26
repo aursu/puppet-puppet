@@ -7,6 +7,9 @@
 class puppet::r10k::setup inherits puppet::params {
   include puppet::agent::install
 
+  $codedir = $puppet::params::codedir
+  $environmentpath = $puppet::params::environmentpath
+
   $r10k_config_file = $puppet::params::r10k_config_file
   $r10k_config_path = dirname($r10k_config_file)
 
@@ -19,11 +22,24 @@ class puppet::r10k::setup inherits puppet::params {
     path    => '/bin:/usr/bin',
   }
 
-  # exec in order to avoid conflict with r10k module
+  # Use exec to avoid conflict with the r10k module, which manages the resource File['/etc/puppetlabs/r10k']
+  # This ensures we don't interfere with the r10k module's file resource.
   exec { 'r10k-confpath-setup':
     command => "mkdir -p ${r10k_config_path}",
     creates => $r10k_config_path,
     path    => '/bin:/usr/bin',
+  }
+
+  file {
+    default:
+      ensure => directory,
+      owner  => 'puppet',
+      group  => 'puppet',
+      mode   => '0750';
+    $r10k_vardir:
+      require => Exec['r10k-vardir'];
+    $codedir: ;
+    $environmentpath: ;
   }
 
   Class['puppet::agent::install'] -> Exec['r10k-vardir']
