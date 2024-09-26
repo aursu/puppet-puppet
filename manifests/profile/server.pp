@@ -151,7 +151,7 @@ class puppet::profile::server (
 
   # r10k is not optional in our workflow, it should replace initial setup with
   # real infrastructure setup.
-  class { 'puppet::r10k::gem_install':
+  class { 'puppet::r10k::install':
     manage_puppet_config => $manage_puppet_config,
     r10k_cachedir        => $r10k_cachedir,
   }
@@ -166,7 +166,7 @@ class puppet::profile::server (
     r10k_crontab_setup => $r10k_crontab_setup,
   }
 
-  Class['puppet::r10k::gem_install'] -> Class['puppet::server::setup']
+  Class['puppet::r10k::install'] -> Class['puppet::server::setup']
 
   # https://puppet.com/docs/puppetdb/latest/install_via_module.html#step-2-assign-classes-to-nodes
   # 1) If you are installing PuppetDB on the same server as your Puppet Server, assign
