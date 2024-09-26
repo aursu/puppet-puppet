@@ -20,7 +20,8 @@ plan puppet::bootstrap (
     }
 
     class { 'puppet::agent::bootstrap':
-      require => Class['puppet::agent::config'],
+      certname => $certname,
+      require  => Class['puppet::agent::config'],
     }
   }
 }

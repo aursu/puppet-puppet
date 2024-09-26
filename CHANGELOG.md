@@ -546,7 +546,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.22.3
+## Release 0.22.4
 
 **Features**
 
@@ -556,5 +556,6 @@ node on Puppet server.
 **Bugfixes**
 
 * Bugfix: added proper dependencies for PuppetDB $ssl_dir File resource
+* Bugfix: added certname PEM files propagation to clientcert PEM files
 
 **Known Issues**

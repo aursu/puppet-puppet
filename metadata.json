@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.22.3",
+  "version": "0.22.4",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
