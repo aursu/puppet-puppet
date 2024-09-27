@@ -51,7 +51,7 @@ R10KCONF
       it {
         is_expected.to contain_exec('environment-setup')
           .with(
-            command: '/opt/puppetlabs/puppet/bin/r10k deploy environment -p',
+            command: '/usr/bin/flock -n /run/r10k.lock /opt/puppetlabs/puppet/bin/r10k deploy environment -p',
             cwd: '/',
             refreshonly: true,
             timeout: 900,

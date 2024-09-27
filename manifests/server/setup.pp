@@ -5,18 +5,22 @@
 #
 # @summary Puppet server environment setup
 #
+# @param user
+#
 # @example
 #   include puppet::server::setup
 class puppet::server::setup (
   Boolean $r10k_config_manage = true,
   Boolean $r10k_crontab_setup = $puppet::r10k_crontab_setup,
+  Optional[Enum['root', 'puppet']] $user = $puppet::env_user,
 ) inherits puppet::params {
   include puppet::r10k::install
   include puppet::r10k::setup
   include puppet::server::keys
 
   class { 'puppet::r10k::run':
-    cwd => '/',
+    cwd  => '/',
+    user => $user,
   }
 
   if $r10k_config_manage {
@@ -24,7 +28,9 @@ class puppet::server::setup (
 
     # no sense to have crontab without r10k configuration
     if $r10k_crontab_setup {
-      include puppet::r10k::crontab
+      class { 'puppet::r10k::crontab':
+        user => $user,
+      }
     }
 
     Class['puppet::r10k::config'] ~> Class['puppet::r10k::run']

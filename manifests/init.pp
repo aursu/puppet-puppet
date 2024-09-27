@@ -4,6 +4,9 @@
 #
 # @summary Puppet 5 installation module
 #
+# @param env_user
+#   The user under which r10k will operate. This can either be `root` or `puppet`.
+#
 # @example
 #   include puppet
 class puppet (
