@@ -9,7 +9,7 @@ mod 'puppetlabs/puppet_agent', '4.20.1'
 mod 'puppetlabs/inifile', '6.1.0'
 mod 'aursu/lsys_postgresql', '0.50.5'
 mod 'aursu/openssh', '0.9.4'
-mod 'aursu/bsys', '0.7.2'
+mod 'aursu/bsys', '0.8.0'
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
   ref: '349ab2b377ddb5b9eca8b7c3d9dcdfbaf4f7023b'

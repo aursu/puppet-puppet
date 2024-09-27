@@ -5,9 +5,9 @@ modules:
 - name: puppetlabs-puppetdb
   version_requirement: "=8.1.0"
 - git: https://github.com/aursu/puppet-puppet.git
-  ref: v0.23.1
+  ref: v0.23.2
 - name: aursu-bsys
-  version_requirement: "=0.7.2"
+  version_requirement: "=0.8.0"
 - name: aursu-openssh
   version_requirement: "=0.9.4"
 - name: aursu-lsys_postgresql
