@@ -12,7 +12,7 @@
 class puppet::server::setup (
   Boolean $r10k_config_manage = true,
   Boolean $r10k_crontab_setup = $puppet::r10k_crontab_setup,
-  Optional[Enum['root', 'puppet']] $user = $puppet::env_user,
+  Optional[Enum['root', 'puppet']] $user = undef,
 ) inherits puppet::params {
   include puppet::r10k::install
   include puppet::r10k::setup

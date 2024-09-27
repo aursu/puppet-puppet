@@ -9,7 +9,7 @@
 #   include puppet::r10k::crontab
 class puppet::r10k::crontab (
   Stdlib::Absolutepath $r10k_path = $puppet::params::r10k_path,
-  Optional[Enum['root', 'puppet']] $user = $puppet::env_user,
+  Optional[Enum['root', 'puppet']] $user = undef,
 ) inherits puppet::params {
   include puppet::r10k::install
   include puppet::r10k::config
