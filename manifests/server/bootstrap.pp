@@ -85,7 +85,6 @@ class puppet::server::bootstrap (
   if ($use_ssh and $access_data[0]) or ! $use_ssh {
     class { 'puppet::r10k::run':
       setup_on_each_run => true,
-      user              => 'puppet',
       cwd               => $cwd,
       require           => [
         Class['puppet::server::bootstrap::ssh'],
