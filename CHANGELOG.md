@@ -546,12 +546,13 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.22.4
+## Release 0.22.5
 
 **Features**
 
 * Moved the `r10k_vardir` variable into `puppet::params`.
 * Added the ability to define a custom value for `r10k_cachedir`.
+* Added filesystem class to manage directories
 
 **Bugfixes**
 

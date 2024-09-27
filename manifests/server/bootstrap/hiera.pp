@@ -9,6 +9,7 @@ class puppet::server::bootstrap::hiera inherits puppet::params {
   require puppet::server::install
   include puppet::server::bootstrap::globals
   include puppet::server::bootstrap::setup
+  include puppet::server::setup::filesystem
 
   $environmentpath = $puppet::params::environmentpath
   $cwd = $puppet::server::bootstrap::globals::cwd
@@ -17,8 +18,11 @@ class puppet::server::bootstrap::hiera inherits puppet::params {
   $env_path = "${environmentpath}/production"
   $data_path = "${env_path}/data"
 
-  file { [$environmentpath, $env_path, $data_path]:
+  file { [$env_path, $data_path]:
     ensure  => 'directory',
+    owner   => 'puppet',
+    group   => 'puppet',
+    mode    => '0750',
     require => Class['puppet::server::install'],
   }
 

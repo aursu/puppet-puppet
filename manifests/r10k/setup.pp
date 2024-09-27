@@ -6,9 +6,7 @@
 #   include puppet::r10k::setup
 class puppet::r10k::setup inherits puppet::params {
   include puppet::agent::install
-
-  $codedir = $puppet::params::codedir
-  $environmentpath = $puppet::params::environmentpath
+  include puppet::server::setup::filesystem
 
   $r10k_config_file = $puppet::params::r10k_config_file
   $r10k_config_path = dirname($r10k_config_file)
@@ -30,16 +28,12 @@ class puppet::r10k::setup inherits puppet::params {
     path    => '/bin:/usr/bin',
   }
 
-  file {
-    default:
-      ensure => directory,
-      owner  => 'puppet',
-      group  => 'puppet',
-      mode   => '0750';
-    $r10k_vardir:
-      require => Exec['r10k-vardir'];
-    $codedir: ;
-    $environmentpath: ;
+  file { $r10k_vardir:
+    ensure  => directory,
+    owner   => 'puppet',
+    group   => 'puppet',
+    mode    => '0750',
+    require => Exec['r10k-vardir'],
   }
 
   Class['puppet::agent::install'] -> Exec['r10k-vardir']

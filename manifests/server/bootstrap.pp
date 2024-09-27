@@ -71,6 +71,7 @@ class puppet::server::bootstrap (
   }
 
   include puppet::r10k::install
+  include puppet::server::setup::filesystem
   include puppet::server::bootstrap::globals
   include puppet::server::bootstrap::setup
   include puppet::server::bootstrap::keys
