@@ -22,26 +22,6 @@ describe 'puppet::r10k::run' do
             timeout: 900,
           )
       }
-
-      context 'with dns_alt_names' do
-        let(:params) do
-          {
-            user: 'puppet',
-          }
-        end
-
-        it {
-          is_expected.to contain_exec('environment-setup')
-            .without_cwd
-            .with(
-              command: '/usr/bin/flock -n /run/puppet.r10k.lock /opt/puppetlabs/puppet/bin/r10k deploy environment -p',
-              refreshonly: true,
-              path: '/bin:/usr/bin',
-              user: 'puppet',
-              timeout: 900,
-            )
-        }
-      end
     end
   end
 end

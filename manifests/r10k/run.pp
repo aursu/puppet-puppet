@@ -19,22 +19,16 @@ class puppet::r10k::run (
   Boolean $setup_on_each_run = $puppet::environment_setup_on_each_run,
   Integer $environment_setup_timeout = 900,
   Optional[Stdlib::Absolutepath] $cwd = undef,
-  Optional[Enum['root', 'puppet']] $user = undef,
 ) inherits puppet::params {
   include puppet::r10k::install
 
-  $r10k_lock = $user ? {
-    'puppet' => '/run/puppet.r10k.lock',
-    default  => '/run/r10k.lock',
-  }
-
   exec { 'environment-setup':
-    command     => "/usr/bin/flock -n ${r10k_lock} ${r10k_path} deploy environment -p",
+    command     => "/usr/bin/flock -n /run/r10k.lock ${r10k_path} deploy environment -p",
     cwd         => $cwd,
-    user        => $user,
     refreshonly => !$setup_on_each_run,
     path        => '/bin:/usr/bin',
     timeout     => $environment_setup_timeout,
+    umask       => '022',
   }
 
   Class['puppet::r10k::install'] -> Exec['environment-setup']
