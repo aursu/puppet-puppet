@@ -21,6 +21,7 @@ class puppet::globals (
   $hostcert         = $puppet::params::hostcert
   $clientcert       = $puppet::params::clientcert
   $hostprivkey      = $puppet::params::hostprivkey
+  $tmpdir           = $puppet::params::tmpdir
 
   $deccomission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release', 'puppet8-release'] - [$package_name]
 
@@ -42,6 +43,17 @@ class puppet::globals (
   }
 
   $platform_repository = "${repo_urlbase}/${package_filename}"
+  $package_source = "${tmpdir}/${package_filename}"
+
+  case $facts['os']['family'] {
+    'Debian': {
+      $package_check = "dpkg-deb --info ${package_source}"
+    }
+    # default is RedHat based systems
+    default: {
+      $package_check = "rpm --quiet -qip ${package_source}"
+    }
+  }
 
   $cadir = $platform_name ? {
     'puppet5' => "${ssldir}/ca",

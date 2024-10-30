@@ -23,8 +23,9 @@ class puppet::repo (
 ) inherits puppet::globals {
   $manage_repo = $puppet::manage_repo
 
-  $tmpdir = $puppet::params::tmpdir
-  $package_source = "${tmpdir}/${package_filename}"
+  $tmpdir = $puppet::globals::tmpdir
+  $package_source = $puppet::globals::package_source
+  $package_check = $puppet::globals::package_check
 
   if $manage_repo {
     # use own tmp directory to not interferre with puppet_agent module
@@ -37,7 +38,7 @@ class puppet::repo (
       cwd     => $tmpdir,
       path    => '/bin:/usr/bin',
       creates => $package_source,
-      unless  => "rpm --quiet -qip ${package_source}",
+      unless  => $package_check,
       require => File[$tmpdir],
     }
 
