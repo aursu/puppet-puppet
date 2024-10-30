@@ -32,7 +32,7 @@ fixtures:
       ref: 10.3.0
     puppet_agent:
       repo: puppetlabs/puppet_agent
-      ref: 4.20.1
+      ref: 4.21.0
     puppetdb:
       repo: puppetlabs/puppetdb
       ref: 8.1.0

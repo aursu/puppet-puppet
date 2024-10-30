@@ -560,3 +560,13 @@ node on Puppet server.
 * Bugfix: added certname PEM files propagation to clientcert PEM files
 
 **Known Issues**
+
+## Release 0.23.0
+
+**Features**
+
+* Updated `puppetlabs/puppet_agent` dependency to support Ubuntu 24.04
+
+**Bugfixes**
+
+**Known Issues**

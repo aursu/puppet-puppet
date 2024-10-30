@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.22.5",
+  "version": "0.23.0",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
     },
     {
       "name": "puppetlabs/puppet_agent",
-      "version_requirement": ">= 4.20.1 < 5.0.0"
+      "version_requirement": ">= 4.21.0 < 5.0.0"
     },
     {
       "name": "puppet/r10k",
