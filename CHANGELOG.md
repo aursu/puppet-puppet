@@ -561,11 +561,12 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.23.0
+## Release 0.23.1
 
 **Features**
 
 * Updated `puppetlabs/puppet_agent` dependency to support Ubuntu 24.04
+* Added Puppet messages output into `puppet::server::bootstrap` plan
 
 **Bugfixes**
 

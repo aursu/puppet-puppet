@@ -10,7 +10,7 @@ plan puppet::server::bootstrap (
 ) {
   run_plan(facts, $targets)
 
-  return apply($targets) {
+  $apply_results =  apply($targets) {
     include puppet
 
     $access_data = lookup({
@@ -63,4 +63,13 @@ plan puppet::server::bootstrap (
       dns_alt_names    => $dns_alt_names_list,
     }
   }
+
+  # Print log messages from the report
+  $apply_results.each |$result| {
+    $result.report['logs'].each |$log| {
+      out::message("${log['level'].upcase}: ${log['message']}")
+    }
+  }
+
+  return $apply_results
 }
