@@ -5,9 +5,10 @@ groups:
   targets:
     - name: puppet
       uri: puppet-puppet-puppet-1:22
-targets:
-  - name: puppetdb
-    uri: puppet-puppet-puppetdb-1:22
+- name: puppetdbs
+  targets:
+    - name: puppetdb
+      uri: puppet-puppet-puppetdb-1:22
 config:
   transport: ssh
   ssh:
