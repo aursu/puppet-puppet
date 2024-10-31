@@ -7,7 +7,7 @@ plan puppet::bootstrap (
   run_plan(puppet::agent::install, $targets, collection => $collection)
   run_plan(facts, $targets)
 
-  return apply($targets) {
+  $apply_results = apply($targets) {
     include puppet
 
     class { 'puppet::globals':
@@ -24,4 +24,13 @@ plan puppet::bootstrap (
       require  => Class['puppet::agent::config'],
     }
   }
+
+  # Print log messages from the report
+  $apply_results.each |$result| {
+    $result.report['logs'].each |$log| {
+      out::message("${log['level'].capitalize}: ${log['source']}: ${log['message']}")
+    }
+  }
+
+  return $apply_results
 }

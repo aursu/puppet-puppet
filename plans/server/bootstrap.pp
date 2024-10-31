@@ -10,7 +10,7 @@ plan puppet::server::bootstrap (
 ) {
   run_plan(facts, $targets)
 
-  $apply_results =  apply($targets) {
+  $apply_results = apply($targets) {
     include puppet
 
     $access_data = lookup({

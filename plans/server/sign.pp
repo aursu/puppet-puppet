@@ -18,10 +18,19 @@ plan puppet::server::sign (
 ) {
   run_plan(facts, $targets)
 
-  return apply($targets) {
+  $apply_results = apply($targets) {
     include puppet
     $nodes.each |$node| {
       puppet::server::ca::sign { $node: }
     }
   }
+
+  # Print log messages from the report
+  $apply_results.each |$result| {
+    $result.report['logs'].each |$log| {
+      out::message("${log['level'].capitalize}: ${log['source']}: ${log['message']}")
+    }
+  }
+
+  return $apply_results
 }

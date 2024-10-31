@@ -21,7 +21,7 @@ plan puppet_bootstrap::puppetdb (
     platform_name => $platform_name,
   )
 
-  return apply($targets) {
+  $apply_results = apply($targets) {
     $postgres_database_host = lookup({ name => 'puppet::puppetdb::postgres_database_host',
         value_type => Stdlib::Host, default_value => $database_host,
     })
@@ -49,4 +49,13 @@ plan puppet_bootstrap::puppetdb (
       manage_cron       => false,
     }
   }
+
+  # Print log messages from the report
+  $apply_results.each |$result| {
+    $result.report['logs'].each |$log| {
+      out::message("${log['level'].capitalize}: ${log['source']}: ${log['message']}")
+    }
+  }
+
+  return $apply_results
 }
