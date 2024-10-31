@@ -67,7 +67,7 @@ plan puppet::server::bootstrap (
   # Print log messages from the report
   $apply_results.each |$result| {
     $result.report['logs'].each |$log| {
-      out::message("${log['level'].upcase}: ${log['message']}")
+      out::message("${log['level'].capitalize}: ${log['source']}: ${log['message']}")
     }
   }
 
