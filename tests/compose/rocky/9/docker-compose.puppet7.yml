@@ -1,5 +1,6 @@
 services:
   puppet:
+    hostname: puppet01.company.tld
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile
@@ -13,8 +14,15 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/rockylinux:${RL9TAG}-puppet7"
+    image: "aursu/rockylinux:${RL9TAG}-puppet"
+    networks:
+      puppet_network:
+        ipv4_address: 10.121.24.101
+    extra_hosts:
+      - "puppet01.company.tld:10.121.24.101"
+      - "puppetdb01.company.tld:10.121.24.102"
   puppetdb:
+    hostname: puppetdb01.company.tld
     build:
       context: .
       dockerfile: tests/redhat/Dockerfile
@@ -28,4 +36,17 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/rockylinux:${RL9TAG}-puppet7"
+    image: "aursu/rockylinux:${RL9TAG}-puppet"
+    networks:
+      puppet_network:
+        ipv4_address: 10.121.24.102
+    extra_hosts:
+      - "puppet01.company.tld:10.121.24.101"
+      - "puppetdb01.company.tld:10.121.24.102"
+
+networks:
+  puppet_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.121.24.0/24
