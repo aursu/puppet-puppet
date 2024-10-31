@@ -565,9 +565,13 @@ node on Puppet server.
 
 **Features**
 
-* Updated `puppetlabs/puppet_agent` dependency to support Ubuntu 24.04
-* Added Puppet messages output into `puppet::server::bootstrap` plan
+- **Ubuntu 24.04 Support**: Updated the `puppetlabs/puppet_agent` dependency to ensure compatibility with Ubuntu 24.04.
+- **Enhanced Puppet Message Output**: Integrated Puppet messages output into the `puppet::server::bootstrap` plan, among other plans, for improved debugging and transparency.
 
 **Bugfixes**
 
+*No bug fixes were addressed in this release.*
+
 **Known Issues**
+
+*No new known issues have been identified.*
