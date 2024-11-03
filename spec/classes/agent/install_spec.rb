@@ -25,14 +25,36 @@ describe 'puppet::agent::install' do
         it { is_expected.to compile }
 
         case os_facts[:os]['name']
-        when 'Rocky', 'CentOS'
+        when 'Rocky', 'CentOS', 'RedHat'
           os_version = os_facts[:os]['release']['major']
           it {
             is_expected.to contain_package('puppet-agent')
               .with_name('puppet-agent')
               .with_ensure("7.26.0-1.el#{os_version}")
           }
+        when 'Ubuntu', 'Debian'
+          it {
+            is_expected.to contain_package('puppet-agent')
+              .with_name('puppet-agent')
+              .with_ensure('7.26.0')
+          }
         end
+      end
+
+      context 'when agent_version is set to latest' do
+        let(:params) do
+          {
+            agent_version: 'latest',
+          }
+        end
+
+        it { is_expected.to compile }
+
+        it {
+          is_expected.to contain_package('puppet-agent')
+            .with_name('puppet-agent')
+            .with_ensure('latest')
+        }
       end
     end
   end
