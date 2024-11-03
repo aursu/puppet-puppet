@@ -22,24 +22,11 @@ class puppet::profile::agent (
     platform_name => $platform_name,
   }
 
-  include puppet::agent::schedule
-
-  class { 'puppet::agent::install': }
-
-  class { 'puppet::agent::config':
-    server           => $server,
-    ca_server        => $ca_server,
-    # lint:ignore:top_scope_facts
-    node_environment => $::environment,
-    # lint:endignore
-    certname         => $certname,
+  class { 'puppet::agent':
+    certname      => $certname,
+    server        => $server,
+    ca_server     => $ca_server,
+    hosts_update  => $hosts_update,
+    manage_config => true,
   }
-
-  class { 'puppet::setup':
-    hosts_update => $hosts_update,
-  }
-
-  Class['puppet::agent::install']
-  -> Class['puppet::agent::config']
-  -> Class['puppet::agent::schedule']
 }

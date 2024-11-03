@@ -19,6 +19,9 @@
 #   The class `puppetdb` expects the parameters `puppetdb::ssl_key`, `puppetdb::ssl_cert`, and `puppetdb::ssl_ca_cert`
 #   to be set with the appropriate SSL asset content.
 #
+# @param server
+# @param ca_server
+#
 # @example
 #   include puppet::profile::puppetdb
 class puppet::profile::puppetdb (
@@ -31,6 +34,10 @@ class puppet::profile::puppetdb (
   Boolean $manage_firewall = false,
   Boolean $manage_cron = true,
   Boolean $ssl_deploy_certs = false,
+  Optional[String] $server = undef,
+  Optional[String] $ca_server = $server,
+  Optional[String] $certname = undef,
+  Boolean $hosts_update = false,
 ) {
   include puppet
 
@@ -39,7 +46,13 @@ class puppet::profile::puppetdb (
     platform_name => $platform_name,
   }
 
-  include puppet::repo
+  class { 'puppet::agent':
+    certname      => $certname,
+    server        => $server,
+    ca_server     => $ca_server,
+    hosts_update  => $hosts_update,
+    manage_config => true,
+  }
 
   class { 'puppet::puppetdb':
     manage_database            => $manage_database,
@@ -64,4 +77,8 @@ class puppet::profile::puppetdb (
     manage_cron                => $manage_cron,
     ssl_deploy_certs           => $ssl_deploy_certs,
   }
+
+  Class['puppet::agent::install']
+  -> Class['puppet::agent::config']
+  -> Class['puppet::agent::schedule']
 }

@@ -575,3 +575,13 @@ node on Puppet server.
 **Known Issues**
 
 *No new known issues have been identified.*
+
+## Release 0.24.0
+
+**Features**
+
+* Added `puppet::agent` Puppet agent installation class
+
+**Bugfixes**
+
+**Known Issues**

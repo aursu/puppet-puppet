@@ -136,7 +136,11 @@ class puppet::profile::server (
     r10k_cachedir => $r10k_cachedir,
   }
 
-  class { 'puppet::agent::install': }
+  class { 'puppet::agent':
+    hosts_update  => $hosts_update,
+    manage_config => false,
+  }
+
   class { 'puppet::server::install': }
 
   class { 'puppet::config':
@@ -212,13 +216,6 @@ class puppet::profile::server (
   }
 
   class { 'puppet::service': }
-  class { 'puppet::setup':
-    hosts_update => $hosts_update,
-  }
 
-  include puppet::agent::schedule
-
-  Class['puppet::agent::install']
-  -> Class['puppet::config']
-  -> Class['puppet::agent::schedule']
+  Class['puppet::agent'] -> Class['puppet::config']
 }
