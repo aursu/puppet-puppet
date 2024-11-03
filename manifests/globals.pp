@@ -23,7 +23,7 @@ class puppet::globals (
   $hostprivkey      = $puppet::params::hostprivkey
   $tmpdir           = $puppet::params::tmpdir
 
-  $deccomission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release', 'puppet8-release'] - [$package_name]
+  $decommission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release', 'puppet8-release'] - [$package_name]
 
   # https://www.puppet.com/docs/puppet/7/install_puppet.html#enable_the_puppet_platform_repository
   case $facts['os']['family'] {

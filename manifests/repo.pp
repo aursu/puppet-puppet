@@ -8,15 +8,26 @@
 #   include puppet::repo
 #
 # @param package_name
-# @param deccomission_packages
-# @param package_filename
-# @param platform_repository
-# @param package_provider
-# @param
+#   [String] The name of the `puppet-release` package to be installed, defaulting
+#   to `${platform_name}-release` from `puppet::globals`.
+#
+# @param decommission_packages [Array[String]] List of old or deprecated Puppet
+#   platform packages to remove before installing `puppet-release`. Defaults
+#   to `puppet::globals::decommission_packages`.
+#
+# @param package_filename [String] The filename for the downloaded `puppet-release`
+#   package, derived from `puppet::globals::package_filename`.
+#
+# @param platform_repository [String] The URL for the platform-specific Puppet
+#   repository, constructed from `puppet::globals::platform_repository`.
+#
+# @param package_provider [String] The package provider to use for installing
+#   `puppet-release`, typically `rpm` or `dpkg` based on the operating system
+#  family, as set in `puppet::params`.
 #
 class puppet::repo (
   String  $package_name = $puppet::globals::package_name,
-  Array[String] $deccomission_packages = $puppet::globals::deccomission_packages,
+  Array[String] $decommission_packages = $puppet::globals::decommission_packages,
   String $package_filename = $puppet::globals::package_filename,
   String $platform_repository = $puppet::globals::platform_repository,
   String $package_provider = $puppet::params::package_provider,
@@ -49,7 +60,7 @@ class puppet::repo (
       require  => Exec['puppet-release'],
     }
 
-    $deccomission_packages.each |String $puppet_release| {
+    $decommission_packages.each |String $puppet_release| {
       package { $puppet_release:
         ensure => absent,
         before => Package['puppet-release'],
