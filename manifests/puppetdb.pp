@@ -57,8 +57,8 @@ class puppet::puppetdb (
       database  => $postgres_database_name,
     }
 
-    Class['postgresql::server'] -> Class['puppetdb']
-    Postgresql::Server::Extension["${postgres_database_name}-pg_trgm"] -> Class['puppetdb']
+    # Class['puppetdb::database::postgresql'] is declared inside Class['puppetdb']
+    Class['lsys_postgresql'] -> Class['puppetdb::database::postgresql']
   }
 
   if $manage_cron {
@@ -87,7 +87,6 @@ class puppet::puppetdb (
 
     automatic_dlo_cleanup => $automatic_dlo_cleanup,
   }
-
   contain puppetdb
 
   unless $ssl_deploy_certs {

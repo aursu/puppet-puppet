@@ -23,7 +23,7 @@ fixtures:
       ref: 6.1.0
     lsys_postgresql:
       repo: aursu/lsys_postgresql
-      ref: 0.50.5
+      ref: 0.52.0
     openssh:
       repo: aursu/openssh
       ref: 0.9.1
