@@ -586,3 +586,13 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.25.1
+
+**Features**
+
+* Added the `manage_gem` flag to allow disabling custom gem management.
+
+**Bugfixes**
+
+**Known Issues**
