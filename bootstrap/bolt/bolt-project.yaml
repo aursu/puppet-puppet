@@ -5,17 +5,17 @@ modules:
 - name: puppetlabs-puppetdb
   version_requirement: "=8.1.0"
 - git: https://github.com/aursu/puppet-puppet.git
-  ref: v0.23.1
+  ref: v0.25.2
 - name: aursu-bsys
-  version_requirement: "=0.8.0"
+  version_requirement: "=0.10.1"
 - name: aursu-openssh
   version_requirement: "=0.9.4"
 - name: aursu-lsys_postgresql
-  version_requirement: "=0.50.5"
+  version_requirement: "=0.52.0"
 - name: puppetlabs-inifile
   version_requirement: "=6.1.0"
 - name: puppetlabs-puppet_agent
-  version_requirement: "=4.20.1"
+  version_requirement: "=4.21.0"
 - name: puppet-r10k
   version_requirement: "=12.2.0"
 
