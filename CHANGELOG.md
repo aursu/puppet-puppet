@@ -587,12 +587,14 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.25.1
+## Release 0.25.2
 
 **Features**
 
 * Added the `manage_gem` flag to allow disabling custom gem management.
 
 **Bugfixes**
+
+* renamed plan parameter name from `nodes` into `hosts`
 
 **Known Issues**
