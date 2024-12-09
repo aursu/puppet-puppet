@@ -27,7 +27,7 @@ describe 'puppet::repo' do
             is_expected.not_to contain_package('puppet8-release')
           }
         end
-      else 
+      else
         context 'check deccomission packages' do
           it { is_expected.to compile }
 
