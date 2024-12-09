@@ -75,6 +75,21 @@ class puppet::params {
     }
   }
 
+  case $os_name {
+    'Ubuntu': {
+      # 24.04
+      if $version_codename == 'noble' {
+        $manage_repo = false
+      }
+      else {
+        $manage_repo = true
+      }
+    }
+    default: {
+      $manage_repo = true
+    }
+  }
+
   $confdir             = '/etc/puppetlabs/puppet'
   $server_confdir      = '/etc/puppetlabs/puppetserver'
   $puppet_config       = "${confdir}/puppet.conf"

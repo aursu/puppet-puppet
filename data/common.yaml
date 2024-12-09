@@ -44,5 +44,4 @@ puppet::static_certname: false
 puppet::manage_webserver_conf: false
 puppet::manage_fileserver_config: true
 puppet::mount_points: {}
-puppet::manage_repo: true
 puppet::env_user: ~

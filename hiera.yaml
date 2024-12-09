@@ -5,7 +5,10 @@ defaults:
   data_hash: yaml_data  
 hierarchy:
   - name: "Per-OS defaults"
-    path: "os/%{facts.os.name}.yaml"
+    paths:
+        # Used to distinguish between Debian and Ubuntu
+      - "os/%{facts.os.name}/%{facts.os.release.major}.yaml"
+      - "os/%{facts.os.name}.yaml"
 
   - name: "Per-OS-Family defaults"
     path: "os-family/%{facts.os.family}.yaml"

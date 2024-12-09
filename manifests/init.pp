@@ -54,7 +54,7 @@ class puppet (
   Boolean $manage_webserver_conf,
   Boolean $manage_fileserver_config,
   Hash[String, Stdlib::Absolutepath] $mount_points,
-  Boolean $manage_repo,
+  Boolean $manage_repo = $puppet::params::manage_repo,
   String  $certname = $facts['networking']['fqdn'],
   Optional[Enum['root', 'puppet']] $env_user,
-) {}
+) inherits puppet::params {}

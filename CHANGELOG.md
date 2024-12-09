@@ -576,12 +576,13 @@ node on Puppet server.
 
 *No new known issues have been identified.*
 
-## Release 0.25.0
+## Release 0.25.1
 
 **Features**
 
 * Added `puppet::agent` Puppet agent installation class
 * Added PuppetDB database class `puppet::puppetdb::database`
+* Disabled Puppet Platform repository management for Ubuntu 24.04
 
 **Bugfixes**
 
