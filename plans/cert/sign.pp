@@ -28,11 +28,11 @@ plan puppet::cert::sign (
   # By default, the certname of the node is the host's fully qualified domain name (FQDN), as
   # determined by Facter.
   if $certname {
-    $nodes = [$certname]
+    $hosts = [$certname]
   }
   else {
-    $nodes = get_targets($targets).map |$node| { $node.facts['fqdn'] }
+    $hosts = get_targets($targets).map |$host| { $host.facts['fqdn'] }
   }
 
-  return run_plan('puppet::server::sign', 'targets' => $server_name, 'nodes' => $nodes)
+  return run_plan('puppet::server::sign', 'targets' => $server_name, 'hosts' => $hosts)
 }

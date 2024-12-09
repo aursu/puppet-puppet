@@ -582,8 +582,20 @@ node on Puppet server.
 
 * Added `puppet::agent` Puppet agent installation class
 * Added PuppetDB database class `puppet::puppetdb::database`
+
+**Bugfixes**
+
+**Known Issues**
+
+## Release 0.25.3
+
+**Features**
+
+* Added the `manage_gem` flag to allow disabling custom gem management.
 * Disabled Puppet Platform repository management for Ubuntu 24.04
 
 **Bugfixes**
+
+* renamed plan parameter name from `nodes` into `hosts`
 
 **Known Issues**

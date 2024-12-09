@@ -9,19 +9,19 @@
 # @param targets
 #   Puppet server(s) on which certificates should be signed.
 #
-# @param nodes
+# @param hosts
 #   Nodes or certnames for which certificate signing requests should be signed.
 #
 plan puppet::server::sign (
   TargetSpec $targets,
-  Array[Stdlib::Fqdn] $nodes,
+  Variant[Stdlib::Fqdn, Array[Stdlib::Fqdn]] $hosts,
 ) {
   run_plan(facts, $targets)
 
   $apply_results = apply($targets) {
     include puppet
-    $nodes.each |$node| {
-      puppet::server::ca::sign { $node: }
+    flatten($hosts).each |$host| {
+      puppet::server::ca::sign { $host: }
     }
   }
 
