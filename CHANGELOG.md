@@ -608,8 +608,8 @@ node on Puppet server.
 
 **Features**
 
-* Added `ruby2` provider for `puppet_auth_rule` custom type for configuration
-  file `/etc/puppet/puppetserver/conf.d/auth.conf`
+* Added configuration file `/etc/puppet/puppetserver/conf.d/auth.conf` support
+  for `puppet_auth_rule` custom type for 
 
 **Bugfixes**
 
