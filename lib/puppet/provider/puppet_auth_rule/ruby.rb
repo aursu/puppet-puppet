@@ -5,6 +5,8 @@ require 'hocon/config_value_factory'
 Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
   @doc = 'Puppet auth.conf rules'
 
+  confine :exists => '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
+
   def initialize(value = {})
     super(value)
     @property_flush = {}
