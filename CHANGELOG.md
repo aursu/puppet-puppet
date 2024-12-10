@@ -587,12 +587,13 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.25.3
+## Release 0.25.4
 
 **Features**
 
 * Added the `manage_gem` flag to allow disabling custom gem management.
 * Disabled Puppet Platform repository management for Ubuntu 24.04
+* Added Apt update into server bootstrap for Debian based OSes
 
 **Bugfixes**
 

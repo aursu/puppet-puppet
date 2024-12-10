@@ -43,10 +43,23 @@ class puppet::server::bootstrap (
   Boolean $use_ssh = true,
   Optional[String] $certname = undef,
   Array[Stdlib::Host] $dns_alt_names = [],
-) {
+  Boolean $manage_apt = $puppet::params::manage_apt,
+) inherits puppet::params {
+  if $manage_apt {
+    class { 'apt':
+      update => {
+        frequency => 'always',
+      },
+    }
+
+    Class['apt::update'] -> Class['puppet::agent::install']
+    Class['apt::update'] -> Class['puppet::server::install']
+  }
+
   class { 'puppet::agent::install':
     agent_version => $agent_version,
   }
+  include puppet::server::install
 
   $static_certname = $certname ? {
     String  => true,
