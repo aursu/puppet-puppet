@@ -65,7 +65,8 @@ class puppet::setup (
 
   if $manage_user {
     group { 'puppet':
-      gid => $puppet::params::group_id,
+      gid    => $puppet::params::group_id,
+      system => true,
     }
 
     user { 'puppet':
@@ -75,6 +76,7 @@ class puppet::setup (
       gid     => 'puppet',
       shell   => $puppet::params::user_shell,
       uid     => $puppet::params::user_id,
+      system  => true,
     }
   }
 }

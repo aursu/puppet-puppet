@@ -38,8 +38,8 @@ class puppet::params {
       $init_config_path = '/etc/default/puppetserver'
       $debian = true
       $manage_user = true
-      $user_id = 999
-      $group_id = 999
+      $user_id = undef
+      $group_id = undef
       $user_shell = '/usr/sbin/nologin'
     }
     # default is RedHat based systems
