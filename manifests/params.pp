@@ -29,6 +29,7 @@ class puppet::params {
       $package_build = "1.sles${os_version}"
       $init_config_path = '/etc/sysconfig/puppetserver'
       $debian = false
+      $manage_user = false
     }
     'Debian': {
       $version_codename = $facts['os']['distro']['codename']
@@ -36,6 +37,10 @@ class puppet::params {
       $package_build = "1${version_codename}"
       $init_config_path = '/etc/default/puppetserver'
       $debian = true
+      $manage_user = true
+      $user_id = 999
+      $group_id = 999
+      $user_shell = '/usr/sbin/nologin'
     }
     # default is RedHat based systems
     default: {
@@ -54,7 +59,22 @@ class puppet::params {
       # init config
       $init_config_path = '/etc/sysconfig/puppetserver'
       $debian = false
+      $manage_user = true
+      $user_id = 52
+      $group_id = 52
+      $user_shell = '/sbin/nologin'
     }
+  }
+
+  # puppet:x:999:999:puppetserver daemon:/opt/puppetlabs/server/data/puppetserver:/usr/sbin/nologin
+  if $os_name == 'Ubuntu' and $version_codename == 'noble' {
+    # Ubuntu 24.04
+    $manage_repo = false
+    $user_home = '/var/lib/puppetserver'
+  }
+  else {
+    $manage_repo = true
+    $user_home = '/opt/puppetlabs/server/data/puppetserver'
   }
 
   case $os_name {
@@ -75,21 +95,6 @@ class puppet::params {
     default: {
       $manage_init_config   = false # not implemented
       $init_config_template = undef
-    }
-  }
-
-  case $os_name {
-    'Ubuntu': {
-      # 24.04
-      if $version_codename == 'noble' {
-        $manage_repo = false
-      }
-      else {
-        $manage_repo = true
-      }
-    }
-    default: {
-      $manage_repo = true
     }
   }
 

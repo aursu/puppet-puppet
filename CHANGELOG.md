@@ -587,7 +587,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.25.5
+## Release 0.25.6
 
 **Features**
 
@@ -600,5 +600,6 @@ node on Puppet server.
 * renamed plan parameter name from `nodes` into `hosts`
 * For Debian system added management for directoires `/usr/share/puppet`
   and `/usr/share/puppet/modules`
+* Added user/group `puppet` management for Debian OSes
 
 **Known Issues**

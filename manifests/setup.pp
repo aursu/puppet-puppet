@@ -13,6 +13,9 @@
 #   see https://puppet.com/docs/puppet/6.18/external_facts.html
 # @param wrapper_setup
 #
+# @param manage_user
+#   Whether to manage `puppet` group/user
+#
 # @example
 #   include puppet::setup
 class puppet::setup (
@@ -22,6 +25,7 @@ class puppet::setup (
   Optional[Array[String]] $dns_alt_names = $puppet::dns_alt_names,
   Boolean $external_facts_setup = $puppet::external_facts_setup,
   Boolean $wrapper_setup = true,
+  Boolean $manage_user = $puppet::params::manage_user,
 ) inherits puppet::params {
   if $hosts_update and $server_ipaddress {
     host { $server_name:
@@ -56,6 +60,21 @@ class puppet::setup (
     file { '/usr/local/sbin/agentrun.now':
       ensure => link,
       target => '/usr/local/sbin/agentrun',
+    }
+  }
+
+  if $manage_user {
+    group { 'puppet':
+      gid => $puppet::params::group_id,
+    }
+
+    user { 'puppet':
+      ensure  => present,
+      home    => $puppet::params::user_home,
+      comment => 'puppetserver daemon',
+      gid     => 'puppet',
+      shell   => $puppet::params::user_shell,
+      uid     => $puppet::params::user_id,
     }
   }
 }

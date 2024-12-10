@@ -123,4 +123,5 @@ class puppet::server::bootstrap (
   }
 
   Class['puppet::server::ca::import'] -> Class['puppet::service']
+  Class['puppet::setup'] -> Class['puppet::server::install']
 }
