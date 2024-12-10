@@ -34,6 +34,9 @@
 #   useful when you have a Puppet server that needs to be accessible under multiple hostnames or
 #   aliases, not just its primary hostname
 #
+# @param manage_apt
+#   Whether to run `apt update` on puppet agent run
+#
 # @example
 #   include puppet::server::bootstrap
 class puppet::server::bootstrap (
@@ -43,7 +46,7 @@ class puppet::server::bootstrap (
   Boolean $use_ssh = true,
   Optional[String] $certname = undef,
   Array[Stdlib::Host] $dns_alt_names = [],
-  Boolean $manage_apt = $puppet::params::manage_apt,
+  Boolean $manage_apt = $puppet::params::debian,
 ) inherits puppet::params {
   if $manage_apt {
     class { 'apt':

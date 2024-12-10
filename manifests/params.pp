@@ -28,14 +28,14 @@ class puppet::params {
       $package_provider = 'rpm'
       $package_build = "1.sles${os_version}"
       $init_config_path = '/etc/sysconfig/puppetserver'
-      $manage_apt = false
+      $debian = false
     }
     'Debian': {
       $version_codename = $facts['os']['distro']['codename']
       $package_provider = 'dpkg'
       $package_build = "1${version_codename}"
       $init_config_path = '/etc/default/puppetserver'
-      $manage_apt = true
+      $debian = true
     }
     # default is RedHat based systems
     default: {
@@ -53,7 +53,7 @@ class puppet::params {
       $package_provider = 'rpm'
       # init config
       $init_config_path = '/etc/sysconfig/puppetserver'
-      $manage_apt = false
+      $debian = false
     }
   }
 

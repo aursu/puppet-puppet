@@ -17,6 +17,16 @@ class puppet::server::install (
 ) inherits puppet::params {
   include puppet::agent::install
 
+  # error creating symbolic link '/usr/share/puppet/modules/mailalias.dpkg-tmp': No such file or directory
+  if $puppet::params::debian {
+    file {
+      ['/usr/share/puppet',
+      '/usr/share/puppet/modules']:
+        ensure => directory,
+        before => Package['puppet-server'],
+    }
+  }
+
   package { 'puppet-server':
     ensure => $server_version,
     name   => $server_package_name,
