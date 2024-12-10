@@ -603,3 +603,14 @@ node on Puppet server.
 * Added user/group `puppet` management for Debian OSes
 
 **Known Issues**
+
+## Release 0.26.0
+
+**Features**
+
+* Added `ruby2` provider for `puppet_auth_rule` custom type for configuration
+  file `/etc/puppet/puppetserver/conf.d/auth.conf`
+
+**Bugfixes**
+
+**Known Issues**
