@@ -15,10 +15,10 @@ class puppet::config::fileserver (
 ) {
   include puppet::params
   include puppet::server::install
-  $fileserverconfig = $puppet::params::fileserverconfig
+  $confdir = $puppet::params::confdir
 
   if size($mount_points) > 0 {
-    file { $fileserverconfig:
+    file { "${confdir}/fileserver.conf":
       ensure  => file,
       content => template('puppet/fileserver.conf.erb'),
       require => Class['puppet::server::install'],

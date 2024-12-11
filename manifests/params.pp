@@ -128,7 +128,6 @@ class puppet::params {
   }
 
   $puppet_config       = "${confdir}/puppet.conf"
-  $fileserverconfig    = "${confdir}/fileserver.conf"
 
   $agent_package_name  = 'puppet-agent'
   $server_package_name = 'puppetserver'
