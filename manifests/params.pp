@@ -107,9 +107,10 @@ class puppet::params {
     $codedir           = '/etc/puppetlabs/code'
     $confdir           = '/etc/puppetlabs/puppet'
     $puppet_path       = '/opt/puppetlabs/puppet/bin/puppet'
-    $r10k_path         = '/opt/puppetlabs/puppet/bin/r10k'
     $gem_path          = '/opt/puppetlabs/puppet/bin/gem'
     $ruby_path         = '/opt/puppetlabs/puppet/bin/ruby'
+    $r10k_package_provider = 'puppet_gem'
+    $r10k_path             = '/opt/puppetlabs/puppet/bin/r10k'
   }
   else {
     $server_confdir    = '/etc/puppet/puppetserver'
@@ -120,9 +121,10 @@ class puppet::params {
     $codedir           = '/etc/puppet/code'
     $confdir           = '/etc/puppet'
     $puppet_path       = '/usr/bin/puppet'
-    $r10k_path         = '/usr/bin/r10k'
     $gem_path          = '/usr/bin/gem'
     $ruby_path         = '/usr/bin/ruby'
+    $r10k_package_provider = 'gem'
+    $r10k_path             = '/usr/local/bin/r10k'
   }
 
   $puppet_config       = "${confdir}/puppet.conf"

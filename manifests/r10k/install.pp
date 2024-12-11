@@ -16,7 +16,7 @@ class puppet::r10k::install (
   include puppet::r10k::dependencies
 
   class { 'r10k':
-    provider          => 'puppet_gem',
+    provider          => $puppet::params::r10k_package_provider,
     manage_modulepath => $manage_puppet_config,
     cachedir          => $r10k_cachedir,
   }

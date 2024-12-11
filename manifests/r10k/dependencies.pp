@@ -10,7 +10,10 @@
 class puppet::r10k::dependencies (
   Boolean $manage_gem = true,
 ) {
+  include puppet::params
   include puppet::agent::install
+
+  $package_provider = $puppet::params::r10k_package_provider
 
   if versioncmp($facts['puppetversion'], '8.0.0') >= 0 {
     $cri_ensure = 'installed'
@@ -26,12 +29,12 @@ class puppet::r10k::dependencies (
     if $manage_gem {
       package { 'faraday-net_http':
         ensure   => '3.0.2',
-        provider => 'puppet_gem',
+        provider => $package_provider,
       }
 
       package { 'faraday':
         ensure   => '2.8.1',
-        provider => 'puppet_gem',
+        provider => $package_provider,
       }
 
       Class['puppet::agent::install'] -> Package['faraday']
@@ -50,7 +53,7 @@ class puppet::r10k::dependencies (
 
   package { 'cri':
     ensure   => $cri_ensure,
-    provider => 'puppet_gem',
+    provider => $package_provider,
   }
 
   Class['puppet::agent::install'] -> Package['cri']

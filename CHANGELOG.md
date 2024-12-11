@@ -604,7 +604,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.26.2
+## Release 0.26.3
 
 **Features**
 
@@ -612,6 +612,7 @@ node on Puppet server.
   for `puppet_auth_rule` custom type for 
 * Adjusted directories for non-puppet-platform distributions
 * Adjusted directories inside configuration files
+* Set `gem` provider for package `r10k`
 
 **Bugfixes**
 
