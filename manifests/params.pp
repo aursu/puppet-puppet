@@ -108,6 +108,8 @@ class puppet::params {
     $confdir           = '/etc/puppetlabs/puppet'
     $puppet_path       = '/opt/puppetlabs/puppet/bin/puppet'
     $r10k_path         = '/opt/puppetlabs/puppet/bin/r10k'
+    $gem_path          = '/opt/puppetlabs/puppet/bin/gem'
+    $ruby_path         = '/opt/puppetlabs/puppet/bin/ruby'
   }
   else {
     $server_confdir    = '/etc/puppet/puppetserver'
@@ -119,6 +121,8 @@ class puppet::params {
     $confdir           = '/etc/puppet'
     $puppet_path       = '/usr/bin/puppet'
     $r10k_path         = '/usr/bin/r10k'
+    $gem_path          = '/usr/bin/gem'
+    $ruby_path         = '/usr/bin/ruby'
   }
 
   $puppet_config       = "${confdir}/puppet.conf"
@@ -127,8 +131,6 @@ class puppet::params {
   $agent_package_name  = 'puppet-agent'
   $server_package_name = 'puppetserver'
   $r10k_package_name   = 'r10k'
-  $ruby_path           = '/opt/puppetlabs/puppet/bin/ruby'
-  $gem_path            = '/opt/puppetlabs/puppet/bin/gem'
   $r10k_cachedir       = '/var/cache/r10k'
   $service_name        = 'puppetserver'
   $r10k_config_file    = '/etc/puppetlabs/r10k/r10k.yaml'
