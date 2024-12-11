@@ -180,6 +180,12 @@ class puppet::config (
   $bootstrap_config = $puppet::params::bootstrap_config
   $platform_name = $puppet::globals::platform_name
 
+  $vardir = $puppet::params::vardir
+  $logdir = $puppet::params::logdir
+  $rundir = $puppet::params::rundir
+  $pidfile = $puppet::params::pidfile
+  $codedir = $puppet::params::codedir
+
   if $platform_name == 'puppet5' {
     $server_section = 'master'
     $server_sameca  = $sameca

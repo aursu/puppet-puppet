@@ -5,6 +5,9 @@
   Puppet::JavaSize $min_heap_size = '2g',
   # Specifies the maximum size (in bytes) of the memory allocation pool in bytes.
   Puppet::JavaSize $max_heap_size = '2g',
+  Stdlib::Unixpath $install_dir = '/opt/puppetlabs/server/apps/puppetserver',
+  Stdlib::Unixpath $config = '/etc/puppetlabs/puppetserver/conf.d',
+  Stdlib::Unixpath $bootstrap_config = '/etc/puppetlabs/puppetserver/services.d'
 | -%>
 <%
   if $tmpdir == '/tmp' {
@@ -33,11 +36,11 @@ TK_ARGS=""
 # These normally shouldn't need to be edited if using OS packages
 USER="puppet"
 GROUP="puppet"
-INSTALL_DIR="/opt/puppetlabs/server/apps/puppetserver"
-CONFIG="/etc/puppetlabs/puppetserver/conf.d"
+INSTALL_DIR="<%= $install_dir %>"
+CONFIG="<%= $config %>"
 
 # Bootstrap path
-BOOTSTRAP_CONFIG="/etc/puppetlabs/puppetserver/services.d/,/opt/puppetlabs/server/apps/puppetserver/config/services.d/"
+BOOTSTRAP_CONFIG="<%= $bootstrap_config %>/,<%= $install_dir %>/config/services.d/"
 
 # SERVICE_STOP_RETRIES can be set here to alter the default stop timeout in
 # seconds.  For systemd, the shorter of this setting or 'TimeoutStopSec' in

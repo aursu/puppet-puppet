@@ -46,6 +46,7 @@ class puppet::config::webserver (
   include puppet::server::install
 
   $config = $puppet::params::config
+  $server_confdir = $puppet::params::server_confdir
 
   # https://www.puppet.com/docs/puppet/7/server/config_file_webserver.html
   # https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/main/doc/jetty-config.md

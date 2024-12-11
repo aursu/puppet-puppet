@@ -604,13 +604,14 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.26.1
+## Release 0.26.2
 
 **Features**
 
 * Added configuration file `/etc/puppet/puppetserver/conf.d/auth.conf` support
   for `puppet_auth_rule` custom type for 
 * Adjusted directories for non-puppet-platform distributions
+* Adjusted directories inside configuration files
 
 **Bugfixes**
 

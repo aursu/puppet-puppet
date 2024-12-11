@@ -61,9 +61,12 @@ class puppet::service (
     file { $init_config_path:
       ensure  => file,
       content => epp($init_config_template, {
-          tmpdir        => $java_io_tmpdir,
-          min_heap_size => $min_heap_size,
-          max_heap_size => $max_heap_size,
+          tmpdir           => $java_io_tmpdir,
+          min_heap_size    => $min_heap_size,
+          max_heap_size    => $max_heap_size,
+          install_dir      => $puppet::params::install_dir,
+          config           => $puppet::params::config,
+          bootstrap_config => $puppet::params::bootstrap_config,
       }),
       before  => Service['puppet-server'],
     }

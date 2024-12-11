@@ -1,6 +1,6 @@
 webserver: {
     # Log webserver access to a specific file.
-    access-log-config: /etc/puppetlabs/puppetserver/request-logging.xml
+    access-log-config: <%= @server_confdir %>/request-logging.xml
     # Require a valid certificate from the client.
     client-auth: <%= @client_auth %>
     # Listen for HTTPS traffic on all available hostnames.

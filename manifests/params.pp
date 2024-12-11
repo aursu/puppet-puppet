@@ -143,19 +143,22 @@ class puppet::params {
     $server_confdir    = '/etc/puppetlabs/puppetserver'
     $vardir            = '/opt/puppetlabs/server/data/puppetserver'
     $logdir            = '/var/log/puppetlabs/puppetserver'
+    $rundir            = '/var/run/puppetlabs/puppetserver'
+    $install_dir       = '/opt/puppetlabs/server/apps/puppetserver'
   }
   else {
     $server_confdir    = '/etc/puppet/puppetserver'
     $vardir            = '/var/lib/puppetserver'
     $logdir            = '/var/log/puppetserver'
+    $rundir            = '/var/run/puppetserver'
+    $install_dir       = '/usr/share/puppetserver'
   }
   # --config /etc/puppet/puppetserver/conf.d
   $config              = "${server_confdir}/conf.d"
   # --bootstrap-config /etc/puppet/puppetserver/services.d
   $bootstrap_config    = "${server_confdir}/services.d"
   $puppet_sbin         = '/opt/puppetlabs/bin/puppetserver'
-  $rundir              = '/var/run/puppetlabs/puppetserver'
-  $pidfile             = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
+  $pidfile             = "${rundir}/puppetserver.pid"
   $codedir             = '/etc/puppetlabs/code'
 
   # environmentpath

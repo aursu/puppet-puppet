@@ -53,11 +53,11 @@ report = true
 <%   if @dns_alt_names.is_a?(Array) && @dns_alt_names.any? -%>
 dns_alt_names = <%= @dns_alt_names.join(',') %>
 <%   end -%>
-vardir = /opt/puppetlabs/server/data/puppetserver
-logdir = /var/log/puppetlabs/puppetserver
-rundir = /var/run/puppetlabs/puppetserver
-pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
-codedir = /etc/puppetlabs/code
+vardir = <%= @vardir %>
+logdir = <%= @logdir %>
+rundir = <%= @rundir %>
+pidfile = <%= @pidfile %>
+codedir = <%= @codedir %>
 <%   if @basemodulepath -%>
 basemodulepath = <%= @basemodulepath %>
 <%   elsif @use_common_env -%>
