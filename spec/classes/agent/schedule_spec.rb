@@ -9,22 +9,42 @@ describe 'puppet::agent::schedule' do
 
       it { is_expected.to compile }
 
-      it {
-        is_expected.to contain_cron('puppet agent run')
-          .with_command('/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay --verbose')
-      }
-
-      context 'check verbose disabled' do
-        let(:params) do
-          {
-            verbose: false,
-          }
-        end
-
+      if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
         it {
           is_expected.to contain_cron('puppet agent run')
-            .with_command('/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay')
+            .with_command('/usr/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay --verbose')
         }
+
+        context 'check verbose disabled on Ubuntu 24.04' do
+          let(:params) do
+            {
+              verbose: false,
+            }
+          end
+
+          it {
+            is_expected.to contain_cron('puppet agent run')
+              .with_command('/usr/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay')
+          }
+        end
+      else
+        it {
+          is_expected.to contain_cron('puppet agent run')
+            .with_command('/opt/puppetlabs/puppet/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay --verbose')
+        }
+
+        context 'check verbose disabled' do
+          let(:params) do
+            {
+              verbose: false,
+            }
+          end
+
+          it {
+            is_expected.to contain_cron('puppet agent run')
+              .with_command('/opt/puppetlabs/puppet/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay')
+          }
+        end
       end
     end
   end
