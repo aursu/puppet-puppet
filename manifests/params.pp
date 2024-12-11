@@ -98,7 +98,29 @@ class puppet::params {
     }
   }
 
-  $confdir             = '/etc/puppetlabs/puppet'
+  if $puppet_platform_distro {
+    $server_confdir    = '/etc/puppetlabs/puppetserver'
+    $vardir            = '/opt/puppetlabs/server/data/puppetserver'
+    $logdir            = '/var/log/puppetlabs/puppetserver'
+    $rundir            = '/var/run/puppetlabs/puppetserver'
+    $install_dir       = '/opt/puppetlabs/server/apps/puppetserver'
+    $codedir           = '/etc/puppetlabs/code'
+    $confdir           = '/etc/puppetlabs/puppet'
+    $puppet_path       = '/opt/puppetlabs/puppet/bin/puppet'
+    $r10k_path         = '/opt/puppetlabs/puppet/bin/r10k'
+  }
+  else {
+    $server_confdir    = '/etc/puppet/puppetserver'
+    $vardir            = '/var/lib/puppetserver'
+    $logdir            = '/var/log/puppetserver'
+    $rundir            = '/var/run/puppetserver'
+    $install_dir       = '/usr/share/puppetserver'
+    $codedir           = '/etc/puppet/code'
+    $confdir           = '/etc/puppet'
+    $puppet_path       = '/usr/bin/puppet'
+    $r10k_path         = '/usr/bin/r10k'
+  }
+
   $puppet_config       = "${confdir}/puppet.conf"
   $fileserverconfig    = "${confdir}/fileserver.conf"
 
@@ -107,9 +129,7 @@ class puppet::params {
   $r10k_package_name   = 'r10k'
   $ruby_path           = '/opt/puppetlabs/puppet/bin/ruby'
   $gem_path            = '/opt/puppetlabs/puppet/bin/gem'
-  $r10k_path           = '/opt/puppetlabs/puppet/bin/r10k'
   $r10k_cachedir       = '/var/cache/r10k'
-  $puppet_path         = '/opt/puppetlabs/puppet/bin/puppet'
   $service_name        = 'puppetserver'
   $r10k_config_file    = '/etc/puppetlabs/r10k/r10k.yaml'
   $eyaml_keys_path     = "${confdir}/keys"
@@ -138,28 +158,12 @@ class puppet::params {
     $publickeydir  = "${ssldir}/public_keys"
   }
 
-  # dont't change values below - never!
-  if $puppet_platform_distro {
-    $server_confdir    = '/etc/puppetlabs/puppetserver'
-    $vardir            = '/opt/puppetlabs/server/data/puppetserver'
-    $logdir            = '/var/log/puppetlabs/puppetserver'
-    $rundir            = '/var/run/puppetlabs/puppetserver'
-    $install_dir       = '/opt/puppetlabs/server/apps/puppetserver'
-  }
-  else {
-    $server_confdir    = '/etc/puppet/puppetserver'
-    $vardir            = '/var/lib/puppetserver'
-    $logdir            = '/var/log/puppetserver'
-    $rundir            = '/var/run/puppetserver'
-    $install_dir       = '/usr/share/puppetserver'
-  }
   # --config /etc/puppet/puppetserver/conf.d
   $config              = "${server_confdir}/conf.d"
   # --bootstrap-config /etc/puppet/puppetserver/services.d
   $bootstrap_config    = "${server_confdir}/services.d"
   $puppet_sbin         = '/opt/puppetlabs/bin/puppetserver'
   $pidfile             = "${rundir}/puppetserver.pid"
-  $codedir             = '/etc/puppetlabs/code'
 
   # environmentpath
   # A search path for directory environments, as a list of directories
