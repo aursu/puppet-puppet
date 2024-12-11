@@ -45,9 +45,11 @@ class puppet::config::webserver (
 ) inherits puppet::params {
   include puppet::server::install
 
+  $config = $puppet::params::config
+
   # https://www.puppet.com/docs/puppet/7/server/config_file_webserver.html
   # https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/main/doc/jetty-config.md
-  file { '/etc/puppetlabs/puppetserver/conf.d/webserver.conf':
+  file { "${config}/webserver.conf":
     ensure  => file,
     content => template('puppet/webserver.conf.erb'),
     require => Class['puppet::server::install'],

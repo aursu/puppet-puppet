@@ -71,7 +71,7 @@ class puppet::setup (
 
     user { 'puppet':
       ensure  => present,
-      home    => $puppet::params::user_home,
+      home    => $puppet::params::vardir,
       comment => 'puppetserver daemon',
       gid     => 'puppet',
       shell   => $puppet::params::user_shell,

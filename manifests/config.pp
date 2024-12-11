@@ -177,6 +177,7 @@ class puppet::config (
   include puppet::globals
   include puppet::agent::install
 
+  $bootstrap_config = $puppet::params::bootstrap_config
   $platform_name = $puppet::globals::platform_name
 
   if $platform_name == 'puppet5' {
@@ -205,7 +206,7 @@ class puppet::config (
     contain puppet::server::ca::allow
 
     # https://puppet.com/docs/puppet/7.5/server/configuration.html#service-bootstrapping
-    file { '/etc/puppetlabs/puppetserver/services.d/ca.cfg':
+    file { "${bootstrap_config}/ca.cfg":
       ensure  => file,
       content => template('puppet/services.ca.cfg.erb'),
       require => Class['puppet::server::install'],

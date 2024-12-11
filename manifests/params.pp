@@ -66,16 +66,16 @@ class puppet::params {
     }
   }
 
-  # puppet:x:999:999:puppetserver daemon:/opt/puppetlabs/server/data/puppetserver:/usr/sbin/nologin
   if $os_name == 'Ubuntu' and $version_codename == 'noble' {
     # Ubuntu 24.04
-    $manage_repo = false
-    $user_home = '/var/lib/puppetserver'
+    $puppet_platform_distro = false
   }
   else {
-    $manage_repo = true
-    $user_home = '/opt/puppetlabs/server/data/puppetserver'
+    $puppet_platform_distro = true
   }
+
+  # Whether to enable and manage Puppet platform repository
+  $manage_repo = $puppet_platform_distro
 
   case $os_name {
     'CentOS', 'Rocky': {
@@ -99,7 +99,6 @@ class puppet::params {
   }
 
   $confdir             = '/etc/puppetlabs/puppet'
-  $server_confdir      = '/etc/puppetlabs/puppetserver'
   $puppet_config       = "${confdir}/puppet.conf"
   $fileserverconfig    = "${confdir}/fileserver.conf"
 
@@ -140,9 +139,21 @@ class puppet::params {
   }
 
   # dont't change values below - never!
-  $vardir              = '/opt/puppetlabs/server/data/puppetserver'
+  if $puppet_platform_distro {
+    $server_confdir    = '/etc/puppetlabs/puppetserver'
+    $vardir            = '/opt/puppetlabs/server/data/puppetserver'
+    $logdir            = '/var/log/puppetlabs/puppetserver'
+  }
+  else {
+    $server_confdir    = '/etc/puppet/puppetserver'
+    $vardir            = '/var/lib/puppetserver'
+    $logdir            = '/var/log/puppetserver'
+  }
+  # --config /etc/puppet/puppetserver/conf.d
+  $config              = "${server_confdir}/conf.d"
+  # --bootstrap-config /etc/puppet/puppetserver/services.d
+  $bootstrap_config    = "${server_confdir}/services.d"
   $puppet_sbin         = '/opt/puppetlabs/bin/puppetserver'
-  $logdir              = '/var/log/puppetlabs/puppetserver'
   $rundir              = '/var/run/puppetlabs/puppetserver'
   $pidfile             = '/var/run/puppetlabs/puppetserver/puppetserver.pid'
   $codedir             = '/etc/puppetlabs/code'
