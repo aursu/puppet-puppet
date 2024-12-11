@@ -14,6 +14,7 @@ class puppet::r10k::install (
 ) inherits puppet::globals {
   include puppet::agent::install
   include puppet::r10k::dependencies
+  include puppet::r10k::setup
 
   class { 'r10k':
     provider          => $puppet::params::r10k_package_provider,
@@ -21,6 +22,7 @@ class puppet::r10k::install (
     cachedir          => $r10k_cachedir,
   }
 
+  Class['puppet::r10k::setup'] -> Class['r10k']
   Class['puppet::agent::install'] -> Class['r10k']
   Class['puppet::r10k::dependencies'] -> Class['r10k']
 }
