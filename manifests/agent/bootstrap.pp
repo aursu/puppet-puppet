@@ -12,10 +12,10 @@
 # @param certname
 #
 class puppet::agent::bootstrap (
-  Stdlib::Unixpath $puppet_path = $puppet::params::puppet_path,
   String $options = '--test',
   Stdlib::Unixpath $hostprivkey = $puppet::params::hostprivkey,
   Stdlib::Unixpath $hostcert = $puppet::params::hostcert,
+  Stdlib::Unixpath $puppet_path = $puppet::params::puppet_path,
   Optional[String] $certname = undef,
 ) inherits puppet::params {
   # /opt/puppetlabs/puppet/bin/puppet agent --test
