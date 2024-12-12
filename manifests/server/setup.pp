@@ -5,8 +5,6 @@
 #
 # @summary Puppet server environment setup
 #
-# @param user
-#
 # @example
 #   include puppet::server::setup
 class puppet::server::setup (
@@ -16,6 +14,12 @@ class puppet::server::setup (
   include puppet::r10k::install
   include puppet::r10k::setup
   include puppet::server::keys
+
+  file {
+    ['/etc/puppetlabs',
+    '/etc/puppetlabs/puppet']:
+      ensure => directory,
+  }
 
   class { 'puppet::r10k::run':
     cwd  => '/',

@@ -135,7 +135,7 @@ class puppet::params {
   $r10k_cachedir       = '/var/cache/r10k'
   $service_name        = 'puppetserver'
   $r10k_config_file    = '/etc/puppetlabs/r10k/r10k.yaml'
-  $eyaml_keys_path     = "${confdir}/keys"
+  $eyaml_keys_path     = '/etc/puppetlabs/puppet/keys'
   $eyaml_public_key    = 'public_key.pkcs7.pem'
   $eyaml_private_key   = 'private_key.pkcs7.pem'
 
