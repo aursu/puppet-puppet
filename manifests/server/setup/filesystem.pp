@@ -17,4 +17,10 @@ class puppet::server::setup::filesystem inherits puppet::params {
     $codedir: ;
     $environmentpath: ;
   }
+
+  file {
+    ['/etc/puppetlabs',
+    '/etc/puppetlabs/puppet']:
+      ensure => directory,
+  }
 }

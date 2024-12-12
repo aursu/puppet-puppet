@@ -617,3 +617,16 @@ node on Puppet server.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.27.0
+
+**Features**
+
+* Hardcoded `/etc/puppetlabs/puppet/keys` as only Puppet keys location
+
+**Bugfixes**
+
+* Added `hiera-eyaml` into server installation for non-puppet-platform
+  distributions
+
+**Known Issues**

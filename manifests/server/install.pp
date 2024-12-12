@@ -18,12 +18,18 @@ class puppet::server::install (
   include puppet::agent::install
 
   # error creating symbolic link '/usr/share/puppet/modules/mailalias.dpkg-tmp': No such file or directory
-  if $puppet::params::debian {
+  unless $puppet::params::puppet_platform_distro {
     file {
       ['/usr/share/puppet',
       '/usr/share/puppet/modules']:
         ensure => directory,
         before => Package['puppet-server'],
+    }
+
+    # Lookup using eyaml lookup_key function is only supported when the hiera_eyaml library is present
+    package { 'hiera-eyaml':
+      ensure   => installed,
+      provider => 'puppet_gem',
     }
   }
 
