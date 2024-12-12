@@ -30,6 +30,7 @@ class puppet::server::install (
     package { 'hiera-eyaml':
       ensure   => installed,
       provider => 'puppet_gem',
+      require  => Package['puppet-server'],
     }
   }
 
