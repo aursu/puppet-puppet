@@ -87,6 +87,7 @@ class puppet::puppetdb (
 
     automatic_dlo_cleanup => $automatic_dlo_cleanup,
     confdir               => $puppet::params::puppetdb_confdir,
+    ssl_dir               => $puppet::params::puppetdb_ssl_dir,
   }
   contain puppetdb
 
