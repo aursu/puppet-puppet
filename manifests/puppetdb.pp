@@ -69,6 +69,8 @@ class puppet::puppetdb (
     $automatic_dlo_cleanup = false
   }
 
+  $ssl_dir = assert_type(Stdlib::Unixpath, $puppet::params::puppetdb_ssl_dir)
+
   class { 'puppetdb':
     manage_dbserver       => false,
     database_host         => $postgres_database_host,
@@ -89,6 +91,9 @@ class puppet::puppetdb (
     confdir               => $puppet::params::puppetdb_confdir,
     ssl_dir               => $puppet::params::puppetdb_ssl_dir,
     vardir                => $puppet::params::puppetdb_vardir,
+    ssl_key_path          => "${ssl_dir}/private.pem",
+    ssl_cert_path         => "${ssl_dir}/public.pem",
+    ssl_ca_cert_path      => "${ssl_dir}/ca.pem",
   }
   contain puppetdb
 

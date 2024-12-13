@@ -19,10 +19,6 @@ class puppet::puppetdb::https_config {
 
   $ssl_dir          = assert_type(Stdlib::Unixpath, $puppet::params::puppetdb_ssl_dir)
 
-  # $ssl_key_path     = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_key_path)
-  # $ssl_cert_path    = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_cert_path)
-  # $ssl_ca_cert_path = assert_type(Stdlib::Unixpath, $puppetdb::params::ssl_ca_cert_path)
-
   $ssl_key_path     = "${ssl_dir}/private.pem"
   $ssl_cert_path    = "${ssl_dir}/public.pem"
   $ssl_ca_cert_path = "${ssl_dir}/ca.pem"

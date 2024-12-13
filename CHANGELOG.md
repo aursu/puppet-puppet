@@ -631,7 +631,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.28.5
+## Release 0.28.6
 
 **Features**
 
@@ -642,7 +642,8 @@ node on Puppet server.
 * Added custom `puppet-terminus-puppetdb` puppetdb termini package for Ubuntu 24.04
 * Added `hiera-eyaml` and `scanf` gems installation for Ubuntu 24.04
 * Added correct PuppetDB `confdir` and `ssl_dir` paths
-* Adjusted PuppetDB `ssl_dir` path inside `puppet::puppetdb::https_config`
+* Adjusted PuppetDB `ssl_dir` path inside `puppet::puppetdb::https_config` and
+  inside `puppet::puppetdb`
 * Truncate PuppetDB's `database.ini` to avoid duplicate declaration for `read-database` section
 * Adjusted PuppetDB `vardir` path inside `puppetdb::server::global`
 
