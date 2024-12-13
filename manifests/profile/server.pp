@@ -169,6 +169,7 @@ class puppet::profile::server (
     r10k_config_manage => true,
     r10k_crontab_setup => $r10k_crontab_setup,
   }
+  contain puppet::server::setup
 
   Class['puppet::r10k::install'] -> Class['puppet::server::setup']
 
@@ -210,6 +211,7 @@ class puppet::profile::server (
       manage_report_processor        => $manage_puppet_config,
       create_puppet_service_resource => false,
       puppet_service_name            => 'puppet-server',
+      terminus_package               => $puppet::params::puppetdb_terminus_package,
     }
 
     Class['puppetdb::master::config'] -> Class['puppet::service']

@@ -14,16 +14,12 @@ class puppet::server::setup (
   include puppet::r10k::install
   include puppet::r10k::setup
   include puppet::server::keys
-
-  file {
-    ['/etc/puppetlabs',
-    '/etc/puppetlabs/puppet']:
-      ensure => directory,
-  }
+  include puppet::server::setup::filesystem
 
   class { 'puppet::r10k::run':
     cwd  => '/',
   }
+  contain puppet::r10k::run
 
   if $r10k_config_manage {
     include puppet::r10k::config

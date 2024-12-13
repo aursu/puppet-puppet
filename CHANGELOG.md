@@ -630,3 +630,15 @@ node on Puppet server.
   distributions
 
 **Known Issues**
+
+## Release 0.27.1
+
+**Features**
+
+* Added `puppet::r10k::run` class containment into `puppet::server::setup`
+
+**Bugfixes**
+
+* Added custom `puppet-terminus-puppetdb` puppetdb termini package for Ubuntu 24.04
+
+**Known Issues**
