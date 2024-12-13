@@ -8,6 +8,7 @@
 #   include puppet::params
 class puppet::params {
   include bsys::params
+  include puppetdb::params
 
   $tmpdir = '/tmp/puppet-puppet'
 
@@ -69,9 +70,11 @@ class puppet::params {
   if $os_name == 'Ubuntu' and $version_codename == 'noble' {
     # Ubuntu 24.04
     $puppet_platform_distro = false
+    $puppetdb_terminus_package = 'puppet-terminus-puppetdb'
   }
   else {
     $puppet_platform_distro = true
+    $puppetdb_terminus_package = $puppetdb::params::terminus_package
   }
 
   # Whether to enable and manage Puppet platform repository
@@ -129,6 +132,7 @@ class puppet::params {
 
   $puppet_config       = "${confdir}/puppet.conf"
 
+  $server_gem_home     = "${vardir}/jruby-gems"
   $agent_package_name  = 'puppet-agent'
   $server_package_name = 'puppetserver'
   $r10k_package_name   = 'r10k'
