@@ -91,6 +91,20 @@ class puppet::puppetdb (
   }
   contain puppetdb
 
+  # Ubuntu 24.04
+  unless $puppet::params::puppet_platform_distro {
+    $database_ini = "${puppet::params::puppetdb_confdir}/database.ini"
+
+    #  Duplicate configuration entry: [:read-database :subname]
+    exec { "rm -f ${database_ini}":
+      path        => '/usr/bin:/bin',
+      refreshonly => true,
+      onlyif      => "grep -q read-database ${database_ini}",
+      subscribe   => Package[$puppetdb::puppetdb_package],
+      before      => Class['puppetdb::server::database'],
+    }
+  }
+
   unless $ssl_deploy_certs {
     include puppet::puppetdb::https_config
   }

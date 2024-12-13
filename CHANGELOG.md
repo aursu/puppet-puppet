@@ -631,7 +631,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.28.3
+## Release 0.28.4
 
 **Features**
 
@@ -643,5 +643,6 @@ node on Puppet server.
 * Added `hiera-eyaml` and `scanf` gems installation for Ubuntu 24.04
 * Added correct PuppetDB `confdir` and `ssl_dir` paths
 * Adjusted PuppetDB `ssl_dir` path inside `puppet::puppetdb::https_config`
+* Truncate PuppetDB's `database.ini` to avoid duplicate declaration for `read-database` section
 
 **Known Issues**
