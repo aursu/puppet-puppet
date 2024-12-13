@@ -73,12 +73,14 @@ class puppet::params {
     $puppetdb_terminus_package = 'puppet-terminus-puppetdb'
     $puppetdb_confdir = '/etc/puppetdb/conf.d'
     $puppetdb_ssl_dir = '/etc/puppetdb/ssl'
+    $puppetdb_vardir  = '/var/lib/puppetdb'
   }
   else {
     $puppet_platform_distro = true
     $puppetdb_terminus_package = $puppetdb::params::terminus_package
     $puppetdb_confdir = $puppetdb::params::confdir
     $puppetdb_ssl_dir = $puppetdb::params::ssl_dir
+    $puppetdb_vardir  = $puppetdb::params::vardir
   }
 
   # Whether to enable and manage Puppet platform repository

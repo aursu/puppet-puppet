@@ -631,7 +631,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.28.4
+## Release 0.28.5
 
 **Features**
 
@@ -644,5 +644,6 @@ node on Puppet server.
 * Added correct PuppetDB `confdir` and `ssl_dir` paths
 * Adjusted PuppetDB `ssl_dir` path inside `puppet::puppetdb::https_config`
 * Truncate PuppetDB's `database.ini` to avoid duplicate declaration for `read-database` section
+* Adjusted PuppetDB `vardir` path inside `puppetdb::server::global`
 
 **Known Issues**
