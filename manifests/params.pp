@@ -29,7 +29,6 @@ class puppet::params {
       $package_provider = 'rpm'
       $package_build = "1.sles${os_version}"
       $init_config_path = '/etc/sysconfig/puppetserver'
-      $debian = false
       $manage_user = false
     }
     'Debian': {
@@ -37,7 +36,6 @@ class puppet::params {
       $package_provider = 'dpkg'
       $package_build = "1${version_codename}"
       $init_config_path = '/etc/default/puppetserver'
-      $debian = true
       $manage_user = true
       $user_id = undef
       $group_id = undef
@@ -59,7 +57,6 @@ class puppet::params {
       $package_provider = 'rpm'
       # init config
       $init_config_path = '/etc/sysconfig/puppetserver'
-      $debian = false
       $manage_user = true
       $user_id = 52
       $group_id = 52
