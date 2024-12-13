@@ -48,7 +48,7 @@ class puppet::puppetdb (
   Boolean $manage_firewall = false,
   Boolean $manage_cron = true,
   Boolean $ssl_deploy_certs = false,
-) {
+) inherits puppet::params {
   if $manage_database {
     include lsys_postgresql
 
@@ -86,6 +86,7 @@ class puppet::puppetdb (
     cipher_suites         => join($cipher_suites, ','),
 
     automatic_dlo_cleanup => $automatic_dlo_cleanup,
+    confdir               => $puppet::params::puppetdb_confdir,
   }
   contain puppetdb
 

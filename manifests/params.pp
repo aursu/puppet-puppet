@@ -71,10 +71,12 @@ class puppet::params {
     # Ubuntu 24.04
     $puppet_platform_distro = false
     $puppetdb_terminus_package = 'puppet-terminus-puppetdb'
+    $puppetdb_confdir = '/etc/puppetdb/conf.d'
   }
   else {
     $puppet_platform_distro = true
     $puppetdb_terminus_package = $puppetdb::params::terminus_package
+    $puppetdb_confdir = $puppetdb::params::confdir
   }
 
   # Whether to enable and manage Puppet platform repository

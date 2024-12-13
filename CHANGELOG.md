@@ -631,7 +631,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.28.0
+## Release 0.28.1
 
 **Features**
 
@@ -641,5 +641,6 @@ node on Puppet server.
 
 * Added custom `puppet-terminus-puppetdb` puppetdb termini package for Ubuntu 24.04
 * Added `hiera-eyaml` and `scanf` gems installation for Ubuntu 24.04
+* Added correct PuppetDB `confdir` path
 
 **Known Issues**
