@@ -640,5 +640,6 @@ node on Puppet server.
 **Bugfixes**
 
 * Added custom `puppet-terminus-puppetdb` puppetdb termini package for Ubuntu 24.04
+* Added `hiera-eyaml` and `scanf` gems installation for Ubuntu 24.04
 
 **Known Issues**
