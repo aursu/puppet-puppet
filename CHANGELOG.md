@@ -649,7 +649,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.29.2
+## Release 0.29.3
 
 **Features**
 
@@ -658,5 +658,7 @@ node on Puppet server.
 **Bugfixes**
 
 * PuppetDB default version for Ubuntu 24.04
+* Adjusted the `puppet::params` class usage as it includes `puppetdb::params`,
+  and consequently, `puppetdb::globals` as well
 
 **Known Issues**
