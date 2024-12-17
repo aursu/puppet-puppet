@@ -131,8 +131,10 @@ class puppet::profile::server (
     manage_repo      => $manage_repo,
   }
 
-  class { 'puppetdb::globals':
-    version => $puppet::puppetdb_version,
+  if $use_puppetdb and $puppetdb_local {
+    class { 'puppetdb::globals':
+      version => $puppet::puppetdb_version,
+    }
   }
 
   class { 'puppet::globals':
