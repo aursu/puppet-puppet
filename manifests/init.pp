@@ -46,6 +46,7 @@ class puppet (
   String $enc_remote,
   Boolean $use_puppetdb,
   String $puppetdb_version,
+  String $puppetdb_terminus_version = $puppetdb_version,
   Boolean $r10k_config_setup,
   String $r10k_yaml_template,
   Boolean $r10k_crontab_setup,

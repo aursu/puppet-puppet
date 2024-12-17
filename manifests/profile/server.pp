@@ -222,6 +222,12 @@ class puppet::profile::server (
       terminus_package               => $puppet::params::puppetdb_terminus_package,
     }
 
+    if $puppetdb_local {
+      Package <| title == $puppet::params::puppetdb_terminus_package |> {
+        ensure => $puppet::puppetdb_terminus_version,
+      }
+    }
+
     Class['puppetdb::master::config'] -> Class['puppet::service']
   }
 
