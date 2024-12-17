@@ -649,7 +649,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.29.0
+## Release 0.29.1
 
 **Features**
 
