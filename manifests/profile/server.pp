@@ -99,7 +99,6 @@ class puppet::profile::server (
   String $postgres_database_username = 'puppetdb',
   String $postgres_database_password = 'puppetdb',
   Boolean $manage_puppetdb_firewall = false,
-  Stdlib::Unixpath $r10k_cachedir = $puppet::params::r10k_cachedir,
   Boolean $hosts_update = true,
   Stdlib::Unixpath $import_path = '/root/ca',
   Boolean $use_common_env = false,
@@ -112,7 +111,8 @@ class puppet::profile::server (
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
   Optional[String] $certname = undef,
   Boolean $manage_repo = true,
-) inherits puppet::params {
+  Optional[Stdlib::Unixpath] $r10k_cachedir = undef,
+) {
   $static_certname = $certname ? {
     String  => true,
     default => false,
@@ -129,6 +129,10 @@ class puppet::profile::server (
     common_envname   => $common_envname,
     enc_envname      => $enc_envname,
     manage_repo      => $manage_repo,
+  }
+
+  class { 'puppetdb::globals':
+    version => $puppet::puppetdb_version,
   }
 
   class { 'puppet::globals':
@@ -180,6 +184,8 @@ class puppet::profile::server (
   #    instance, assign the puppetdb class to it, and assign the puppetdb::master::config
   #    class to your Puppet Server. Make sure to set the class parameters as necessary.
   if $use_puppetdb {
+    include puppet::params
+
     if $puppetdb_local {
       class { 'puppet::puppetdb':
         manage_database            => $manage_database,

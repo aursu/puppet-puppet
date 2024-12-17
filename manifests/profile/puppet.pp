@@ -53,6 +53,9 @@
 # @param manage_webserver_conf
 #   Whether to manage webserver.conf or not
 #
+# @param r10k_cachedir
+#   Cache directory for R10K
+#
 # @example
 #   include puppet::profile::puppet
 class puppet::profile::puppet (
@@ -77,8 +80,8 @@ class puppet::profile::puppet (
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
   Optional[String] $certname = undef,
   Boolean $manage_repo = true,
-  Stdlib::Unixpath $r10k_cachedir = $puppet::params::r10k_cachedir,
-) inherits puppet::params {
+  Optional[Stdlib::Unixpath] $r10k_cachedir = undef,
+) {
   if $puppetserver {
     if $sameca {
       class { 'puppet::profile::server':

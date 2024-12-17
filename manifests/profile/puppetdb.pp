@@ -41,6 +41,10 @@ class puppet::profile::puppetdb (
 ) {
   include puppet
 
+  class { 'puppetdb::globals':
+    version => $puppet::puppetdb_version,
+  }
+
   # puppet::globals must be declared before puppet::repo include
   class { 'puppet::globals':
     platform_name => $platform_name,

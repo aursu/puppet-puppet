@@ -30,6 +30,9 @@
 # @param manage_webserver_conf
 #   Whether to manage webserver.conf or not
 #
+# @param r10k_cachedir
+#   Cache directory for R10K
+#
 class puppet::profile::compiler (
   Stdlib::Host $ca_server,
   Puppet::Platform $platform_name = 'puppet8',
@@ -48,8 +51,8 @@ class puppet::profile::compiler (
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
   Optional[String] $certname = undef,
   Boolean $manage_repo = true,
-  Stdlib::Unixpath $r10k_cachedir = $puppet::params::r10k_cachedir,
-) inherits puppet::params {
+  Optional[Stdlib::Unixpath] $r10k_cachedir = undef,
+) {
   class { 'puppet::profile::server':
     sameca                   => false,
     puppetdb_local           => $puppetdb_local,

@@ -58,4 +58,4 @@ class puppet (
   Boolean $manage_repo,
   String  $certname = $facts['networking']['fqdn'],
   Optional[Enum['root', 'puppet']] $env_user,
-) inherits puppet::params {}
+) {}
