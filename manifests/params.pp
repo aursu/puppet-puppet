@@ -68,6 +68,8 @@ class puppet::params {
   }
 
   if $os_name == 'Ubuntu' and $version_codename == 'noble' {
+    $puppet_platform_distro = false
+
     # Ubuntu 24.04
     $compat_mode = true
 
@@ -78,6 +80,8 @@ class puppet::params {
     $puppetdb_vardir  = '/var/lib/puppetdb'
   }
   else {
+    $puppet_platform_distro = true
+
     $compat_mode = false
 
     $puppetdb_terminus_package = $puppetdb::params::terminus_package
