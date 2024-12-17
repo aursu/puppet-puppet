@@ -31,6 +31,7 @@
 #   to be set with the appropriate SSL asset content.
 #
 class puppet::puppetdb (
+  String $version = $puppet::puppetdb_version,
   Boolean $manage_database = true,
   Stdlib::Host $postgres_database_host = 'localhost',
   String $postgres_database_name = 'puppetdb',
@@ -70,6 +71,12 @@ class puppet::puppetdb (
   }
 
   $ssl_dir = assert_type(Stdlib::Unixpath, $puppet::params::puppetdb_ssl_dir)
+
+  unless $version in ['installed', 'present'] {
+    class { 'puppetdb::globals':
+      version => $version,
+    }
+  }
 
   class { 'puppetdb':
     manage_dbserver       => false,

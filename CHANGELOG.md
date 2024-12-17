@@ -649,12 +649,14 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.29.1
+## Release 0.29.2
 
 **Features**
 
 * Added Ubuntu 24.04 support
 
 **Bugfixes**
+
+* PuppetDB default version for Ubuntu 24.04
 
 **Known Issues**

@@ -1,3 +1,4 @@
 ---
 puppet::agent_version: '8.4.0-1'
 puppet::server_version: '8.4.0-1'
+puppet::puppetdb_version: '7.12.1-3'
