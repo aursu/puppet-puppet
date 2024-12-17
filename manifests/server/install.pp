@@ -14,35 +14,11 @@
 class puppet::server::install (
   String $server_package_name = $puppet::params::server_package_name,
   String $server_version = $puppet::server_version,
-#  String $server_version = $puppet::globals::server_package_version,
 ) inherits puppet::params {
   include puppet::agent::install
 
-  $gem_home = $puppet::params::server_gem_home
-
-  # error creating symbolic link '/usr/share/puppet/modules/mailalias.dpkg-tmp': No such file or directory
-  unless $puppet::params::puppet_platform_distro {
-    file {
-      ['/usr/share/puppet',
-      '/usr/share/puppet/modules']:
-        ensure => directory,
-        before => Package['puppet-server'],
-    }
-
-    # Lookup using eyaml lookup_key function is only supported when the hiera_eyaml library is present
-    # exec { 'puppetserver gem install hiera-eyaml': }
-    exec {
-      default:
-        path    => '/usr/bin:/bin',
-        require => Package['puppet-server'],
-        ;
-      'puppetserver gem install hiera-eyaml --no-document --version 4.2.0':
-        creates => "${gem_home}/gems/hiera-eyaml-4.2.0",
-        ;
-      'puppetserver gem install scanf --no-document --version 1.0.0':
-        creates => "${gem_home}/gems/scanf-1.0.0",
-        ;
-    }
+  if $puppet::params::compat_mode {
+    include puppet::server::compat
   }
 
   package { 'puppet-server':

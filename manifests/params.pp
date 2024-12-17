@@ -69,8 +69,8 @@ class puppet::params {
 
   if $os_name == 'Ubuntu' and $version_codename == 'noble' {
     # Ubuntu 24.04
-    $puppet_platform_distro = false
-    # $puppetdb_terminus_package = 'puppet-terminus-puppetdb'
+    $compat_mode = true
+
     # install it from Ubuntu 22.04
     $puppetdb_terminus_package = 'puppetdb-termini'
     $puppetdb_confdir = '/etc/puppetdb/conf.d'
@@ -78,7 +78,8 @@ class puppet::params {
     $puppetdb_vardir  = '/var/lib/puppetdb'
   }
   else {
-    $puppet_platform_distro = true
+    $compat_mode = false
+
     $puppetdb_terminus_package = $puppetdb::params::terminus_package
     $puppetdb_confdir = $puppetdb::params::confdir
     $puppetdb_ssl_dir = $puppetdb::params::ssl_dir

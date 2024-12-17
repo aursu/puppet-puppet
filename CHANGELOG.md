@@ -649,7 +649,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.29.4
+## Release 0.29.5
 
 **Features**
 
@@ -661,5 +661,6 @@ node on Puppet server.
 * Adjusted the `puppet::params` class usage as it includes `puppetdb::params`,
   and consequently, `puppetdb::globals` as well
 * Addressed puppetdb terminus version setup
+* Addee `puppetserver.conf` for puppetserver compat mode
 
 **Known Issues**

@@ -28,16 +28,6 @@ class puppet::globals (
 
   $decommission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release', 'puppet8-release'] - [$repo_name]
 
-  # Ubuntu 24.04
-  # if $os_name == 'Ubuntu' and $version_codename == 'noble' and $agent_version in ['present', 'installed'] {
-  #   $agent_package_version = '8.4.0-1'
-  #   $server_package_version = '8.4.0-1'
-  # }
-  # else {
-  #   $agent_package_version = $agent_version
-  #   $server_package_version = $server_version
-  # }
-
   # https://www.puppet.com/docs/puppet/7/install_puppet.html#enable_the_puppet_platform_repository
   case $facts['os']['family'] {
     'Suse': {
