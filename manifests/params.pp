@@ -30,6 +30,7 @@ class puppet::params {
       $package_build = "1.sles${os_version}"
       $init_config_path = '/etc/sysconfig/puppetserver'
       $manage_user = false
+      $manage_apt = false
     }
     'Debian': {
       $version_codename = $facts['os']['distro']['codename']
@@ -40,6 +41,7 @@ class puppet::params {
       $user_id = undef
       $group_id = undef
       $user_shell = '/usr/sbin/nologin'
+      $manage_apt = true
     }
     # default is RedHat based systems
     default: {
@@ -61,13 +63,16 @@ class puppet::params {
       $user_id = 52
       $group_id = 52
       $user_shell = '/sbin/nologin'
+      $manage_apt = false
     }
   }
 
   if $os_name == 'Ubuntu' and $version_codename == 'noble' {
     # Ubuntu 24.04
     $puppet_platform_distro = false
-    $puppetdb_terminus_package = 'puppet-terminus-puppetdb'
+    # $puppetdb_terminus_package = 'puppet-terminus-puppetdb'
+    # install it from Ubuntu 22.04
+    $puppetdb_terminus_package = 'puppetdb-termini'
     $puppetdb_confdir = '/etc/puppetdb/conf.d'
     $puppetdb_ssl_dir = '/etc/puppetdb/ssl'
     $puppetdb_vardir  = '/var/lib/puppetdb'
@@ -79,9 +84,6 @@ class puppet::params {
     $puppetdb_ssl_dir = $puppetdb::params::ssl_dir
     $puppetdb_vardir  = $puppetdb::params::vardir
   }
-
-  # Whether to enable and manage Puppet platform repository
-  $manage_repo = $puppet_platform_distro
 
   case $os_name {
     'CentOS', 'Rocky': {

@@ -10,15 +10,21 @@ Facter.add('puppet_sslcert') do
              Facter.fact(:fqdn).value
            end
 
+    confdir = if Facter.value(:os)['name'] == 'Ubuntu' && Facter.value(:os)['distro']['codename'] == 'noble'
+      '/etc/puppet'
+    else
+      '/etc/puppetlabs/puppet'
+    end
+
     puppet_sslpaths = Facter.fact(:puppet_sslpaths)
     paths = if puppet_sslpaths && puppet_sslpaths.value
               puppet_sslpaths.value
             else
               {
-                'certdir' => { 'path' => '/etc/puppetlabs/puppet/ssl/certs' },
-                'privatekeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/private_keys' },
-                'requestdir' => { 'path' => '/etc/puppetlabs/puppet/ssl/certificate_requests' },
-                'publickeydir' => { 'path' => '/etc/puppetlabs/puppet/ssl/public_keys' },
+                'certdir' => { 'path' => "#{confdir}/ssl/certs" },
+                'privatekeydir' => { 'path' => "#{confdir}/ssl/private_keys" },
+                'requestdir' => { 'path' => "#{confdir}/ssl/certificate_requests" },
+                'publickeydir' => { 'path' => "#{confdir}/ssl/public_keys" },
               }
             end
 

@@ -1,0 +1,3 @@
+---
+puppet::agent_version: '8.4.0-1'
+puppet::server_version: '8.4.0-1'

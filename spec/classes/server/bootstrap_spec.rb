@@ -25,11 +25,19 @@ describe 'puppet::server::bootstrap' do
           .with_ensure(:directory)
       }
 
-      it {
-        is_expected.to contain_file('puppet-config')
-          .with_path('/etc/puppetlabs/puppet/puppet.conf')
-          .with_content(%r{dns_alt_names = puppet,hostname.domain.tld})
-      }
+      if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
+        it {
+          is_expected.to contain_file('puppet-config')
+            .with_path('/etc/puppet/puppet.conf')
+            .with_content(%r{dns_alt_names = puppet,hostname.domain.tld})
+        }
+      else
+        it {
+          is_expected.to contain_file('puppet-config')
+            .with_path('/etc/puppetlabs/puppet/puppet.conf')
+            .with_content(%r{dns_alt_names = puppet,hostname.domain.tld})
+        }
+      end
 
       context 'when use SSH for Git access' do
         let(:pre_condition) do
@@ -50,15 +58,27 @@ describe 'puppet::server::bootstrap' do
           }
         end
 
-        it {
-          is_expected.to contain_exec('environment-setup')
-            .with(
-              command: '/usr/bin/flock -n /run/r10k.lock /opt/puppetlabs/puppet/bin/r10k deploy environment -p',
-              refreshonly: false,
-              timeout: 900,
-              cwd: '/root/bootstrap',
-            )
-        }
+        if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
+          it {
+            is_expected.to contain_exec('environment-setup')
+              .with(
+                command: '/usr/bin/flock -n /run/r10k.lock /usr/local/bin/r10k deploy environment -p',
+                refreshonly: false,
+                timeout: 900,
+                cwd: '/root/bootstrap',
+              )
+          }
+        else
+          it {
+            is_expected.to contain_exec('environment-setup')
+              .with(
+                command: '/usr/bin/flock -n /run/r10k.lock /opt/puppetlabs/puppet/bin/r10k deploy environment -p',
+                refreshonly: false,
+                timeout: 900,
+                cwd: '/root/bootstrap',
+              )
+          }
+        end
 
         it {
           is_expected.to contain_exec('environment-setup')
@@ -73,15 +93,27 @@ describe 'puppet::server::bootstrap' do
           }
         end
 
-        it {
-          is_expected.to contain_exec('environment-setup')
-            .with(
-              command: '/usr/bin/flock -n /run/r10k.lock /opt/puppetlabs/puppet/bin/r10k deploy environment -p',
-              refreshonly: false,
-              timeout: 900,
-              cwd: '/root/bootstrap',
-            )
-        }
+        if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
+          it {
+            is_expected.to contain_exec('environment-setup')
+              .with(
+                command: '/usr/bin/flock -n /run/r10k.lock /usr/local/bin/r10k deploy environment -p',
+                refreshonly: false,
+                timeout: 900,
+                cwd: '/root/bootstrap',
+              )
+          }
+        else
+          it {
+            is_expected.to contain_exec('environment-setup')
+              .with(
+                command: '/usr/bin/flock -n /run/r10k.lock /opt/puppetlabs/puppet/bin/r10k deploy environment -p',
+                refreshonly: false,
+                timeout: 900,
+                cwd: '/root/bootstrap',
+              )
+          }
+        end
       end
 
       context 'with dns_alt_names' do
@@ -91,11 +123,19 @@ describe 'puppet::server::bootstrap' do
           }
         end
 
-        it {
-          is_expected.to contain_file('puppet-config')
-            .with_path('/etc/puppetlabs/puppet/puppet.conf')
-            .with_content(%r{dns_alt_names = puppet,puppet-puppet-puppet-1,hostname.domain.tld})
-        }
+        if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
+          it {
+            is_expected.to contain_file('puppet-config')
+              .with_path('/etc/puppet/puppet.conf')
+              .with_content(%r{dns_alt_names = puppet,puppet-puppet-puppet-1,hostname.domain.tld})
+          }
+        else
+          it {
+            is_expected.to contain_file('puppet-config')
+              .with_path('/etc/puppetlabs/puppet/puppet.conf')
+              .with_content(%r{dns_alt_names = puppet,puppet-puppet-puppet-1,hostname.domain.tld})
+          }
+        end
       end
 
       context 'with dns_alt_names single name' do
@@ -107,11 +147,19 @@ describe 'puppet::server::bootstrap' do
           }
         end
 
-        it {
-          is_expected.to contain_file('puppet-config')
-            .with_path('/etc/puppetlabs/puppet/puppet.conf')
-            .with_content(%r{dns_alt_names = puppet-puppet-puppet-1,puppet,hostname.domain.tld})
-        }
+        if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
+          it {
+            is_expected.to contain_file('puppet-config')
+              .with_path('/etc/puppet/puppet.conf')
+              .with_content(%r{dns_alt_names = puppet-puppet-puppet-1,puppet,hostname.domain.tld})
+          }
+        else
+          it {
+            is_expected.to contain_file('puppet-config')
+              .with_path('/etc/puppetlabs/puppet/puppet.conf')
+              .with_content(%r{dns_alt_names = puppet-puppet-puppet-1,puppet,hostname.domain.tld})
+          }
+        end
       end
     end
   end

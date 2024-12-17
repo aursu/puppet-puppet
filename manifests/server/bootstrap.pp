@@ -46,7 +46,7 @@ class puppet::server::bootstrap (
   Boolean $use_ssh = true,
   Optional[String] $certname = undef,
   Array[Stdlib::Host] $dns_alt_names = [],
-  Boolean $manage_apt = $puppet::params::debian,
+  Boolean $manage_apt = $puppet::params::manage_apt,
 ) inherits puppet::params {
   if $manage_apt {
     class { 'apt':

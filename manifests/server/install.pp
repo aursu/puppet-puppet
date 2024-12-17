@@ -14,6 +14,7 @@
 class puppet::server::install (
   String $server_package_name = $puppet::params::server_package_name,
   String $server_version = $puppet::server_version,
+#  String $server_version = $puppet::globals::server_package_version,
 ) inherits puppet::params {
   include puppet::agent::install
 

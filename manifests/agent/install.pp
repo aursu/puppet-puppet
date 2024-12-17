@@ -13,6 +13,7 @@
 class puppet::agent::install (
   String $agent_package_name  = $puppet::params::agent_package_name,
   String $agent_version = $puppet::agent_version,
+#  String $agent_version = $puppet::globals::agent_package_version,
 ) inherits puppet::params {
   include puppet::repo
 

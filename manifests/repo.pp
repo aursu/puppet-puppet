@@ -16,7 +16,7 @@
 #   to `puppet::globals::decommission_packages`.
 #
 # @param package_filename [String] The filename for the downloaded `puppet-release`
-#   package, derived from `puppet::globals::package_filename`.
+#   package, derived from `puppet::globals::repo_filename`.
 #
 # @param platform_repository [String] The URL for the platform-specific Puppet
 #   repository, constructed from `puppet::globals::platform_repository`.
@@ -26,17 +26,17 @@
 #  family, as set in `puppet::params`.
 #
 class puppet::repo (
-  String  $package_name = $puppet::globals::package_name,
+  String  $package_name = $puppet::globals::repo_name,
   Array[String] $decommission_packages = $puppet::globals::decommission_packages,
-  String $package_filename = $puppet::globals::package_filename,
+  String $package_filename = $puppet::globals::repo_filename,
   String $platform_repository = $puppet::globals::platform_repository,
   String $package_provider = $puppet::params::package_provider,
 ) inherits puppet::globals {
   $manage_repo = $puppet::manage_repo
 
   $tmpdir = $puppet::globals::tmpdir
-  $package_source = $puppet::globals::package_source
-  $package_check = $puppet::globals::package_check
+  $package_source = $puppet::globals::repo_source
+  $package_check = $puppet::globals::repo_check
 
   if $manage_repo {
     # use own tmp directory to not interferre with puppet_agent module
