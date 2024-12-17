@@ -648,3 +648,13 @@ node on Puppet server.
 * Adjusted PuppetDB `vardir` path inside `puppetdb::server::global`
 
 **Known Issues**
+
+## Release 0.29.0
+
+**Features**
+
+* Added Ubuntu 24.04 support
+
+**Bugfixes**
+
+**Known Issues**
