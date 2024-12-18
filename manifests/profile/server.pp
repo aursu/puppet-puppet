@@ -138,7 +138,7 @@ class puppet::profile::server (
 
   if $use_puppetdb and $puppetdb_local {
     class { 'puppetdb::globals':
-      version => $puppet::globals::puppetdb_version,
+      version => $puppet::puppetdb_version,
     }
   }
 

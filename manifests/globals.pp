@@ -5,12 +5,15 @@
 # @param platform_name
 # @param r10k_cachedir
 #
+# @param os_vendor_distro
+#   Whether to use OS vendor puppet distribution or not. By default - not
+#
 # @example
 #   include puppet::globals
 class puppet::globals (
   Puppet::Platform $platform_name = 'puppet8',
   Stdlib::Absolutepath $r10k_cachedir = $puppet::params::r10k_cachedir,
-  Boolean $os_vendor_distro = true,
+  Boolean $os_vendor_distro = false,
 ) inherits puppet::params {
   $os_name          = $puppet::params::os_name
   $version_codename = $puppet::params::version_codename
@@ -40,9 +43,17 @@ class puppet::globals (
     $r10k_package_provider = 'puppet_gem'
     $r10k_path             = '/opt/puppetlabs/puppet/bin/r10k'
 
-    $agent_version = 'installed'
-    $server_version = 'installed'
-    $puppetdb_version = 'installed'
+    if $puppet::params::compat_mode {
+      # packages from Ubuntu 22.04 on Ubuntu 24.04 (18/12/2024)
+      $agent_version = '8.10.0-1jammy'
+      $server_version = '8.7.0-1jammy'
+      $puppetdb_version = '8.8.1-1jammy'
+    }
+    else {
+      $agent_version = 'installed'
+      $server_version = 'installed'
+      $puppetdb_version = 'installed'
+    }
   }
   else {
     $server_confdir    = '/etc/puppet/puppetserver'
@@ -58,9 +69,9 @@ class puppet::globals (
     $r10k_package_provider = 'gem'
     $r10k_path             = '/usr/local/bin/r10k'
 
-    $agent_version = '8.4.0-1'
-    $server_version = '8.4.0-1'
-    $puppetdb_version = '7.12.1-3'
+    $agent_version = $puppet::params::agent_version
+    $server_version = $puppet::params::server_version
+    $puppetdb_version = $puppet::params::puppetdb_version
   }
 
   $repo_name        = "${platform_name}-release"

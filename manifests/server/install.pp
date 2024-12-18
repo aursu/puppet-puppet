@@ -13,8 +13,8 @@
 #   include puppet::install::server
 class puppet::server::install (
   String $server_package_name = $puppet::params::server_package_name,
-  String $version = $puppet::globals::server_version,
-) inherits puppet::globals {
+  String $version = $puppet::server_version,
+) inherits puppet::params {
   include puppet::agent::install
   include puppet::server::compat
 

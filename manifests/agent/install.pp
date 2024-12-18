@@ -12,8 +12,8 @@
 #
 class puppet::agent::install (
   String $agent_package_name  = $puppet::params::agent_package_name,
-  String $version = $puppet::globals::agent_version,
-) inherits puppet::globals {
+  String $version = $puppet::agent_version,
+) inherits puppet::params {
   include puppet::repo
 
   case $facts['os']['family'] {
