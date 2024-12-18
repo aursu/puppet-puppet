@@ -21,6 +21,7 @@ class puppet::r10k::install (
     manage_modulepath => $manage_puppet_config,
     cachedir          => $r10k_cachedir,
   }
+  contain r10k
 
   Class['puppet::r10k::setup'] -> Class['r10k']
   Class['puppet::agent::install'] -> Class['r10k']

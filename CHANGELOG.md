@@ -665,12 +665,14 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.30.2
+## Release 0.30.3
 
 **Features**
 
 * Added ability to avoid use OS distro packages
 
 **Bugfixes**
+
+* r10k install dependency
 
 **Known Issues**
