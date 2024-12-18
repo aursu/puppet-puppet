@@ -6,18 +6,18 @@
 # @example
 #   include puppet::puppetdb::https_config
 class puppet::puppetdb::https_config {
-  include puppet::params
+  include puppet::puppetdb::globals
   include puppetdb::params
 
-  $localcacert = assert_type(Stdlib::Unixpath, $puppet::params::localcacert)
-  $hostcert    = assert_type(Stdlib::Unixpath, $puppet::params::hostcert)
-  $hostprivkey = assert_type(Stdlib::Unixpath, $puppet::params::hostprivkey)
+  $localcacert = assert_type(Stdlib::Unixpath, $puppet::globals::localcacert)
+  $hostcert    = assert_type(Stdlib::Unixpath, $puppet::globals::hostcert)
+  $hostprivkey = assert_type(Stdlib::Unixpath, $puppet::globals::hostprivkey)
 
   $puppetdb_group   = assert_type(String, $puppetdb::params::puppetdb_group)
   $puppetdb_package = assert_type(String, $puppetdb::params::puppetdb_package)
   $puppetdb_service = assert_type(String, $puppetdb::params::puppetdb_service)
 
-  $ssl_dir          = assert_type(Stdlib::Unixpath, $puppet::params::puppetdb_ssl_dir)
+  $ssl_dir          = assert_type(Stdlib::Unixpath, $puppet::puppetdb::globals::ssl_dir)
 
   $ssl_key_path     = "${ssl_dir}/private.pem"
   $ssl_cert_path    = "${ssl_dir}/public.pem"

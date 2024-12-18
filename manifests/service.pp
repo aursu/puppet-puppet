@@ -40,7 +40,7 @@ class puppet::service (
   Stdlib::Unixpath $tmpdir = '/tmp',
   Puppet::JavaSize $min_heap_size = '2g',
   Puppet::JavaSize $max_heap_size = '2g',
-) inherits puppet::params {
+) inherits puppet::globals {
   include puppet::server::install
   include puppet::enc
   include puppet::config
@@ -64,9 +64,9 @@ class puppet::service (
           tmpdir           => $java_io_tmpdir,
           min_heap_size    => $min_heap_size,
           max_heap_size    => $max_heap_size,
-          install_dir      => $puppet::params::install_dir,
-          config           => $puppet::params::config,
-          bootstrap_config => $puppet::params::bootstrap_config,
+          install_dir      => $puppet::globals::install_dir,
+          config           => $puppet::globals::config,
+          bootstrap_config => $puppet::globals::bootstrap_config,
       }),
       before  => Service['puppet-server'],
     }

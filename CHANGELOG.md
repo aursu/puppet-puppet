@@ -664,3 +664,13 @@ node on Puppet server.
 * Addee `puppetserver.conf` for puppetserver compat mode
 
 **Known Issues**
+
+## Release 0.30.0
+
+**Features**
+
+* Added ability to avoid use OS distro packages
+
+**Bugfixes**
+
+**Known Issues**

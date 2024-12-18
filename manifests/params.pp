@@ -8,7 +8,6 @@
 #   include puppet::params
 class puppet::params {
   include bsys::params
-  include puppetdb::params
 
   $tmpdir = '/tmp/puppet-puppet'
 
@@ -69,25 +68,11 @@ class puppet::params {
 
   if $os_name == 'Ubuntu' and $version_codename == 'noble' {
     $puppet_platform_distro = false
-
-    # Ubuntu 24.04
     $compat_mode = true
-
-    # install it from Ubuntu 22.04
-    $puppetdb_terminus_package = 'puppetdb-termini'
-    $puppetdb_confdir = '/etc/puppetdb/conf.d'
-    $puppetdb_ssl_dir = '/etc/puppetdb/ssl'
-    $puppetdb_vardir  = '/var/lib/puppetdb'
   }
   else {
     $puppet_platform_distro = true
-
     $compat_mode = false
-
-    $puppetdb_terminus_package = $puppetdb::params::terminus_package
-    $puppetdb_confdir = $puppetdb::params::confdir
-    $puppetdb_ssl_dir = $puppetdb::params::ssl_dir
-    $puppetdb_vardir  = $puppetdb::params::vardir
   }
 
   case $os_name {
@@ -111,38 +96,6 @@ class puppet::params {
     }
   }
 
-  if $puppet_platform_distro {
-    $server_confdir    = '/etc/puppetlabs/puppetserver'
-    $vardir            = '/opt/puppetlabs/server/data/puppetserver'
-    $logdir            = '/var/log/puppetlabs/puppetserver'
-    $rundir            = '/var/run/puppetlabs/puppetserver'
-    $install_dir       = '/opt/puppetlabs/server/apps/puppetserver'
-    $codedir           = '/etc/puppetlabs/code'
-    $confdir           = '/etc/puppetlabs/puppet'
-    $puppet_path       = '/opt/puppetlabs/puppet/bin/puppet'
-    $gem_path          = '/opt/puppetlabs/puppet/bin/gem'
-    $ruby_path         = '/opt/puppetlabs/puppet/bin/ruby'
-    $r10k_package_provider = 'puppet_gem'
-    $r10k_path             = '/opt/puppetlabs/puppet/bin/r10k'
-  }
-  else {
-    $server_confdir    = '/etc/puppet/puppetserver'
-    $vardir            = '/var/lib/puppetserver'
-    $logdir            = '/var/log/puppetserver'
-    $rundir            = '/var/run/puppetserver'
-    $install_dir       = '/usr/share/puppetserver'
-    $codedir           = '/etc/puppet/code'
-    $confdir           = '/etc/puppet'
-    $puppet_path       = '/usr/bin/puppet'
-    $gem_path          = '/usr/bin/gem'
-    $ruby_path         = '/usr/bin/ruby'
-    $r10k_package_provider = 'gem'
-    $r10k_path             = '/usr/local/bin/r10k'
-  }
-
-  $puppet_config       = "${confdir}/puppet.conf"
-
-  $server_gem_home     = "${vardir}/jruby-gems"
   $agent_package_name  = 'puppet-agent'
   $server_package_name = 'puppetserver'
   $r10k_package_name   = 'r10k'
@@ -153,45 +106,7 @@ class puppet::params {
   $eyaml_public_key    = 'public_key.pkcs7.pem'
   $eyaml_private_key   = 'private_key.pkcs7.pem'
 
-  if $facts['puppet_ssldir'] {
-    $ssldir = $facts['puppet_ssldir']
-  }
-  else {
-    $ssldir = "${confdir}/ssl"
-  }
-
-  # Client authentication
-  if $facts['puppet_sslpaths'] {
-    $certdir       = $facts['puppet_sslpaths']['certdir']['path']
-    $privatekeydir = $facts['puppet_sslpaths']['privatekeydir']['path']
-    $requestdir    = $facts['puppet_sslpaths']['requestdir']['path']
-    $publickeydir  = $facts['puppet_sslpaths']['publickeydir']['path']
-  }
-  else {
-    # fallback to predefined
-    $certdir       = "${ssldir}/certs"
-    $privatekeydir = "${ssldir}/private_keys"
-    $requestdir    = "${ssldir}/certificate_requests"
-    $publickeydir  = "${ssldir}/public_keys"
-  }
-
-  # --config /etc/puppet/puppetserver/conf.d
-  $config              = "${server_confdir}/conf.d"
-  # --bootstrap-config /etc/puppet/puppetserver/services.d
-  $bootstrap_config    = "${server_confdir}/services.d"
   $puppet_sbin         = '/opt/puppetlabs/bin/puppetserver'
-  $pidfile             = "${rundir}/puppetserver.pid"
-
-  # environmentpath
-  # A search path for directory environments, as a list of directories
-  # separated by the system path separator character. (The POSIX path
-  # separator is ':', and the Windows path separator is ';'.)
-  # This setting must have a value set to enable directory environments. The
-  # recommended value is $codedir/environments. For more details,
-  # see https://docs.puppet.com/puppet/latest/environments.html
-  # Default: $codedir/environments
-
-  $environmentpath     = "${codedir}/environments"
 
   # external_nodes
   # The external node classifier (ENC) script to use for node data. Puppet
@@ -211,9 +126,6 @@ class puppet::params {
 
   $external_nodes      = '/usr/local/bin/puppet_node_classifier'
 
-  $localcacert   = "${certdir}/ca.pem"
-  $hostcrl       = "${ssldir}/crl.pem"
-
   # https://www.puppet.com/docs/puppet/7/lang_facts_builtin_variables.html#lang_facts_builtin_variables-agent-facts
   if $facts['clientcert'] {
     $clientcert    = $facts['clientcert']
@@ -222,11 +134,6 @@ class puppet::params {
     # fallback to fqdn
     $clientcert    = $facts['networking']['fqdn']
   }
-
-  $hostcert      = "${certdir}/${clientcert}.pem"
-  $hostprivkey   = "${privatekeydir}/${clientcert}.pem"
-  $hostpubkey    = "${publickeydir}/${clientcert}.pem"
-  $hostreq       = "${requestdir}/${clientcert}.pem"
 
   $r10k_vardir = "${facts['puppet_vardir']}/r10k"
 }

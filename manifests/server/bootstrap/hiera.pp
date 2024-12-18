@@ -5,13 +5,13 @@
 #
 # @example
 #   include puppet::server::bootstrap::hiera
-class puppet::server::bootstrap::hiera inherits puppet::params {
+class puppet::server::bootstrap::hiera inherits puppet::globals {
   require puppet::server::install
   include puppet::server::bootstrap::globals
   include puppet::server::bootstrap::setup
   include puppet::server::setup::filesystem
 
-  $environmentpath = $puppet::params::environmentpath
+  $environmentpath = $puppet::globals::environmentpath
   $cwd = $puppet::server::bootstrap::globals::cwd
 
   # default production environment

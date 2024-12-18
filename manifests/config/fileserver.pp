@@ -13,9 +13,10 @@
 class puppet::config::fileserver (
   Hash[Pattern[/^[a-zA-Z0-9_]+$/], Stdlib::Absolutepath] $mount_points = {},
 ) {
-  include puppet::params
+  include puppet::globals
   include puppet::server::install
-  $confdir = $puppet::params::confdir
+
+  $confdir = $puppet::globals::confdir
 
   if size($mount_points) > 0 {
     file { "${confdir}/fileserver.conf":

@@ -49,7 +49,7 @@
 class puppet::r10k::config (
   String  $r10k_yaml_template = $puppet::r10k_yaml_template,
   Stdlib::Absolutepath $cachedir = $puppet::globals::r10k_cachedir,
-  Stdlib::Absolutepath $environmentpath = $puppet::params::environmentpath,
+  Stdlib::Absolutepath $environmentpath = $puppet::globals::environmentpath,
   Boolean $r10k_config_setup = $puppet::r10k_config_setup,
   String  $production_remote = $puppet::production_remote,
   Boolean $use_common_env = $puppet::use_common_env,

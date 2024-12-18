@@ -26,7 +26,7 @@ class puppet::setup (
   Boolean $external_facts_setup = $puppet::external_facts_setup,
   Boolean $wrapper_setup = true,
   Boolean $manage_user = $puppet::params::manage_user,
-) inherits puppet::params {
+) inherits puppet::globals {
   if $hosts_update and $server_ipaddress {
     host { $server_name:
       ensure       => 'present',
@@ -71,7 +71,7 @@ class puppet::setup (
 
     user { 'puppet':
       ensure  => present,
-      home    => $puppet::params::vardir,
+      home    => $puppet::globals::vardir,
       comment => 'puppetserver daemon',
       gid     => 'puppet',
       shell   => $puppet::params::user_shell,

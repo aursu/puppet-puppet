@@ -8,8 +8,8 @@
 # @example
 #   include puppet::r10k::crontab
 class puppet::r10k::crontab (
-  Stdlib::Absolutepath $r10k_path = $puppet::params::r10k_path,
-) inherits puppet::params {
+  Stdlib::Absolutepath $r10k_path = $puppet::globals::r10k_path,
+) inherits puppet::globals {
   include puppet::r10k::install
   include puppet::r10k::config
 

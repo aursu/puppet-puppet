@@ -39,15 +39,13 @@ class puppet::profile::puppetdb (
   Optional[String] $certname = undef,
   Boolean $hosts_update = false,
 ) {
-  include puppet
-
-  class { 'puppetdb::globals':
-    version => $puppet::puppetdb_version,
-  }
-
   # puppet::globals must be declared before puppet::repo include
   class { 'puppet::globals':
     platform_name => $platform_name,
+  }
+
+  class { 'puppetdb::globals':
+    version => $puppet::globals::puppetdb_version,
   }
 
   class { 'puppet::agent':

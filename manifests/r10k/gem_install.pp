@@ -13,9 +13,9 @@
 #
 class puppet::r10k::gem_install (
   String  $r10k_package_name = $puppet::params::r10k_package_name,
-  Stdlib::Absolutepath $gem_path = $puppet::params::gem_path,
-  Stdlib::Absolutepath $r10k_path = $puppet::params::r10k_path,
-) inherits puppet::params {
+  Stdlib::Absolutepath $gem_path = $puppet::globals::gem_path,
+  Stdlib::Absolutepath $r10k_path = $puppet::globals::r10k_path,
+) inherits puppet::globals {
   include puppet::agent::install
   include puppet::r10k::dependencies
 

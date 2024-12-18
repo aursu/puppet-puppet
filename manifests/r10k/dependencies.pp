@@ -10,10 +10,10 @@
 class puppet::r10k::dependencies (
   Boolean $manage_gem = true,
 ) {
-  include puppet::params
+  include puppet::globals
   include puppet::agent::install
 
-  $package_provider = $puppet::params::r10k_package_provider
+  $package_provider = $puppet::globals::r10k_package_provider
 
   if versioncmp($facts['puppetversion'], '8.0.0') >= 0 {
     $cri_ensure = 'installed'

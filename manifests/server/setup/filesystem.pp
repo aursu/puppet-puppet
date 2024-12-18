@@ -4,9 +4,9 @@
 #
 # @example
 #   include puppet::server::setup::filesystem
-class puppet::server::setup::filesystem inherits puppet::params {
-  $codedir = $puppet::params::codedir
-  $environmentpath = $puppet::params::environmentpath
+class puppet::server::setup::filesystem inherits puppet::globals {
+  $codedir = $puppet::globals::codedir
+  $environmentpath = $puppet::globals::environmentpath
 
   file {
     default:

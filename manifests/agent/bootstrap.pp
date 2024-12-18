@@ -13,11 +13,11 @@
 #
 class puppet::agent::bootstrap (
   String $options = '--test',
-  Stdlib::Unixpath $hostprivkey = $puppet::params::hostprivkey,
-  Stdlib::Unixpath $hostcert = $puppet::params::hostcert,
-  Stdlib::Unixpath $puppet_path = $puppet::params::puppet_path,
+  Stdlib::Unixpath $hostprivkey = $puppet::globals::hostprivkey,
+  Stdlib::Unixpath $hostcert = $puppet::globals::hostcert,
+  Stdlib::Unixpath $puppet_path = $puppet::globals::puppet_path,
   Optional[String] $certname = undef,
-) inherits puppet::params {
+) inherits puppet::globals {
   # /opt/puppetlabs/puppet/bin/puppet agent --test
   exec {
     default:
@@ -39,11 +39,11 @@ class puppet::agent::bootstrap (
         path   => '/bin:/usr/bin',
         onlyif => "test -f ${certname}.pem";
       "cp -a ${certname}.pem ${hostcert}":
-        cwd     => $puppet::params::certdir,
+        cwd     => $puppet::globals::certdir,
         creates => $hostcert,
         require => Exec['puppet-bootstrap-cert'];
       "cp -a ${certname}.pem ${hostprivkey}":
-        cwd     => $puppet::params::privatekeydir,
+        cwd     => $puppet::globals::privatekeydir,
         creates => $hostprivkey,
         require => Exec['puppet-bootstrap-privkey'];
     }

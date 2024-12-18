@@ -10,8 +10,8 @@
 #
 class puppet::agent::run (
   String $options = '--test',
-  Stdlib::Unixpath $puppet_path = $puppet::params::puppet_path,
-) inherits puppet::params {
+  Stdlib::Unixpath $puppet_path = $puppet::globals::puppet_path,
+) inherits puppet::globals {
   # /opt/puppetlabs/puppet/bin/puppet agent --test
   exec { 'puppet-agent-run':
     command => "${puppet_path} agent ${options}",

@@ -13,13 +13,10 @@
 #   include puppet::install::server
 class puppet::server::install (
   String $server_package_name = $puppet::params::server_package_name,
-  String $server_version = $puppet::server_version,
-) inherits puppet::params {
+  String $server_version = $puppet::globals::server_version,
+) inherits puppet::globals {
   include puppet::agent::install
-
-  if $puppet::params::compat_mode {
-    include puppet::server::compat
-  }
+  include puppet::server::compat
 
   package { 'puppet-server':
     ensure => $server_version,

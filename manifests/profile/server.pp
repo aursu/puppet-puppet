@@ -131,15 +131,15 @@ class puppet::profile::server (
     manage_repo      => $manage_repo,
   }
 
-  if $use_puppetdb and $puppetdb_local {
-    class { 'puppetdb::globals':
-      version => $puppet::puppetdb_version,
-    }
-  }
-
   class { 'puppet::globals':
     platform_name => $platform_name,
     r10k_cachedir => $r10k_cachedir,
+  }
+
+  if $use_puppetdb and $puppetdb_local {
+    class { 'puppetdb::globals':
+      version => $puppet::globals::puppetdb_version,
+    }
   }
 
   class { 'puppet::agent':
@@ -186,7 +186,7 @@ class puppet::profile::server (
   #    instance, assign the puppetdb class to it, and assign the puppetdb::master::config
   #    class to your Puppet Server. Make sure to set the class parameters as necessary.
   if $use_puppetdb {
-    include puppet::params
+    include puppetdb::params
 
     if $puppetdb_local {
       class { 'puppet::puppetdb':
@@ -219,11 +219,10 @@ class puppet::profile::server (
       manage_report_processor        => $manage_puppet_config,
       create_puppet_service_resource => false,
       puppet_service_name            => 'puppet-server',
-      terminus_package               => $puppet::params::puppetdb_terminus_package,
     }
 
-    if $puppetdb_local {
-      Package <| title == $puppet::params::puppetdb_terminus_package |> {
+    if $puppetdb_local and $puppet::globals::compat_mode {
+      Package <| title == $puppetdb::params::terminus_package |> {
         ensure => $puppet::puppetdb_terminus_version,
       }
     }

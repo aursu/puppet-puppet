@@ -37,16 +37,16 @@
 #   include puppet::config::webserver
 class puppet::config::webserver (
   Enum['need', 'want', 'none'] $client_auth = 'want',
-  Stdlib::Absolutepath $ssl_cert = $puppet::params::hostcert,
-  Stdlib::Absolutepath $ssl_key = $puppet::params::hostprivkey,
-  Stdlib::Absolutepath $ssl_ca_cert = $puppet::params::localcacert,
-  Stdlib::Absolutepath $ssl_cert_chain = $puppet::params::localcacert,
-  Stdlib::Absolutepath $ssl_crl_path = $puppet::params::hostcrl,
-) inherits puppet::params {
+  Stdlib::Absolutepath $ssl_cert = $puppet::globals::hostcert,
+  Stdlib::Absolutepath $ssl_key = $puppet::globals::hostprivkey,
+  Stdlib::Absolutepath $ssl_ca_cert = $puppet::globals::localcacert,
+  Stdlib::Absolutepath $ssl_cert_chain = $puppet::globals::localcacert,
+  Stdlib::Absolutepath $ssl_crl_path = $puppet::globals::hostcrl,
+) inherits puppet::globals {
   include puppet::server::install
 
-  $config = $puppet::params::config
-  $server_confdir = $puppet::params::server_confdir
+  $config = $puppet::globals::config
+  $server_confdir = $puppet::globals::server_confdir
 
   # https://www.puppet.com/docs/puppet/7/server/config_file_webserver.html
   # https://github.com/puppetlabs/trapperkeeper-webserver-jetty9/blob/main/doc/jetty-config.md

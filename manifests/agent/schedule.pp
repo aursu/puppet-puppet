@@ -30,8 +30,8 @@ class puppet::agent::schedule (
   Boolean $reboot_job = true,
   Boolean $file_backups_cleanup = true,
   Integer $file_backups_ttl = 45,
-  Stdlib::Unixpath $puppet_path = $puppet::params::puppet_path,
-) inherits puppet::params {
+  Stdlib::Unixpath $puppet_path = $puppet::globals::puppet_path,
+) inherits puppet::globals {
   $agent_run_minute = fqdn_rand(60, $job_name)
 
   if $verbose {

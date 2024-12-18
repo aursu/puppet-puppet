@@ -163,8 +163,8 @@ class puppet::config (
   Boolean $use_enc = $puppet::use_enc,
   Boolean $use_puppetdb = $puppet::use_puppetdb,
   # predefined via params
-  Stdlib::Absolutepath $puppet_config = $puppet::params::puppet_config,
-  Stdlib::Absolutepath $environmentpath = $puppet::params::environmentpath,
+  Stdlib::Absolutepath $puppet_config = $puppet::globals::puppet_config,
+  Stdlib::Absolutepath $environmentpath = $puppet::globals::environmentpath,
   Stdlib::Absolutepath $external_nodes = $puppet::params::external_nodes,
   Optional[String] $node_environment = undef,
   Optional[Puppet::TimeUnit] $runtimeout = $puppet::runtimeout,
@@ -173,18 +173,18 @@ class puppet::config (
   Boolean $manage_webserver_conf = $puppet::manage_webserver_conf,
   Boolean $manage_fileserver_config = $puppet::manage_fileserver_config,
   Hash[String, Stdlib::Absolutepath] $mount_points = $puppet::mount_points,
-) inherits puppet::params {
+) inherits puppet::globals {
   include puppet::globals
   include puppet::agent::install
 
-  $bootstrap_config = $puppet::params::bootstrap_config
+  $bootstrap_config = $puppet::globals::bootstrap_config
   $platform_name = $puppet::globals::platform_name
 
-  $vardir = $puppet::params::vardir
-  $logdir = $puppet::params::logdir
-  $rundir = $puppet::params::rundir
-  $pidfile = $puppet::params::pidfile
-  $codedir = $puppet::params::codedir
+  $vardir = $puppet::globals::vardir
+  $logdir = $puppet::globals::logdir
+  $rundir = $puppet::globals::rundir
+  $pidfile = $puppet::globals::pidfile
+  $codedir = $puppet::globals::codedir
 
   if $platform_name == 'puppet5' {
     $server_section = 'master'
