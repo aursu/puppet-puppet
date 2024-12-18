@@ -8,26 +8,26 @@
 #   include puppet::agent::install
 #
 # @param agent_package_name
-# @param agent_version
+# @param version
 #
 class puppet::agent::install (
   String $agent_package_name  = $puppet::params::agent_package_name,
-  String $agent_version       = $puppet::globals::agent_version,
+  String $version = $puppet::globals::agent_version,
 ) inherits puppet::globals {
   include puppet::repo
 
   case $facts['os']['family'] {
     'Debian': {
-      $package_ensure = $agent_version
+      $package_ensure = $version
     }
     # default is RPM based systems
     default: {
-      $version_data  = split($agent_version, '[-]')
+      $version_data  = split($version, '[-]')
       $major_version = $version_data[0]
       $build_version = $version_data[1]
 
-      if $build_version or $agent_version in ['present', 'absent', 'purged', 'installed', 'latest'] {
-        $package_ensure = $agent_version
+      if $build_version or $version in ['present', 'absent', 'purged', 'installed', 'latest'] {
+        $package_ensure = $version
       }
       else {
         $package_ensure = "${major_version}-${puppet::params::package_build}"

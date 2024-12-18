@@ -11,7 +11,6 @@ class puppet::globals (
   Puppet::Platform $platform_name = 'puppet8',
   Stdlib::Absolutepath $r10k_cachedir = $puppet::params::r10k_cachedir,
   Boolean $os_vendor_distro = true,
-  Boolean $compat_mode = $puppet::params::compat_mode,
 ) inherits puppet::params {
   $os_name          = $puppet::params::os_name
   $version_codename = $puppet::params::version_codename
@@ -20,9 +19,11 @@ class puppet::globals (
 
   if $os_vendor_distro {
     $puppet_platform_distro = $puppet::params::puppet_platform_distro
+    $compat_mode = $puppet::params::compat_mode
   }
   else {
     $puppet_platform_distro = true
+    $compat_mode = false
   }
 
   if $puppet_platform_distro {

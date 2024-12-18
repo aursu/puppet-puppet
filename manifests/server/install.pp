@@ -5,7 +5,7 @@
 # @summary Puppet server package installation
 #
 # @param server_package_name
-# @param server_version
+# @param version
 #   puppetserver package version or one of puppet Package resource ensure
 #   parameter values (latest, installed, absent)
 #
@@ -13,13 +13,13 @@
 #   include puppet::install::server
 class puppet::server::install (
   String $server_package_name = $puppet::params::server_package_name,
-  String $server_version = $puppet::globals::server_version,
+  String $version = $puppet::globals::server_version,
 ) inherits puppet::globals {
   include puppet::agent::install
   include puppet::server::compat
 
   package { 'puppet-server':
-    ensure => $server_version,
+    ensure => $version,
     name   => $server_package_name,
   }
 

@@ -32,6 +32,7 @@ class puppet::repo (
   String $platform_repository = $puppet::globals::platform_repository,
   String $package_provider = $puppet::params::package_provider,
 ) inherits puppet::globals {
+  include puppet
   $manage_repo = $puppet::manage_repo
 
   $tmpdir = $puppet::globals::tmpdir
