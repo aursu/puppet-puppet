@@ -12,29 +12,16 @@ describe 'puppet::config' do
         }
       end
 
-      if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
-        config_path = '/etc/puppet/puppet.conf'
-        server_confdir = '/etc/puppet/puppetserver'
-      else
-        config_path = '/etc/puppetlabs/puppet/puppet.conf'
-        server_confdir = '/etc/puppetlabs/puppetserver'
-      end
+      config_path    = '/etc/puppetlabs/puppet/puppet.conf'
+      server_confdir = '/etc/puppetlabs/puppetserver'
 
       it { is_expected.to compile }
 
-      if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
-        it {
-          is_expected.to contain_file('puppet-config')
-            .with_path('/etc/puppet/puppet.conf')
-            .with_content(%r{basemodulepath = /etc/puppet/code/environments/common/modules})
-        }
-      else
-        it {
-          is_expected.to contain_file('puppet-config')
-            .with_path('/etc/puppetlabs/puppet/puppet.conf')
-            .with_content(%r{basemodulepath = /etc/puppetlabs/code/environments/common/modules})
-        }
-      end
+      it {
+        is_expected.to contain_file('puppet-config')
+          .with_path('/etc/puppetlabs/puppet/puppet.conf')
+          .with_content(%r{basemodulepath = /etc/puppetlabs/code/environments/common/modules})
+      }
 
       it {
         is_expected.to contain_file('puppet-config')
@@ -96,17 +83,10 @@ describe 'puppet::config' do
           }
         end
 
-        if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
-          it {
-            is_expected.to contain_file('/etc/puppet/puppetserver/conf.d/webserver.conf')
-              .with_content(%r{ssl-ca-cert: /etc/puppetlabs/puppet/ssl/certs/ca.pem}) # this path is hardcoded in default_facts.yml
-          }
-        else
-          it {
-            is_expected.to contain_file('/etc/puppetlabs/puppetserver/conf.d/webserver.conf')
-              .with_content(%r{ssl-ca-cert: /etc/puppetlabs/puppet/ssl/certs/ca.pem})
-          }
-        end
+        it {
+          is_expected.to contain_file('/etc/puppetlabs/puppetserver/conf.d/webserver.conf')
+            .with_content(%r{ssl-ca-cert: /etc/puppetlabs/puppet/ssl/certs/ca.pem})
+        }
       end
 
       context 'check static certname' do
@@ -159,8 +139,8 @@ describe 'puppet::config' do
       context 'on Puppet 5 platform' do
         let(:pre_condition) do
           <<-PUPPETCODE
-          include puppet
           class { 'puppet::globals': platform_name => 'puppet5' }
+          include puppet
           PUPPETCODE
         end
 

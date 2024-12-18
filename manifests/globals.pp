@@ -14,6 +14,7 @@ class puppet::globals (
   Puppet::Platform $platform_name = 'puppet8',
   Stdlib::Absolutepath $r10k_cachedir = $puppet::params::r10k_cachedir,
   Boolean $os_vendor_distro = false,
+  Boolean $compat_mode = $puppet::params::compat_mode,
 ) inherits puppet::params {
   $os_name          = $puppet::params::os_name
   $version_codename = $puppet::params::version_codename
@@ -22,11 +23,11 @@ class puppet::globals (
 
   if $os_vendor_distro {
     $puppet_platform_distro = $puppet::params::puppet_platform_distro
-    $compat_mode = $puppet::params::compat_mode
+    $use_compat_mode = $compat_mode
   }
   else {
     $puppet_platform_distro = true
-    $compat_mode = false
+    $use_compat_mode = false
   }
 
   if $puppet_platform_distro {
@@ -43,7 +44,8 @@ class puppet::globals (
     $r10k_package_provider = 'puppet_gem'
     $r10k_path             = '/opt/puppetlabs/puppet/bin/r10k'
 
-    if $puppet::params::compat_mode {
+    # define packages' versions on Ubuntu 24.04 in compat mode
+    if $puppet::params::compat_mode and $compat_mode {
       # packages from Ubuntu 22.04 on Ubuntu 24.04 (18/12/2024)
       $agent_version = '8.10.0-1jammy'
       $server_version = '8.7.0-1jammy'
@@ -134,8 +136,8 @@ class puppet::globals (
     'Debian': {
       $repo_urlbase = 'https://apt.puppet.com'
 
-      # Ubuntu 24.04
-      if $puppet::params::compat_mode {
+      # Ubuntu 24.04 (if compat_mode is not disabled)
+      if $puppet::params::compat_mode and $compat_mode {
         $repo_filename = "${repo_name}-jammy.deb"
       }
       else {

@@ -11,7 +11,7 @@
 class puppet::puppetdb::compat inherits puppet::puppetdb::globals {
   $database_ini = "${puppet::puppetdb::globals::confdir}/database.ini"
 
-  if $puppet::globals::compat_mode {
+  if $puppet::globals::use_compat_mode {
     include puppetdb
 
     #  Duplicate configuration entry: [:read-database :subname]

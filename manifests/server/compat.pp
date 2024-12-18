@@ -11,7 +11,7 @@ class puppet::server::compat inherits puppet::globals {
   $gem_home = $puppet::globals::server_gem_home
   $config   = $puppet::globals::config
 
-  if $puppet::globals::compat_mode {
+  if $puppet::globals::use_compat_mode {
     # Ensures required directories exist to prevent errors during puppetserver package installation, e.g.
     # error creating symbolic link '/usr/share/puppet/modules/mailalias.dpkg-tmp': No such file or directory
     file {
