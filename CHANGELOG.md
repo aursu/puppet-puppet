@@ -665,7 +665,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.30.3
+## Release 0.30.4
 
 **Features**
 
@@ -674,5 +674,6 @@ node on Puppet server.
 **Bugfixes**
 
 * r10k install dependency
+* Defined Puppet distro default versions
 
 **Known Issues**
