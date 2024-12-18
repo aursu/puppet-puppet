@@ -60,7 +60,7 @@ class puppet::server::bootstrap (
   }
 
   class { 'puppet::agent::install':
-    agent_version => $agent_version,
+    version => $agent_version,
   }
   include puppet::server::install
 
