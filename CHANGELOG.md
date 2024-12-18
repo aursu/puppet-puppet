@@ -670,6 +670,7 @@ node on Puppet server.
 **Features**
 
 * Added ability to avoid use OS distro packages
+* Added ability to use Ubuntu 24.04 as is (no compat mode)
 
 **Bugfixes**
 
