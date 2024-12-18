@@ -12,14 +12,14 @@ class puppet::profile::agent (
   Optional[String] $certname = undef,
   Boolean $manage_repo = true,
 ) {
+  class { 'puppet::globals':
+    platform_name => $platform_name,
+  }
+
   class { 'puppet':
     server      => $server,
     ca_server   => $ca_server,
     manage_repo => $manage_repo,
-  }
-
-  class { 'puppet::globals':
-    platform_name => $platform_name,
   }
 
   class { 'puppet::agent':

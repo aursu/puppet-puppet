@@ -118,6 +118,11 @@ class puppet::profile::server (
     default => false,
   }
 
+  class { 'puppet::globals':
+    platform_name => $platform_name,
+    r10k_cachedir => $r10k_cachedir,
+  }
+
   # https://tickets.puppetlabs.com/browse/SERVER-346
   class { 'puppet':
     master           => true,
@@ -129,11 +134,6 @@ class puppet::profile::server (
     common_envname   => $common_envname,
     enc_envname      => $enc_envname,
     manage_repo      => $manage_repo,
-  }
-
-  class { 'puppet::globals':
-    platform_name => $platform_name,
-    r10k_cachedir => $r10k_cachedir,
   }
 
   if $use_puppetdb and $puppetdb_local {

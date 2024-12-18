@@ -174,7 +174,6 @@ class puppet::config (
   Boolean $manage_fileserver_config = $puppet::manage_fileserver_config,
   Hash[String, Stdlib::Absolutepath] $mount_points = $puppet::mount_points,
 ) inherits puppet::globals {
-  include puppet::globals
   include puppet::agent::install
 
   $bootstrap_config = $puppet::globals::bootstrap_config
