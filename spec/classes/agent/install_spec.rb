@@ -18,7 +18,7 @@ describe 'puppet::agent::install' do
       context 'check version setup' do
         let(:params) do
           {
-            agent_version: '7.26.0',
+            version: '7.26.0',
           }
         end
 
@@ -44,7 +44,7 @@ describe 'puppet::agent::install' do
       context 'when agent_version is set to latest' do
         let(:params) do
           {
-            agent_version: 'latest',
+            version: 'latest',
           }
         end
 
