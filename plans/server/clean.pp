@@ -11,13 +11,13 @@
 #
 plan puppet::server::clean (
   TargetSpec $targets,
-  Array[Stdlib::Fqdn] $hosts,
+  Variant[Stdlib::Fqdn, Array[Stdlib::Fqdn]] $hosts,
 ) {
   run_plan(facts, $targets)
 
   $apply_results = apply($targets) {
     include puppet
-    $hosts.each |$host| {
+    flatten($hosts).each |$host| {
       puppet::server::ca::clean { $host: }
     }
   }
