@@ -609,7 +609,7 @@ node on Puppet server.
 **Features**
 
 * Added configuration file `/etc/puppet/puppetserver/conf.d/auth.conf` support
-  for `puppet_auth_rule` custom type for 
+  for `puppet_auth_rule` custom type for
 * Adjusted directories for non-puppet-platform distributions
 * Adjusted directories inside configuration files
 * Set `gem` provider for package `r10k`
@@ -665,7 +665,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.31.0
+## Release 0.31.1
 
 **Features**
 
@@ -676,5 +676,6 @@ node on Puppet server.
 
 * r10k install dependency
 * Defined Puppet distro default versions
+* Corrected `puppet::server::clean`
 
 **Known Issues**
