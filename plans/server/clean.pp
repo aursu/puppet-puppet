@@ -6,19 +6,28 @@
 # @param targets
 #   Puppet server(s) where certificate should be cleaned
 #
-# @param nodes
+# @param hosts
 #   Nodes for which certificates should be cleaned
 #
 plan puppet::server::clean (
   TargetSpec $targets,
-  Array[Stdlib::Fqdn] $nodes,
+  Array[Stdlib::Fqdn] $hosts,
 ) {
   run_plan(facts, $targets)
 
-  return apply($targets) {
+  $apply_results = apply($targets) {
     include puppet
-    $nodes.each |$node| {
-      puppet::server::ca::clean { $node: }
+    $hosts.each |$host| {
+      puppet::server::ca::clean { $host: }
     }
   }
+
+  # Print log messages from the report
+  $apply_results.each |$result| {
+    $result.report['logs'].each |$log| {
+      out::message("${log['level'].capitalize}: ${log['source']}: ${log['message']}")
+    }
+  }
+
+  return $apply_results
 }
