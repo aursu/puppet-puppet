@@ -8,11 +8,11 @@ plan puppet::bootstrap (
   run_plan(facts, $targets)
 
   $apply_results = apply($targets) {
-    include puppet
-
     class { 'puppet::globals':
       platform_name => $collection,
     }
+
+    include puppet
 
     class { 'puppet::agent::config':
       server   => $server,

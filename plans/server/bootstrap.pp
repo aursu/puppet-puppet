@@ -11,8 +11,6 @@ plan puppet::server::bootstrap (
   run_plan(facts, $targets)
 
   $apply_results = apply($targets) {
-    include puppet
-
     $access_data = lookup({
         name => $access_data_lookup_key,
         value_type => Array[
@@ -48,6 +46,8 @@ plan puppet::server::bootstrap (
     class { 'puppet::globals':
       platform_name => $collection,
     }
+
+    include puppet
 
     class { 'puppet::server::bootstrap::globals':
       access_data    => $access_data,

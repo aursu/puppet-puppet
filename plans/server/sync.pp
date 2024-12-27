@@ -15,11 +15,11 @@ plan puppet::server::sync (
 
   # Apply the puppet::r10k::run class on each target node
   return apply($targets) {
-    include puppet
-
     class { 'puppet::globals':
       platform_name => $collection,
     }
+
+    include puppet
 
     class { 'puppet::r10k::run':
       cwd               => '/',
