@@ -665,7 +665,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.31.2
+## Release 0.31.3
 
 **Features**
 
@@ -677,5 +677,6 @@ node on Puppet server.
 * r10k install dependency
 * Defined Puppet distro default versions
 * Corrected `puppet::server::clean`
+* Corrected Bolt plans
 
 **Known Issues**
