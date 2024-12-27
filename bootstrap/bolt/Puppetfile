@@ -12,7 +12,7 @@ mod 'aursu/openssh', '0.9.4'
 mod 'aursu/bsys', '0.10.1'
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
-  ref: 'f01c389619fddb712baa1d1016cf0355d15eb220'
+  ref: '5c09608133b45c82dbe6fcdc0b7b9b2364c89a70'
 mod 'puppetlabs/puppetdb', '8.1.0'
 mod 'puppetlabs/stdlib', '9.6.0'
 mod 'puppetlabs/vcsrepo', '6.1.0'
