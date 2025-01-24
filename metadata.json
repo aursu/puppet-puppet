@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.31.3",
+  "version": "0.32.0",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -22,7 +22,7 @@
     },
     {
       "name": "puppet/r10k",
-      "version_requirement": ">= 12.1.0 < 14.0.0"
+      "version_requirement": ">= 13.0.0 < 15.0.0"
     },
     {
       "name": "aursu/lsys_postgresql",

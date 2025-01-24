@@ -680,3 +680,13 @@ node on Puppet server.
 * Corrected Bolt plans
 
 **Known Issues**
+
+## Release 0.32.0
+
+**Features**
+
+**Bugfixes**
+
+* Compatibility with r10k >= 13.0.0 and Puppet 7
+
+**Known Issues**

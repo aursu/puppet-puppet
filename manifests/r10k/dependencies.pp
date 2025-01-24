@@ -8,7 +8,7 @@
 # @example
 #   include puppet::r10k::dependencies
 class puppet::r10k::dependencies (
-  Boolean $manage_gem = true,
+  Boolean $manage_gem = false,
 ) {
   include puppet::globals
   include puppet::agent::install
