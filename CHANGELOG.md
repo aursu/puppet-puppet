@@ -681,12 +681,13 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.32.0
+## Release 0.32.1
 
 **Features**
 
 **Bugfixes**
 
 * Compatibility with r10k >= 13.0.0 and Puppet 7
+* Disabled compatibility mode for Ubuntu as vendor packages are already available
 
 **Known Issues**

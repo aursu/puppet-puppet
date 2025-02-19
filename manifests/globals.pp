@@ -44,18 +44,22 @@ class puppet::globals (
     $r10k_package_provider = 'puppet_gem'
     $r10k_path             = '/opt/puppetlabs/puppet/bin/r10k'
 
-    # define packages' versions on Ubuntu 24.04 in compat mode
-    if $puppet::params::compat_mode and $compat_mode {
-      # packages from Ubuntu 22.04 on Ubuntu 24.04 (18/12/2024)
-      $agent_version = '8.10.0-1jammy'
-      $server_version = '8.7.0-1jammy'
-      $puppetdb_version = '8.8.1-1jammy'
-    }
-    else {
-      $agent_version = 'installed'
-      $server_version = 'installed'
-      $puppetdb_version = 'installed'
-    }
+    # # define packages' versions on Ubuntu 24.04 in compat mode
+    # if $puppet::params::compat_mode and $compat_mode {
+    #   # packages from Ubuntu 22.04 on Ubuntu 24.04 (18/12/2024)
+    #   $agent_version = '8.10.0-1jammy'
+    #   $server_version = '8.7.0-1jammy'
+    #   $puppetdb_version = '8.8.1-1jammy'
+    # }
+    # else {
+    #   $agent_version = 'installed'
+    #   $server_version = 'installed'
+    #   $puppetdb_version = 'installed'
+    # }
+
+    $agent_version = 'installed'
+    $server_version = 'installed'
+    $puppetdb_version = 'installed'
   }
   else {
     $server_confdir    = '/etc/puppet/puppetserver'

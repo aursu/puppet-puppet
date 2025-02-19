@@ -66,23 +66,27 @@ class puppet::params {
     }
   }
 
-  if $os_name == 'Ubuntu' and $version_codename == 'noble' {
-    $puppet_platform_distro = false
-    $compat_mode = true
+  # if $os_name == 'Ubuntu' and $version_codename == 'noble' {
+  #   $puppet_platform_distro = false
+  #   $compat_mode = true
+  #   # OS vendor's distribution packages (18/12/2024)
+  #   $agent_version = '8.4.0-1'
+  #   $server_version = '8.4.0-1'
+  #   $puppetdb_version = '7.12.1-3'
+  # }
+  # else {
+  #   $puppet_platform_distro = true
+  #   $compat_mode = false
+  #   $agent_version = 'installed'
+  #   $server_version = 'installed'
+  #   $puppetdb_version = 'installed'
+  # }
 
-    # OS vendor's distribution packages (18/12/2024)
-    $agent_version = '8.4.0-1'
-    $server_version = '8.4.0-1'
-    $puppetdb_version = '7.12.1-3'
-  }
-  else {
-    $puppet_platform_distro = true
-    $compat_mode = false
-
-    $agent_version = 'installed'
-    $server_version = 'installed'
-    $puppetdb_version = 'installed'
-  }
+  $puppet_platform_distro = true
+  $compat_mode = false
+  $agent_version = 'installed'
+  $server_version = 'installed'
+  $puppetdb_version = 'installed'
 
   case $os_name {
     'CentOS', 'Rocky': {
