@@ -15,7 +15,7 @@ plan puppet::cert::clean (
 ) {
   $server_name = get_targets($server)
 
-  $nodes = get_targets($targets).map |$node| { $node.name }
+  $hosts = get_targets($targets).map |$node| { $node.name }
 
-  return run_plan('puppet::server::clean', 'targets' => $server_name, 'nodes' => $nodes)
+  return run_plan('puppet::server::clean', 'targets' => $server_name, 'hosts' => $hosts)
 }
