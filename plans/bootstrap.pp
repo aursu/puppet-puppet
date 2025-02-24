@@ -4,8 +4,9 @@ plan puppet::bootstrap (
   Optional[String] $certname = undef,
   Puppet::Platform $collection = 'puppet8',
 ) {
-  run_plan(puppet::agent::install, $targets, collection => $collection)
   run_plan(facts, $targets)
+
+  run_plan(puppet::agent::install, $targets, collection => $collection)
 
   $apply_results = apply($targets) {
     class { 'puppet::globals':

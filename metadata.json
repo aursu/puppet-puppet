@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.32.2",
+  "version": "0.33.0",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/apt",
-      "version_requirement": ">= 9.0.0 < 10.0.0"
+      "version_requirement": ">= 9.0.0 < 11.0.0"
     },
     {
       "name": "puppetlabs/puppetdb",
