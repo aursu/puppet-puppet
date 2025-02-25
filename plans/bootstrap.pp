@@ -6,32 +6,32 @@ plan puppet::bootstrap (
 ) {
   run_plan(facts, $targets)
 
-  run_plan(puppet::agent::install, $targets, collection => $collection)
+  get_targets($targets).each |$target| {
+    run_plan(puppet::agent::install, $target, collection => $collection)
 
-  $apply_results = apply($targets) {
-    class { 'puppet::globals':
-      platform_name => $collection,
+    $apply_results = apply($target) {
+      class { 'puppet::globals':
+        platform_name => $collection,
+      }
+
+      include puppet
+
+      class { 'puppet::agent::config':
+        server   => $server,
+        certname => $certname,
+      }
+
+      class { 'puppet::agent::bootstrap':
+        certname => $certname,
+        require  => Class['puppet::agent::config'],
+      }
     }
 
-    include puppet
-
-    class { 'puppet::agent::config':
-      server   => $server,
-      certname => $certname,
-    }
-
-    class { 'puppet::agent::bootstrap':
-      certname => $certname,
-      require  => Class['puppet::agent::config'],
+    # Print log messages from the report
+    $apply_results.each |$result| {
+      $result.report['logs'].each |$log| {
+        out::message("${log['level'].capitalize}: ${log['source']}: ${log['message']}")
+      }
     }
   }
-
-  # Print log messages from the report
-  $apply_results.each |$result| {
-    $result.report['logs'].each |$log| {
-      out::message("${log['level'].capitalize}: ${log['source']}: ${log['message']}")
-    }
-  }
-
-  return $apply_results
 }

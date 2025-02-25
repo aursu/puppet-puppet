@@ -601,7 +601,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.33.0
+## Release 0.33.1
 
 **Features**
 
@@ -611,5 +611,6 @@ node on Puppet server.
 * Disabled compatibility mode for Ubuntu as vendor packages are already available
 * Fixed plan `puppet::cert::clean`
 * Fixed `apt` module dependency version
+* Corrected Bolt plan `puppet::bootstrap`
 
 **Known Issues**
