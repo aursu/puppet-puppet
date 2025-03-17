@@ -614,3 +614,13 @@ node on Puppet server.
 * Corrected Bolt plan `puppet::bootstrap`
 
 **Known Issues**
+
+## Release 0.33.2
+
+**Features**
+
+**Bugfixes**
+
+* Corrected Bolt plan `puppet::bootstrap` (run plan `facts` on each target)
+
+**Known Issues**
