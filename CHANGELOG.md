@@ -615,7 +615,7 @@ node on Puppet server.
 
 **Known Issues**
 
-## Release 0.33.2
+## Release 0.33.3
 
 **Features**
 

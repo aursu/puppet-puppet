@@ -5,8 +5,8 @@ plan puppet::bootstrap (
   Puppet::Platform $collection = 'puppet8',
 ) {
   get_targets($targets).each |$target| {
-    run_plan(facts, $target)
     run_plan(puppet::agent::install, $target, collection => $collection)
+    run_plan(facts, $target)
 
     $apply_results = apply($target) {
       class { 'puppet::globals':
