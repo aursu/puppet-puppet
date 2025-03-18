@@ -191,3 +191,15 @@ To kickstart the bootstrap process, follow these essential preliminary steps:
    ```
    bolt plan run puppet_agent::run -t puppetservers environment=production
    ```
+
+## Bootstrap agent
+
+```
+bolt plan run puppet::bootstrap -t servers server=puppet-puppet-puppet-1
+```
+
+Sign the agent certificate:
+
+```
+bolt plan run puppet::cert::sign -t servers server=puppet-puppet-puppet-1
+```
