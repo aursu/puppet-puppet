@@ -41,7 +41,7 @@ fixtures:
       ref: 8.1.0
     r10k:
       repo: puppet/r10k
-      ref: 14.1.0
+      ref: 14.3.0
     stdlib:
       repo: puppetlabs/stdlib
       ref: 9.7.0

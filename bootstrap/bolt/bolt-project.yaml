@@ -17,7 +17,7 @@ modules:
 - name: puppetlabs-puppet_agent
   version_requirement: "=4.21.0"
 - name: puppet-r10k
-  version_requirement: "=12.2.0"
+  version_requirement: "=14.3.0"
 
 log:
   "logs/bolt-trace.log":
