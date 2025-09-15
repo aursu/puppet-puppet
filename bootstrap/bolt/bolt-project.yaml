@@ -5,19 +5,19 @@ modules:
 - name: puppetlabs-puppetdb
   version_requirement: "=8.1.0"
 - git: https://github.com/aursu/puppet-puppet.git
-  ref: v0.31.3
+  ref: v0.34.0
 - name: aursu-bsys
-  version_requirement: "=0.10.1"
+  version_requirement: "=0.11.3"
 - name: aursu-openssh
   version_requirement: "=0.9.4"
-- name: aursu-lsys_postgresql
-  version_requirement: "=0.52.0"
+- git: https://github.com/aursu/puppet-lsys_postgresql.git
+  ref: v0.53.1
 - name: puppetlabs-inifile
-  version_requirement: "=6.1.0"
+  version_requirement: "=6.2.0"
 - name: puppetlabs-puppet_agent
   version_requirement: "=4.21.0"
 - name: puppet-r10k
-  version_requirement: "=12.2.0"
+  version_requirement: "=14.3.0"
 
 log:
   "logs/bolt-trace.log":

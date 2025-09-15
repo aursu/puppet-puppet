@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.34.0
+
+**Features**
+
+* Updated r10k module dependency to version 14.3.0 for improved functionality
+* Updated minimum r10k version requirement to >= 14.0.0 < 15.0.0 in metadata
+* Updated Bolt bootstrap configuration to use r10k 14.3.0
+* Updated test fixtures to use latest r10k version
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.3.3
 
 **Features**
