@@ -1,7 +1,7 @@
-ARG os=jammy-20230816
+ARG os=noble-20250415.1
 FROM ubuntu:${os}
 
-ARG codename=jammy
+ARG codename=noble
 ARG platform=puppet8
 
 ENV PATH=/opt/puppetlabs/puppet/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
