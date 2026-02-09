@@ -11,10 +11,10 @@ Facter.add('puppet_sslcert') do
            end
 
     confdir = if Facter.value(:os)['name'] == 'Ubuntu' && Facter.value(:os)['distro']['codename'] == 'noble'
-      '/etc/puppet'
-    else
-      '/etc/puppetlabs/puppet'
-    end
+                '/etc/puppet'
+              else
+                '/etc/puppetlabs/puppet'
+              end
 
     puppet_sslpaths = Facter.fact(:puppet_sslpaths)
     paths = if puppet_sslpaths && puppet_sslpaths.value
