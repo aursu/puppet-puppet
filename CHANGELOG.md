@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.35.0
+
+**Features**
+
+* Dropped support for Puppet 5 and Puppet 6 platforms
+* Updated Puppet::Platform type to only include puppet7 and puppet8
+* Removed puppet5 and puppet6 platform-specific code and logic
+* Simplified configuration by removing legacy puppet5/puppet6 compatibility code
+* Updated task definitions to only support puppet7 and puppet8 collections
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.34.0
 
 **Features**

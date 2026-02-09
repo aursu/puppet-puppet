@@ -135,41 +135,6 @@ describe 'puppet::config' do
             .with_content(%r{^puppetlabs.services.ca.certificate-authority-disabled-service/certificate-authority-disabled-service})
         }
       end
-
-      context 'on Puppet 5 platform' do
-        let(:pre_condition) do
-          <<-PUPPETCODE
-          class { 'puppet::globals': platform_name => 'puppet5' }
-          include puppet
-          PUPPETCODE
-        end
-
-        it {
-          is_expected.to contain_file('puppet-config')
-            .with_path(config_path)
-            .with_content(%r{\[master\]})
-        }
-
-        it {
-          is_expected.to contain_file('puppet-config')
-            .with_path(config_path)
-            .without_content(%r{^ca =})
-        }
-
-        context 'check ca directive in server config for Puppet 5 server' do
-          let(:params) do
-            {
-              sameca: false,
-            }
-          end
-
-          it {
-            is_expected.to contain_file('puppet-config')
-              .with_path(config_path)
-              .with_content(%r{^ca = false})
-          }
-        end
-      end
     end
   end
 end

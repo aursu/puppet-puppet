@@ -1,1 +1,1 @@
-type Puppet::Platform = Enum['puppet5', 'puppet6', 'puppet7', 'puppet8']
+type Puppet::Platform = Enum['puppet7', 'puppet8']

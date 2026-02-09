@@ -185,15 +185,9 @@ class puppet::config (
   $pidfile = $puppet::globals::pidfile
   $codedir = $puppet::globals::codedir
 
-  if $platform_name == 'puppet5' {
-    $server_section = 'master'
-    $server_sameca  = $sameca
-  }
-  else {
-    $server_section = 'server'
-    # we do not want to have 'ca' directive in puppet.conf for Puppet 6+
-    $server_sameca  = true
-  }
+  $server_section = 'server'
+  # we do not want to have 'ca' directive in puppet.conf for Puppet 6+
+  $server_sameca  = true
 
   file { 'puppet-config':
     path    => $puppet_config,

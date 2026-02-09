@@ -3,7 +3,7 @@
 # Puppet installation
 #
 # @param platform_name
-#   Puppet platform name. Either puppet5, puppet6, puppet7 or puppet8
+#   Puppet platform name. Either puppet7 or puppet8
 #
 # @param puppetserver
 #   Whether it is Puppet server or not

@@ -168,11 +168,7 @@ class puppet::globals (
     }
   }
 
-  $cadir = $platform_name ? {
-    'puppet5' => "${ssldir}/ca",
-    'puppet6' => "${ssldir}/ca",
-    default   => "${server_confdir}/ca",
-  }
+  $cadir = "${server_confdir}/ca"
   $csrdir   = "${cadir}/requests"
   $signeddir = "${cadir}/signed"
 
