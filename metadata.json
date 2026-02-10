@@ -43,24 +43,17 @@
   ],
   "operatingsystem_support": [
     {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8",
-        "9",
-        "10"
+        "10",
+        "9"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "22.04",
-        "24.04"
+        "24.04",
+        "22.04"
       ]
     },
     {
@@ -88,7 +81,7 @@
       "version_requirement": ">= 4.7.0 < 9.0.0"
     }
   ],
-  "pdk-version": "3.0.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#3.0.0",
-  "template-ref": "tags/3.0.0-0-g5bfc1c0"
+  "pdk-version": "3.6.1",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#3.6.1",
+  "template-ref": "tags/3.6.1-0-gb9426e5"
 }

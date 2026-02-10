@@ -6,7 +6,7 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
   @doc = 'Puppet auth.conf rules'
 
   def initialize(value = {})
-    super(value)
+    super
     @property_flush = {}
   end
 

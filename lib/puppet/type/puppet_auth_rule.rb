@@ -12,7 +12,7 @@ Puppet::Type.newtype(:puppet_auth_rule) do
       #   value, if the rule also contains a type value of regex.
       return true if value.is_a?(String)
       if value.is_a?(Hash)
-        value.each do |k, _v|
+        value.each_key do |k|
           # The map values can contain:
           # - An 'extensions' key that specifies an array of matching X.509 extensions. Puppet
           #  Server authenticates the request only if each key in the map appears in the
@@ -141,8 +141,8 @@ Puppet::Type.newtype(:puppet_auth_rule) do
   validate do
     return true if self[:ensure] == :absent
 
-    allow_unset = (self[:allow].nil? || self[:allow] == [:absent])
-    deny_unset = (self[:deny].nil? || self[:deny] == [:absent])
+    allow_unset = self[:allow].nil? || self[:allow] == [:absent]
+    deny_unset = self[:deny].nil? || self[:deny] == [:absent]
 
     if allow_unset && deny_unset
       raise(Puppet::Error, "Each rule's match-request section must have an allow, allow-unauthenticated, or deny parameter") unless [:true, :false].include?(self[:allow_unauthenticated])
