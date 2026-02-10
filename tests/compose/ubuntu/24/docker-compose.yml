@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: tests/ubuntu/Dockerfile
       args:
-        os: $U20
-        codename: $U20CODE
+        os: $U24
+        codename: $U24CODE
     privileged: true
     cap_add:
       - SYS_ADMIN
@@ -13,14 +13,14 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/ubuntu:${U20TAG}-puppet"
+    image: "aursu/ubuntu:${U24TAG}-puppet"
   puppetdb:
     build:
       context: .
       dockerfile: tests/ubuntu/Dockerfile
       args:
-        os: $U20
-        codename: $U20CODE
+        os: $U24
+        codename: $U24CODE
     privileged: true
     cap_add:
       - SYS_ADMIN
@@ -28,4 +28,4 @@ services:
       - /run
       - /tmp
     user: root
-    image: "aursu/ubuntu:${U20TAG}-puppet"
+    image: "aursu/ubuntu:${U24TAG}-puppet"
