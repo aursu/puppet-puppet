@@ -20,7 +20,7 @@ class puppet::globals (
   Puppet::Platform $platform_name = 'puppet8',
   Stdlib::Absolutepath $r10k_cachedir = $puppet::params::r10k_cachedir,
   Boolean $os_vendor_distro = false,
-  Boolean $compat_mode = $puppet::params::compat_mode,
+  Boolean $compat_mode = false,
 ) inherits puppet::params {
   $os_name          = $puppet::params::os_name
   $os_version       = $puppet::params::os_version
@@ -31,7 +31,7 @@ class puppet::globals (
   $is_openvox = ($platform_name in ['openvox7', 'openvox8'])
 
   if $os_vendor_distro {
-    $puppet_platform_distro = $puppet::params::puppet_platform_distro
+    $puppet_platform_distro = false
     $use_compat_mode = $compat_mode
   }
   else {
@@ -52,19 +52,6 @@ class puppet::globals (
     $ruby_path         = '/opt/puppetlabs/puppet/bin/ruby'
     $r10k_package_provider = 'puppet_gem'
     $r10k_path             = '/opt/puppetlabs/puppet/bin/r10k'
-
-    # # define packages' versions on Ubuntu 24.04 in compat mode
-    # if $puppet::params::compat_mode and $compat_mode {
-    #   # packages from Ubuntu 22.04 on Ubuntu 24.04 (18/12/2024)
-    #   $agent_version = '8.10.0-1jammy'
-    #   $server_version = '8.7.0-1jammy'
-    #   $puppetdb_version = '8.8.1-1jammy'
-    # }
-    # else {
-    #   $agent_version = 'installed'
-    #   $server_version = 'installed'
-    #   $puppetdb_version = 'installed'
-    # }
 
     $agent_version = 'installed'
     $server_version = 'installed'
@@ -177,11 +164,6 @@ class puppet::globals (
         }
         $version_codename = "${os_namedown}${version_suffix}"
         $package_build = "1+${version_codename}"
-      }
-      # Ubuntu 24.04 (if compat_mode is not disabled)
-      elsif $puppet::params::compat_mode and $compat_mode {
-        $version_codename = 'jammy'
-        $package_build    = $puppet::params::package_build
       }
       else {
         $version_codename = $puppet::params::version_codename

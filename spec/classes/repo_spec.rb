@@ -173,12 +173,12 @@ describe 'puppet::repo' do
           when 'Ubuntu'
             case os_facts[:os]['release']['major']
             when '24.04'
-              it 'downloads puppet8-jammy.deb repository package for Ubuntu 24.04 with compat mode enabled' do
+              it 'downloads puppet8-release-noble.deb repository package for Ubuntu 24.04' do
                 is_expected.to contain_exec('puppet-release')
-                  .with_command('curl https://apt.puppet.com/puppet8-release-jammy.deb -f -s -o /tmp/puppet-puppet/puppet8-release-jammy.deb')
+                  .with_command('curl https://apt.puppet.com/puppet8-release-noble.deb -f -s -o /tmp/puppet-puppet/puppet8-release-noble.deb')
               end
             when '22.04'
-              it 'downloads puppet8-jammy.deb repository package for Ubuntu 22.04' do
+              it 'downloads puppet8-release-jammy.deb repository package for Ubuntu 22.04' do
                 is_expected.to contain_exec('puppet-release')
                   .with_command('curl https://apt.puppet.com/puppet8-release-jammy.deb -f -s -o /tmp/puppet-puppet/puppet8-release-jammy.deb')
               end

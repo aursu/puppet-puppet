@@ -9,7 +9,14 @@ describe 'puppet::agent::schedule' do
 
       it { is_expected.to compile }
 
-      if os_facts[:os]['name'] == 'Ubuntu' && os_facts[:os]['distro']['codename'] == 'noble'
+      context 'when vendor distro enabled' do
+        let(:pre_condition) do
+          <<-PRECOND
+          class { 'puppet::globals': os_vendor_distro => true,  }
+          include puppet
+          PRECOND
+        end
+
         it {
           is_expected.to contain_cron('puppet agent run')
             .with_command('/usr/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay --verbose')
@@ -27,24 +34,24 @@ describe 'puppet::agent::schedule' do
               .with_command('/usr/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay')
           }
         end
-      else
-        it {
-          is_expected.to contain_cron('puppet agent run')
-            .with_command('/opt/puppetlabs/puppet/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay --verbose')
-        }
+      end
 
-        context 'check verbose disabled' do
-          let(:params) do
-            {
-              verbose: false,
-            }
-          end
+      it {
+        is_expected.to contain_cron('puppet agent run')
+          .with_command('/opt/puppetlabs/puppet/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay --verbose')
+      }
 
-          it {
-            is_expected.to contain_cron('puppet agent run')
-              .with_command('/opt/puppetlabs/puppet/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay')
+      context 'check verbose disabled' do
+        let(:params) do
+          {
+            verbose: false,
           }
         end
+
+        it {
+          is_expected.to contain_cron('puppet agent run')
+            .with_command('/opt/puppetlabs/puppet/bin/puppet agent --onetime --no-daemonize --no-usecacheonfailure --detailed-exitcodes --no-splay')
+        }
       end
     end
   end
