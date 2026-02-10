@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.37.0
+
+**Features**
+
+* PDK upgrade to version 3.6.1
+* Removed legacy compat_mode from repo class
+
+**Bugfixes**
+
+* Fixed rubocop convention violations:
+  - Call super without arguments when signature is identical
+  - Use each_key instead of each with unused block argument
+  - Remove parentheses around logical expressions
+  - Fix duplicate example descriptions in specs
+  - Use safe_load_file instead of safe_load with File.read
+
 ## Release 0.36.0
 
 **Features**
