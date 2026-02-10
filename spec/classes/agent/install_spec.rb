@@ -56,6 +56,40 @@ describe 'puppet::agent::install' do
             .with_ensure('latest')
         }
       end
+
+      context 'with openvox8 platform' do
+        let(:pre_condition) do
+          <<-PRECOND
+          class { 'puppet::globals': platform_name => 'openvox8', }
+          include puppet
+          PRECOND
+        end
+
+        it { is_expected.to compile }
+
+        it {
+          is_expected.to contain_package('puppet-agent')
+            .with_name('openvox-agent')
+            .with_ensure('installed')
+        }
+      end
+
+      context 'with puppet7 platform' do
+        let(:pre_condition) do
+          <<-PRECOND
+          class { 'puppet::globals': platform_name => 'puppet7', }
+          include puppet
+          PRECOND
+        end
+
+        it { is_expected.to compile }
+
+        it {
+          is_expected.to contain_package('puppet-agent')
+            .with_name('puppet-agent')
+            .with_ensure('installed')
+        }
+      end
     end
   end
 end

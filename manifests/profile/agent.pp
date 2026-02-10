@@ -1,6 +1,24 @@
-# @summary A short summary of the purpose of this class
+# @summary Puppet agent installation and configuration
 #
-# A description of what this class does
+# This class installs and configures Puppet agent
+#
+# @param platform_name
+#   Puppet platform name. Supported values: puppet7, puppet8, openvox7, openvox8
+#
+# @param server
+#   Puppet server hostname
+#
+# @param hosts_update
+#   Whether to update /etc/hosts file with puppet server entry
+#
+# @param ca_server
+#   Puppet CA server hostname (if different from main server)
+#
+# @param certname
+#   Certificate name for this agent. If not specified, uses FQDN
+#
+# @param manage_repo
+#   Whether to manage Puppet platform repository
 #
 # @example
 #   include puppet::profile::agent

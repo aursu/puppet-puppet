@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "0.35.0",
+  "version": "0.36.0",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -52,7 +52,8 @@
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
         "8",
-        "9"
+        "9",
+        "10"
       ]
     },
     {
@@ -60,6 +61,24 @@
       "operatingsystemrelease": [
         "22.04",
         "24.04"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "12"
+      ]
+    },
+    {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "41"
+      ]
+    },
+    {
+      "operatingsystem": "Amazon",
+      "operatingsystemrelease": [
+        "2023"
       ]
     }
   ],

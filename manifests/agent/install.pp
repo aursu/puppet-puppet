@@ -11,9 +11,9 @@
 # @param version
 #
 class puppet::agent::install (
-  String $agent_package_name  = $puppet::params::agent_package_name,
+  String $agent_package_name  = $puppet::globals::agent_package_name,
   String $version = $puppet::agent_version,
-) inherits puppet::params {
+) inherits puppet::globals {
   include puppet::repo
 
   case $facts['os']['family'] {
@@ -30,7 +30,7 @@ class puppet::agent::install (
         $package_ensure = $version
       }
       else {
-        $package_ensure = "${major_version}-${puppet::params::package_build}"
+        $package_ensure = "${major_version}-${puppet::globals::package_build}"
       }
     }
   }

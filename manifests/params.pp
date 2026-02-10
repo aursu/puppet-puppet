@@ -13,6 +13,7 @@ class puppet::params {
 
   $os_version = $bsys::params::osmaj
   $os_name = $bsys::params::osname
+  $os_namedown = downcase($os_name)
 
   if $facts['mountpoints'] and $facts['mountpoints']['/tmp'] {
     $tmp_mountpoint_noexec = ('noexec' in $facts['mountpoints']['/tmp']['options'])
@@ -109,8 +110,6 @@ class puppet::params {
     }
   }
 
-  $agent_package_name  = 'puppet-agent'
-  $server_package_name = 'puppetserver'
   $r10k_package_name   = 'r10k'
   $r10k_cachedir       = '/var/cache/r10k'
   $service_name        = 'puppetserver'

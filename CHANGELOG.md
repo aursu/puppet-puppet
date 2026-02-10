@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.36.0
+
+**Features**
+
+* Added support for OpenVox platforms (openvox7, openvox8) - Vox Pupuli fork of Puppet
+* Added support for new operating systems:
+  - Rocky Linux 10
+  - Debian 12
+  - SLES 15
+  - Fedora 41
+  - Amazon Linux 2023
+* Refactored `puppet::globals` class to handle platform-specific package names and repositories
+* Added `is_openvox` flag to distinguish between standard Puppet and OpenVox platforms
+* Moved `agent_package_name` and `server_package_name` from `puppet::params` to `puppet::globals`
+* Added comprehensive version codename and package build logic for all supported platforms
+* Added `puppet::puppetdb::globals` class for PuppetDB-specific global settings
+* Added support for OpenVox-specific packages: openvox-agent, openvox-server, openvoxdb, openvoxdb-termini
+* Added comprehensive RSpec tests for all new features:
+  - Repository URL validation for all platforms and operating systems
+  - Package name validation for different platforms
+  - Version codename and package build testing
+  - Platform-specific behavior testing
+
+**Bugfixes**
+
+* Fixed missing documentation for class parameters across multiple classes
+* Fixed inheritance from `puppet::params` to `puppet::globals` in agent and server install classes
+* Fixed PuppetDB globals to properly reference terminus package names
+
+**Known Issues**
+
 ## Release 0.35.0
 
 **Features**

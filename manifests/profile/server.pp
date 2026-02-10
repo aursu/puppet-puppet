@@ -74,6 +74,18 @@
 # @param manage_webserver_conf
 #   Whether to manage webserver.conf or not
 #
+# @param manage_fileserver_config
+#   Whether to manage fileserver.conf or not
+#
+# @param mount_points
+#   Hash of mount points for fileserver configuration
+#
+# @param certname
+#   Certificate name for this server. If not specified, uses FQDN
+#
+# @param manage_repo
+#   Whether to manage Puppet platform repository
+#
 class puppet::profile::server (
   Boolean $sameca = true,
   Puppet::Platform $platform_name = 'puppet8',
@@ -186,7 +198,7 @@ class puppet::profile::server (
   #    instance, assign the puppetdb class to it, and assign the puppetdb::master::config
   #    class to your Puppet Server. Make sure to set the class parameters as necessary.
   if $use_puppetdb {
-    include puppetdb::params
+    include puppet::puppetdb::globals
 
     if $puppetdb_local {
       class { 'puppet::puppetdb':
@@ -219,10 +231,11 @@ class puppet::profile::server (
       manage_report_processor        => $manage_puppet_config,
       create_puppet_service_resource => false,
       puppet_service_name            => 'puppet-server',
+      terminus_package               => $puppet::puppetdb::globals::terminus_package,
     }
 
     if $puppetdb_local and $puppet::globals::compat_mode {
-      Package <| title == $puppetdb::params::terminus_package |> {
+      Package <| title == $puppet::puppetdb::globals::terminus_package |> {
         ensure => $puppet::puppetdb_terminus_version,
       }
     }

@@ -12,9 +12,9 @@
 # @example
 #   include puppet::install::server
 class puppet::server::install (
-  String $server_package_name = $puppet::params::server_package_name,
+  String $server_package_name = $puppet::globals::server_package_name,
   String $version = $puppet::server_version,
-) inherits puppet::params {
+) inherits puppet::globals {
   include puppet::agent::install
   include puppet::server::compat
 

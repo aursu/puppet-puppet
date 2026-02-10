@@ -25,6 +25,24 @@
 #   Specifies whether to manage crontab entries. This setting is critical for
 #   containerized environments where crontab may not be available.
 #
+# @param postgres_database_host
+#   PostgreSQL database hostname
+#
+# @param postgres_database_name
+#   PostgreSQL database name for PuppetDB
+#
+# @param postgres_database_username
+#   PostgreSQL database username for PuppetDB
+#
+# @param postgres_database_password
+#   PostgreSQL database password for PuppetDB
+#
+# @param ssl_protocols
+#   Array of SSL/TLS protocol versions to enable
+#
+# @param cipher_suites
+#   Array of SSL/TLS cipher suites to enable
+#
 # @param ssl_deploy_certs
 #   This parameter will be passed into the class `puppetdb`.
 #   The class `puppetdb` expects the parameters `puppetdb::ssl_key`, `puppetdb::ssl_cert`, and `puppetdb::ssl_ca_cert`
@@ -82,6 +100,8 @@ class puppet::puppetdb (
     manage_firewall       => $manage_firewall,
 
     manage_database       => $manage_database,
+
+    puppetdb_package      => $puppet::puppetdb::globals::puppetdb_package,
 
     ssl_deploy_certs      => $ssl_deploy_certs,
     ssl_set_cert_paths    => true,

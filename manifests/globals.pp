@@ -3,10 +3,16 @@
 # Module global settings
 #
 # @param platform_name
+#   Puppet platform name. Supported values: puppet7, puppet8, openvox7, openvox8
+#
 # @param r10k_cachedir
+#   Cache directory for R10K
 #
 # @param os_vendor_distro
 #   Whether to use OS vendor puppet distribution or not. By default - not
+#
+# @param compat_mode
+#   Compatibility mode flag. When enabled on Ubuntu 24.04, uses packages from Ubuntu 22.04 repository
 #
 # @example
 #   include puppet::globals
@@ -17,9 +23,12 @@ class puppet::globals (
   Boolean $compat_mode = $puppet::params::compat_mode,
 ) inherits puppet::params {
   $os_name          = $puppet::params::os_name
-  $version_codename = $puppet::params::version_codename
+  $os_version       = $puppet::params::os_version
+  $os_namedown      = $puppet::params::os_namedown
   $clientcert       = $puppet::params::clientcert
   $tmpdir           = $puppet::params::tmpdir
+
+  $is_openvox = ($platform_name in ['openvox7', 'openvox8'])
 
   if $os_vendor_distro {
     $puppet_platform_distro = $puppet::params::puppet_platform_distro
@@ -129,28 +138,63 @@ class puppet::globals (
 
   $environmentpath     = "${codedir}/environments"
 
-  $decommission_packages = ['puppet5-release', 'puppet6-release', 'puppet7-release', 'puppet8-release'] - [$repo_name]
+  $decommission_packages = [
+    'puppet5-release',
+    'puppet6-release',
+    'puppet7-release',
+    'puppet8-release',
+    'openvox7-release',
+  'openvox8-release'] - [$repo_name]
+
+  if $is_openvox {
+    $rpm_repo_location   = 'yum.voxpupuli.org'
+    $deb_repo_location   = 'apt.voxpupuli.org'
+    $agent_package_name  = 'openvox-agent'
+    $server_package_name = 'openvox-server'
+  }
+  else {
+    $rpm_repo_location   = 'yum.puppet.com'
+    $deb_repo_location   = 'apt.puppet.com'
+    $agent_package_name  = 'puppet-agent'
+    $server_package_name = 'puppetserver'
+  }
 
   # https://www.puppet.com/docs/puppet/7/install_puppet.html#enable_the_puppet_platform_repository
   case $facts['os']['family'] {
     'Suse': {
-      $repo_urlbase = 'https://yum.puppet.com'
+      $version_codename = $puppet::params::version_codename
+      $package_build = $puppet::params::package_build
+      $repo_urlbase = "https://${rpm_repo_location}"
       $repo_filename = "${repo_name}-${version_codename}.noarch.rpm"
     }
     'Debian': {
-      $repo_urlbase = 'https://apt.puppet.com'
+      $repo_urlbase = "https://${deb_repo_location}"
 
+      if $is_openvox {
+        $version_suffix = $os_namedown ? {
+          'ubuntu' => $facts['os']['release']['full'],
+          default  => $os_version,
+        }
+        $version_codename = "${os_namedown}${version_suffix}"
+        $package_build = "1+${version_codename}"
+      }
       # Ubuntu 24.04 (if compat_mode is not disabled)
-      if $puppet::params::compat_mode and $compat_mode {
-        $repo_filename = "${repo_name}-jammy.deb"
+      elsif $puppet::params::compat_mode and $compat_mode {
+        $version_codename = 'jammy'
+        $package_build    = $puppet::params::package_build
       }
       else {
-        $repo_filename = "${repo_name}-${version_codename}.deb"
+        $version_codename = $puppet::params::version_codename
+        $package_build = $puppet::params::package_build
       }
+
+      $repo_filename = "${repo_name}-${version_codename}.deb"
     }
     # default is RedHat based systems
     default: {
-      $repo_urlbase = 'https://yum.puppet.com'
+      $version_codename = $puppet::params::version_codename
+      $package_build = $puppet::params::package_build
+      $repo_urlbase = "https://${rpm_repo_location}"
       $repo_filename = "${repo_name}-${version_codename}.noarch.rpm"
     }
   }

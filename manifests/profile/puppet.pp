@@ -53,6 +53,18 @@
 # @param manage_webserver_conf
 #   Whether to manage webserver.conf or not
 #
+# @param manage_fileserver_config
+#   Whether to manage fileserver.conf or not
+#
+# @param mount_points
+#   Hash of mount points for fileserver configuration
+#
+# @param certname
+#   Certificate name for this server. If not specified, uses FQDN
+#
+# @param manage_repo
+#   Whether to manage Puppet platform repository
+#
 # @param r10k_cachedir
 #   Cache directory for R10K
 #
