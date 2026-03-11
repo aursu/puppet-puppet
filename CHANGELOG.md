@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.38.0
+
+**Features**
+
+* Added puppet/openvox_bootstrap module dependency for OpenVox platform support
+* Updated agent install plan to use openvox_bootstrap::install task for OpenVox installations
+* Enhanced install plan logic to differentiate between standard Puppet and OpenVox platform installations
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.37.0
 
 **Features**
