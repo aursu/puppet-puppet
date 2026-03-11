@@ -14,7 +14,7 @@ class puppet::puppetdb::https_config {
   $hostprivkey = assert_type(Stdlib::Unixpath, $puppet::globals::hostprivkey)
 
   $puppetdb_group   = assert_type(String, $puppetdb::params::puppetdb_group)
-  $puppetdb_package = assert_type(String, $puppetdb::params::puppetdb_package)
+  $puppetdb_package = assert_type(String, $puppet::puppetdb::globals::puppetdb_package)
   $puppetdb_service = assert_type(String, $puppetdb::params::puppetdb_service)
 
   $ssl_dir          = assert_type(Stdlib::Unixpath, $puppet::puppetdb::globals::ssl_dir)
