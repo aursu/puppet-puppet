@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.39.0
+
+**Features**
+
+* Updated Bolt Puppetfile to include puppet/openvox_bootstrap module
+* Updated bolt-project.yaml to version 0.38.0 and added openvox_bootstrap module reference
+* Added bootstrap/bolt/keys and CA files to .gitignore for security
+
+**Bugfixes**
+
+* Fixed puppetdb_package variable assignment in https_config.pp to use globals class
+
+**Known Issues**
+
 ## Release 0.38.0
 
 **Features**
