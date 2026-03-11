@@ -14,7 +14,7 @@ mod 'aursu/openssh', '0.9.4'
 mod 'aursu/bsys', '0.11.3'
 mod 'puppet',
   git: 'https://github.com/aursu/puppet-puppet.git',
-  ref: 'dd4f32ecb9301b11a53d753afc51dde4e7331d9d'
+  ref: '9acb05415a365185983f8240a32d3fe7883b3789'
 mod 'puppetlabs/puppetdb', '8.1.0'
 mod 'puppetlabs/stdlib', '9.6.0'
 mod 'puppetlabs/vcsrepo', '6.1.0'
@@ -25,3 +25,4 @@ mod 'puppetlabs/facts', '1.6.0'
 mod 'puppetlabs/postgresql', '10.3.0'
 mod 'puppetlabs/firewall', '8.1.2'
 mod 'puppetlabs/concat', '9.0.2'
+mod 'puppet/openvox_bootstrap', '1.3.0'
