@@ -36,6 +36,7 @@ puppet::use_puppetdb: true
 puppet::r10k_config_setup: true
 puppet::r10k_yaml_template: 'puppet/r10k.yaml.erb'
 puppet::r10k_crontab_setup: false
+puppet::r10k_crontab_decomission: false
 puppet::environment_setup_on_each_run: false
 puppet::external_facts_setup: false
 puppet::static_certname: false

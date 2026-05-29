@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.39.2
+
+**Features**
+
+* Added end-to-end `r10k_crontab_decomission` parameter propagation through profile and setup classes
+
+**Bugfixes**
+
+* Wired `puppet::server::setup` to pass decommission mode into `puppet::r10k::crontab`
+* Added default value for `puppet::r10k_crontab_decomission` in Hiera data
+
+**Known Issues**
+
 ## Release 0.39.1
 
 **Features**

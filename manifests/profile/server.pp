@@ -70,6 +70,8 @@
 #
 # @param r10k_crontab_setup
 #   Whether to setup crontab job to sync Puppet code
+# @param r10k_crontab_decomission
+#   Whether to remove crontab job to sync Puppet code
 #
 # @param manage_webserver_conf
 #   Whether to manage webserver.conf or not
@@ -124,6 +126,7 @@ class puppet::profile::server (
   Optional[String] $certname = undef,
   Boolean $manage_repo = true,
   Optional[Stdlib::Unixpath] $r10k_cachedir = undef,
+  Boolean $r10k_crontab_decomission = false,
 ) {
   $static_certname = $certname ? {
     String  => true,
@@ -184,8 +187,9 @@ class puppet::profile::server (
   }
 
   class { 'puppet::server::setup':
-    r10k_config_manage => true,
-    r10k_crontab_setup => $r10k_crontab_setup,
+    r10k_config_manage       => true,
+    r10k_crontab_setup       => $r10k_crontab_setup,
+    r10k_crontab_decomission => $r10k_crontab_decomission,
   }
   contain puppet::server::setup
 
