@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.39.1
+
+**Features**
+
+**Bugfixes**
+
+* Added `decomission` mode to `puppet::r10k::crontab` to remove cron entry when decommissioning
+* Fixed class parameter documentation in `puppet::r10k::crontab`
+
+**Known Issues**
+
 ## Release 0.39.0
 
 **Features**
