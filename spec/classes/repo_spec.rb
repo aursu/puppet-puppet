@@ -4,6 +4,11 @@ describe 'puppet::repo' do
   let(:pre_condition) { 'include puppet' }
 
   on_supported_os.each do |os, os_facts|
+    # Debian keeps conffiles on remove, so a decommissioned release package must
+    # be purged or its apt source stays on disk and stays active.
+    debian = os.match?(%r{^(ubuntu|debian)-})
+    decommission_ensure = debian ? 'purged' : 'absent'
+
     context "on #{os}" do
       let(:facts) { os_facts }
 
@@ -20,18 +25,18 @@ describe 'puppet::repo' do
 
         it {
           is_expected.to contain_package('puppet5-release')
-            .with_ensure('absent')
+            .with_ensure(decommission_ensure)
             .that_comes_before('Package[puppet-release]')
         }
 
         it {
           is_expected.to contain_package('puppet6-release')
-            .with_ensure('absent')
+            .with_ensure(decommission_ensure)
         }
 
         it {
           is_expected.to contain_package('puppet7-release')
-            .with_ensure('absent')
+            .with_ensure(decommission_ensure)
         }
       end
 
@@ -51,19 +56,72 @@ describe 'puppet::repo' do
 
         it {
           is_expected.to contain_package('puppet5-release')
-            .with_ensure('absent')
+            .with_ensure(decommission_ensure)
             .that_comes_before('Package[puppet-release]')
         }
 
         it {
           is_expected.to contain_package('puppet6-release')
-            .with_ensure('absent')
+            .with_ensure(decommission_ensure)
         }
 
         it {
           is_expected.to contain_package('puppet8-release')
-            .with_ensure('absent')
+            .with_ensure(decommission_ensure)
         }
+      end
+
+      context 'stale repository files of a decommissioned platform' do
+        if debian
+          # Purging the package removes what dpkg owns. These are the files it
+          # does not: do-release-upgrade leaves a disabled `.sources` and a
+          # `.list.distUpgrade` behind, and they keep pointing at a repository
+          # that was supposed to be gone.
+          ['list', 'sources', 'list.distUpgrade', 'list.save'].each do |ext|
+            it {
+              is_expected.to contain_file("/etc/apt/sources.list.d/puppet7-release.#{ext}")
+                .with_ensure('absent')
+                .that_requires('Package[puppet7-release]')
+                .that_comes_before('Package[puppet-release]')
+            }
+          end
+
+          # Version-specific, so it belongs to exactly one release package.
+          it {
+            is_expected.to contain_file('/etc/apt/trusted.gpg.d/puppet7-keyring.gpg')
+              .with_ensure('absent')
+          }
+
+          # ⚠ Shared between openvox7 and openvox8. Removing it while migrating
+          # 7 -> 8 would delete the key the new repository needs.
+          it {
+            is_expected.not_to contain_file('/etc/apt/keyrings/openvox-keyring.gpg')
+          }
+
+          # Shared between platform versions too.
+          it {
+            is_expected.not_to contain_file('/etc/apt/preferences.d/puppet-release.pref')
+          }
+        else
+          it {
+            is_expected.not_to contain_file('/etc/apt/sources.list.d/puppet7-release.list')
+          }
+        end
+      end
+
+      context 'apt index refresh after the release package changes' do
+        if debian
+          # Without this the agent package, ordered directly after this class,
+          # fails on the same run with "Unable to locate package".
+          it {
+            is_expected.to contain_exec('puppet-release-apt-update')
+              .with_command('apt-get update')
+              .with_refreshonly(true)
+              .that_subscribes_to('Package[puppet-release]')
+          }
+        else
+          it { is_expected.not_to contain_exec('puppet-release-apt-update') }
+        end
       end
 
       context 'when repo management disabled' do

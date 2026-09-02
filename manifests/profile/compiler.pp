@@ -32,6 +32,10 @@
 # @param manage_webserver_conf
 #   Whether to manage webserver.conf or not
 #
+# @param manage_repo
+#   Whether to manage the Puppet platform repository - install the release
+#   package for the selected platform, and decommission the release packages
+#   and apt sources of the platforms it replaces.
 # @param r10k_cachedir
 #   Cache directory for R10K
 #

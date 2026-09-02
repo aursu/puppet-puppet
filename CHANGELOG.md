@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.40.0
+
+**Features**
+
+* `puppet::repo` now removes the apt sources of decommissioned platforms, not
+  just their packages: on Debian the release packages are **purged** rather than
+  removed, and the files dpkg does not own - a disabled `.sources`, a
+  `.list.distUpgrade` or `.list.save` left by `do-release-upgrade`, and the
+  version-specific `puppet<N>-keyring.gpg` - are removed with them. The shared
+  OpenVox keyring and the `*-release.pref` files are deliberately kept, since
+  openvox7 and openvox8 share them.
+* `puppet::repo` refreshes apt after installing a release package on Debian.
+
+**Bugfixes**
+
+* Switching platform on Debian left the old repository active. `ensure =>
+  absent` leaves a package in state `rc` with its conffiles, so
+  `/etc/apt/sources.list.d/<platform>-release.list` survived and apt kept
+  reading it - which meant an expired signing key kept failing `apt update` on a
+  host whose platform had already been migrated.
+* Switching platform on Debian failed the agent package on the same run with
+  `E: Unable to locate package openvox-agent`. The new source was in place but
+  its index had never been fetched, and the agent package is ordered directly
+  after this class. It recovered only if something else refreshed apt before the
+  next run.
+
 ## Release 0.39.2
 
 **Features**
