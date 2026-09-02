@@ -2,13 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.40.1
+
+**Bugfixes**
+
+* `puppet::repo` no longer purges decommissioned release packages. Purging
+  works, but the apt provider then runs `apt-mark manual <package>` against a
+  package whose repository has just been removed; that exits 100 and fails the
+  resource, taking every resource ordered after it with it - including the very
+  file removals that decommission the repository. The work had already
+  succeeded, so the run reported a failure for something it had done, and only
+  the following run came back clean. Removing the apt source files explicitly,
+  as 0.40.0 already does, is what retires the repository; the package state
+  alone never did.
+
 ## Release 0.40.0
 
 **Features**
 
 * `puppet::repo` now removes the apt sources of decommissioned platforms, not
-  just their packages: on Debian the release packages are **purged** rather than
-  removed, and the files dpkg does not own - a disabled `.sources`, a
+  just their packages: the apt source files are removed explicitly, including
+  the ones dpkg does not own - a disabled `.sources`, a
   `.list.distUpgrade` or `.list.save` left by `do-release-upgrade`, and the
   version-specific `puppet<N>-keyring.gpg` - are removed with them. The shared
   OpenVox keyring and the `*-release.pref` files are deliberately kept, since

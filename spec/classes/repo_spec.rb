@@ -4,10 +4,11 @@ describe 'puppet::repo' do
   let(:pre_condition) { 'include puppet' }
 
   on_supported_os.each do |os, os_facts|
-    # Debian keeps conffiles on remove, so a decommissioned release package must
-    # be purged or its apt source stays on disk and stays active.
+    # Debian keeps conffiles on remove, so removing the package is not what
+    # decommissions the repository - the file removals below are. Purging would
+    # do it, but it fails the resource via `apt-mark` once the repository is
+    # gone, so the package stays `absent` on every platform.
     debian = os.match?(%r{^(ubuntu|debian)-})
-    decommission_ensure = debian ? 'purged' : 'absent'
 
     context "on #{os}" do
       let(:facts) { os_facts }
@@ -25,18 +26,18 @@ describe 'puppet::repo' do
 
         it {
           is_expected.to contain_package('puppet5-release')
-            .with_ensure(decommission_ensure)
+            .with_ensure('absent')
             .that_comes_before('Package[puppet-release]')
         }
 
         it {
           is_expected.to contain_package('puppet6-release')
-            .with_ensure(decommission_ensure)
+            .with_ensure('absent')
         }
 
         it {
           is_expected.to contain_package('puppet7-release')
-            .with_ensure(decommission_ensure)
+            .with_ensure('absent')
         }
       end
 
@@ -56,18 +57,18 @@ describe 'puppet::repo' do
 
         it {
           is_expected.to contain_package('puppet5-release')
-            .with_ensure(decommission_ensure)
+            .with_ensure('absent')
             .that_comes_before('Package[puppet-release]')
         }
 
         it {
           is_expected.to contain_package('puppet6-release')
-            .with_ensure(decommission_ensure)
+            .with_ensure('absent')
         }
 
         it {
           is_expected.to contain_package('puppet8-release')
-            .with_ensure(decommission_ensure)
+            .with_ensure('absent')
         }
       end
 

@@ -15,15 +15,15 @@
 #   platform packages to remove before installing `puppet-release`. Defaults
 #   to `puppet::globals::decommission_packages`.
 #
-#   On Debian these are **purged**, not merely removed: `ensure => absent`
-#   leaves the package in state `rc` with its apt source still on disk and still
-#   read by apt, so the old repository would go on being used after it was
-#   supposedly decommissioned.
+#   On Debian, removing the package is not enough to decommission the
+#   repository: `ensure => absent` leaves the package in state `rc` with its apt
+#   source still on disk and still read by apt. The apt sources are therefore
+#   removed explicitly - including the disabled `.sources` and
+#   `.list.distUpgrade` that `do-release-upgrade` leaves behind, which no
+#   package owns, and the version-specific `puppet<N>-keyring.gpg`.
 #
-#   The stale files a package does not own are removed alongside it - the
-#   disabled `.sources` and `.list.distUpgrade` that `do-release-upgrade` leaves
-#   behind, and the version-specific `puppet<N>-keyring.gpg`. The OpenVox
-#   keyring is shared between openvox7 and openvox8 and is deliberately kept.
+#   The OpenVox keyring is shared between openvox7 and openvox8, as are the
+#   `*-release.pref` files, so those are deliberately kept.
 #
 # @param package_filename [String] The filename for the downloaded `puppet-release`
 #   package, derived from `puppet::globals::repo_filename`.
@@ -71,33 +71,39 @@ class puppet::repo (
       require  => Exec['puppet-release'],
     }
 
-    # Removing a Debian package leaves its conffiles behind, so `absent` takes
-    # the release package away but keeps its apt source - and apt keeps reading
-    # it. Measured on Ubuntu 22.04: after `ensure => absent`, puppet8-release is
-    # in state `rc` and /etc/apt/sources.list.d/puppet8-release.list is still on
-    # disk and still active, so the repository is not decommissioned at all.
-    $decommission_ensure = $facts['os']['family'] ? {
-      'Debian' => 'purged',
-      default  => 'absent',
-    }
-
+    # ⚠ `ensure => purged` looks like the obvious answer here and is the wrong
+    # one. Measured on Ubuntu 22.04: purging works, but the apt provider then
+    # runs `apt-mark manual <package>` against a package whose repository has
+    # just been removed, which exits 100 and fails the resource - taking every
+    # resource ordered after it down with it, including the file removals below.
+    # The purge itself had already succeeded, so the run reported a failure for
+    # work it had actually done, and only the next run came back clean.
+    #
+    # `absent` leaves the conffiles, which is the original problem, so the file
+    # removals below do that job explicitly instead. They are what decommissions
+    # the repository; the package state alone never did.
     $decommission_packages.each |String $puppet_release| {
       package { $puppet_release:
-        ensure => $decommission_ensure,
+        ensure => absent,
         before => Package['puppet-release'],
       }
 
       if $facts['os']['family'] == 'Debian' {
-        $platform = regsubst($puppet_release, '-release$', '')
+        $release_data = split($puppet_release, '[-]')
+        $platform     = $release_data[0]
 
-        # `purged` handles the files dpkg owns. These are the ones it does not:
-        # do-release-upgrade rewrites third-party sources as it goes, leaving a
-        # disabled `.sources` (deb822) and a `.list.distUpgrade` behind. They
-        # survive the package, and because the package still satisfies its own
-        # resource, nothing here would otherwise notice the repository had been
+        # These are the files that actually retire the repository. `.list` is
+        # the package's own conffile, which survives removal; the rest are not
+        # owned by any package at all - do-release-upgrade rewrites third-party
+        # sources as it goes and leaves a disabled `.sources` (deb822), a
+        # `.list.distUpgrade` and sometimes a `.list.save` behind.
+        #
+        # Those leftovers matter more than they look: because the release
+        # package is still installed and still satisfies its own resource,
+        # nothing here would otherwise notice that the repository had been
         # switched off. Seen on a host upgraded jammy -> noble, where the Puppet
-        # repository had been silently disabled and the agent stopped receiving
-        # updates.
+        # repository had been silently disabled and the agent had quietly
+        # stopped receiving updates.
         ['list', 'sources', 'list.distUpgrade', 'list.save'].each |String $ext| {
           file { "/etc/apt/sources.list.d/${puppet_release}.${ext}":
             ensure  => absent,
@@ -115,7 +121,7 @@ class puppet::repo (
         # Removing it while decommissioning openvox7 in favour of openvox8 would
         # delete the key the new repository needs. So it is deliberately left
         # alone, and the same applies to the shared *-release.pref files.
-        if $puppet_release =~ /^puppet\d+-release$/ {
+        if $platform in ['puppet5', 'puppet6', 'puppet7', 'puppet8'] {
           file { "/etc/apt/trusted.gpg.d/${platform}-keyring.gpg":
             ensure  => absent,
             require => Package[$puppet_release],
