@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.42.0
+
+**Bugfixes**
+
+* **The active platform's apt source is now managed, not inferred.** `puppet::repo` declares it as an `apt::source` (new `manage_source`, default `true`), so it is a resource Puppet owns rather than a side effect of the release package. ⚠ Previously the package shipped `/etc/apt/sources.list.d/<platform>-release.list` and `Package['puppet-release']` being installed was the only thing checked — once installed it was never revisited, and anything that happened to the file afterwards was a state Puppet could not observe. Both failure modes were measured on this estate after `do-release-upgrade`: the file **renamed to `.list.distUpgrade`** leaving no live source at all, so the host silently stopped receiving agent updates while `apt update` still exited 0; and the file **surviving but naming the previous release** (`ubuntu22.04` on a host now running noble), so it pulled packages built for the old OS. One resource fixes both, because the suite comes from the OS fact on every run: a missing file is recreated, a stale one rewritten.
+* The active platform's `do-release-upgrade` leftovers — `.sources`, `.list.distUpgrade`, `.list.save` — are removed, as the decommission loop already did for retired platforms. `.list` is deliberately excluded: that is the file `apt::source` writes.
+* `Apt::Source` notifies the existing apt refresh. On the hosts this fixes the **package does not change at all** — that is the whole reason the source went unnoticed — so subscribing only to the package would have left a rewritten source with a stale index.
+* New `$repo_keyring` in `puppet::globals`, and `source_keyring` on `puppet::repo`: OpenVox references `/etc/apt/keyrings/openvox-keyring.gpg` with `signed-by=`, while Puppet Inc keys live in `trusted.gpg.d` and their source line carries none — `undef` reproduces the original rather than inventing a reference.
+* `notify_update => false` on the source, because this class already owns its refresh; leaving it on would queue a second `apt-get update` through `Class['apt::update']` for the same change.
+
+**Known Issues**
+
 ## Release 0.41.0
 
 **Features**

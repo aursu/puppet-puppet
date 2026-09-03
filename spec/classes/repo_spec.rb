@@ -15,6 +15,78 @@ describe 'puppet::repo' do
 
       it { is_expected.to compile }
 
+      # The defect this fixes: the release package owns the source file, so once
+      # the package is installed Puppet never revisits it. do-release-upgrade
+      # then either renames it away (leaving no live source at all) or leaves it
+      # naming the previous release -- and neither is visible to Puppet, because
+      # Package['puppet-release'] is still satisfied.
+      context 'the active platform apt source' do
+        if debian
+          it 'is declared as a resource Puppet owns, not left to the package' do
+            is_expected.to contain_apt__source('puppet8-release')
+              .with_repos('puppet8')
+              .with_notify_update(false)
+          end
+
+          it 'takes its release from the OS fact, so it follows an OS upgrade' do
+            expected = os_facts[:os]['distro']['codename']
+            is_expected.to contain_apt__source('puppet8-release').with_release(expected)
+          end
+
+          # do-release-upgrade leaves these beside the file it renames. `.list`
+          # is deliberately absent from the list -- apt::source writes that one.
+          ['sources', 'list.distUpgrade', 'list.save'].each do |ext|
+            it { is_expected.to contain_file("/etc/apt/sources.list.d/puppet8-release.#{ext}").with_ensure('absent') }
+          end
+
+          # The point of the change: the .list is now a File resource in the
+          # catalogue, declared by apt::source rather than merely shipped by the
+          # package -- which is what lets Puppet notice it going missing.
+          it {
+            is_expected.to contain_file('/etc/apt/sources.list.d/puppet8-release.list')
+              .without_ensure('absent')
+          }
+
+          # A recreated or rewritten source needs the same apt refresh the
+          # package triggers -- and on the hosts this fixes, the package does
+          # not change at all.
+          it {
+            is_expected.to contain_apt__source('puppet8-release')
+              .that_notifies('Exec[puppet-release-apt-update]')
+          }
+
+          # Puppet Inc keys live in trusted.gpg.d and their source line carries
+          # no signed-by, so inventing one would not reproduce the original.
+          it { is_expected.to contain_apt__source('puppet8-release').without_keyring }
+        else
+          it { is_expected.not_to contain_apt__source('puppet8-release') }
+        end
+      end
+
+      context 'on the OpenVox platform' do
+        let(:pre_condition) { "class { 'puppet::globals': platform_name => 'openvox8' } include puppet" }
+
+        it { is_expected.to compile }
+
+        if debian
+          it 'points signed-by at the keyring the release package ships' do
+            is_expected.to contain_apt__source('openvox8-release')
+              .with_keyring('/etc/apt/keyrings/openvox-keyring.gpg')
+              .with_repos('openvox8')
+          end
+
+          it { is_expected.to contain_apt__source('openvox8-release').with_location(%r{voxpupuli}) }
+        end
+      end
+
+      context 'when the source is left to the release package' do
+        let(:params) { { 'manage_source' => false } }
+
+        it { is_expected.to compile }
+        it { is_expected.not_to contain_apt__source('puppet8-release') }
+        it { is_expected.not_to contain_file('/etc/apt/sources.list.d/puppet8-release.list.distUpgrade') }
+      end
+
       context 'check deccomission packages' do
         it { is_expected.to compile }
 

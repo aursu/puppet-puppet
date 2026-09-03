@@ -182,6 +182,20 @@ class puppet::globals (
   }
 
   $platform_repository = "${repo_urlbase}/${repo_filename}"
+
+  # Keyring the apt source points at with `signed-by=`.
+  #
+  # OpenVox ships /etc/apt/keyrings/openvox-keyring.gpg and its source line
+  # references it explicitly. The Puppet Inc packages instead drop
+  # puppet<N>-keyring.gpg into trusted.gpg.d, which apt trusts globally, so
+  # their source line carries no signed-by at all - `undef` reproduces that
+  # rather than inventing a reference the original never had.
+  if $is_openvox {
+    $repo_keyring = '/etc/apt/keyrings/openvox-keyring.gpg'
+  }
+  else {
+    $repo_keyring = undef
+  }
   $repo_source = "${tmpdir}/${repo_filename}"
 
   case $facts['os']['family'] {
