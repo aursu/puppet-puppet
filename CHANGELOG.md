@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.41.0
+
+**Features**
+
+* `puppet::agent::schedule` now manages the Puppet agent **daemon** as well as the cron schedule, via `disable_daemon` and `daemon_service_name`. Left `undef`, `disable_daemon` follows `$enable` — the honest coupling, since cron and the daemon are two ways of scheduling the same agent and running both means they collide. The agent takes a run lock, so whichever starts second exits non-zero: at boot the daemon finds the cron-driven run's `agent_catalog_run.lock`, gives up, and systemd records `puppet.service` as **failed** for the rest of the host's life. Agent runs are unaffected, but the host keeps a permanently failed unit, and a fleet where every host has one is a fleet where `systemctl --failed` no longer means anything.
+* The disabled branch uses `enable => mask`, not `false`, because **the agent package enables the daemon on install** — so without masking it returns on the next agent upgrade. The service is declared in **both** directions so that setting `disable_daemon => false` unmasks and starts it again, rather than leaving behind a masked unit the catalogue no longer mentions.
+* ⚠ `provider => systemd` is named explicitly: Puppet's default on Debian is `debian`, which wraps update-rc.d, has no `maskable` feature and fails outright on `enable => mask`.
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.40.1
 
 **Bugfixes**
