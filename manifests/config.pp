@@ -212,7 +212,13 @@ class puppet::config (
     }
 
     if $manage_webserver_conf {
-      include puppet::config::webserver
+      # contain, not include: `puppet::service` notifies the server service via
+      # `Class['puppet::config'] ~> Service['puppet-server']`, and that edge only
+      # reaches resources *contained* in this class. Under `include`, webserver.conf
+      # was rewritten without restarting the service, so a changed setting stayed
+      # inert while the file on disk looked correct — a silent no-op for anyone who
+      # verifies by reading the file. Its sibling below was already contained.
+      contain puppet::config::webserver
     }
 
     if $manage_fileserver_config {
