@@ -73,6 +73,14 @@
 # @param r10k_crontab_decomission
 #   Whether to remove crontab job to sync Puppet code
 #
+# @param autosign
+#   Whether the CA signs certificate requests without review. Defaults to
+#   `false`, and that default is deliberate rather than incidental: with
+#   autosign disabled an unauthenticated certificate request only produces a
+#   pending CSR that an operator must approve, whereas enabling it turns the
+#   same request into an issued certificate. Treat a change here as a security
+#   decision, not a convenience one. Accepts a path for policy-based autosigning.
+#
 # @param manage_webserver_conf
 #   Whether to manage webserver.conf or not
 #
@@ -120,6 +128,7 @@ class puppet::profile::server (
   Optional[Stdlib::Host] $ca_server = undef,
   Optional[String] $enc_envname  = undef,
   Boolean $r10k_crontab_setup = false,
+  Puppet::Autosign $autosign = false,
   Boolean $manage_webserver_conf = false,
   Boolean $manage_fileserver_config = true,
   Hash[String, Stdlib::Absolutepath] $mount_points = {},
@@ -149,6 +158,7 @@ class puppet::profile::server (
     common_envname   => $common_envname,
     enc_envname      => $enc_envname,
     manage_repo      => $manage_repo,
+    autosign         => $autosign,
   }
 
   if $use_puppetdb and $puppetdb_local {
