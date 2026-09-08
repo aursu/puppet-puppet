@@ -261,23 +261,17 @@ class puppet::globals (
   # the same question appear. Loopback is excluded - bsys::is_private_ip treats it
   # as private only when asked - because a service that binds it is unreachable,
   # which is a different intent and should be stated explicitly.
-  # dig() rather than chained subscripts: the interfaces fact is absent on hosts
-  # where Facter could not enumerate them, and calling .keys on undef aborts the
-  # catalogue for every class that inherits this one.
-  $network_interfaces = $facts.dig('networking', 'interfaces')
-
-  if $network_interfaces =~ Hash {
-    $internal_addresses = $network_interfaces.keys.sort.map |$iface| {
-      $network_interfaces[$iface]['ip']
-    }.filter |$ip| {
-      $ip =~ NotUndef and bsys::is_private_ip(String($ip))
-    }
-  }
-  else {
-    $internal_addresses = []
-  }
-
-  # Indexing past the end yields undef, so no selector is needed for the
-  # no-private-address case.
-  $internal_ip = $internal_addresses[0]
+  # The address a service on this host should be reachable on, or undef.
+  #
+  # Done in Ruby (bsys::internal_ip) rather than here: the selection has to
+  # prefer the interface carrying the default route, fall back to the first
+  # private address on a NON-virtual interface, and cope with the fact being
+  # absent. Expressed in the Puppet language that is chained filter/map blocks
+  # over a nested hash - hard to read and awkward to test.
+  #
+  # Virtual devices are excluded by name rather than by address, because a
+  # container bridge holds a genuine RFC 1918 address. On a Docker host the
+  # bridge also sorts first alphabetically, which is how a Puppet Server came to
+  # be published on 172.20.0.1 instead of its LAN address.
+  $internal_ip = bsys::internal_ip($facts['networking'])
 }

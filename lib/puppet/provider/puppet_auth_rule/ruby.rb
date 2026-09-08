@@ -145,7 +145,14 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
     if deny
       rule['deny'] = deny unless deny == :absent
     end
-    rule['allow-unauthenticated'] = allow_unauthenticated unless allow_unauthenticated.nil? || allow_unauthenticated == :absent
+    # Coerce to a real boolean. The type declares newvalues(:true, :false), so the
+    # value arriving here is the Symbol :true, and Hocon refuses to build a config
+    # value from a Symbol - "not valid to create ConfigValue from: true". The rule
+    # then fails to apply, and because puppet::service chains this class to the
+    # server service, the failure also skips the Puppet Server restart.
+    unless allow_unauthenticated.nil? || allow_unauthenticated == :absent
+      rule['allow-unauthenticated'] = [true, :true, 'true'].include?(allow_unauthenticated)
+    end
     rule['match-request'] = {}
     rule['match-request']['path'] = match_request_path
     rule['match-request']['type'] = match_request_type.to_s

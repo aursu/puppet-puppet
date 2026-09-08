@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.1.1
+
+**Bugfixes**
+
+* ⚠ **`puppet::globals::internal_ip` no longer picks a container bridge.** Selection moves to `bsys::internal_ip`, which prefers the interface carrying the default route and otherwise skips virtual devices by name. The previous version took the first RFC 1918 address in interface-name order, and on a Docker host `br-*` and `docker0` sort before `eno2` - so nginx was published on `172.20.0.1` and no agent could reach the server. A bridge address is genuinely private, so the range check could not catch this; only the device name can.
+* ⚠ **`puppet_auth_rule` can now set `allow_unauthenticated`.** The type declares `newvalues(:true, :false)`, so the provider was handing HOCON a Ruby Symbol and every apply failed with *"not valid to create ConfigValue from: true"*. Because `puppet::service` chains this class to the server service, that failure also **skipped the Puppet Server restart**, which is how a half-applied configuration reached a running master. Coerced to a real boolean.
+
 ## Release 1.1.0
 
 **Features**

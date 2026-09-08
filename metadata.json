@@ -1,6 +1,6 @@
 {
   "name": "aursu-puppet",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "aursu",
   "summary": "Puppet server installation and setup",
   "license": "Apache-2.0",
@@ -38,7 +38,7 @@
     },
     {
       "name": "aursu/bsys",
-      "version_requirement": ">= 0.12.1 < 1.0.0"
+      "version_requirement": ">= 0.13.1 < 1.0.0"
     },
     {
       "name": "puppet/openvox_bootstrap",

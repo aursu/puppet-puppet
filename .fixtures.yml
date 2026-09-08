@@ -60,4 +60,4 @@ fixtures:
   repositories:
     bsys:
       repo: https://github.com/aursu/puppet-bsys.git
-      ref: v0.12.1
+      ref: v0.13.1

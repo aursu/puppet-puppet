@@ -185,6 +185,49 @@ describe 'puppet::nginx' do
           }
         end
 
+        # The failure this guards against, observed on a real master: br-* and
+        # docker0 sort before eno2, so alphabetical order picked the container
+        # bridge and agents could not reach the server.
+        context 'on a Docker host, where a bridge address sorts first' do
+          let(:facts) do
+            os_facts.merge(networking: os_facts[:networking].merge(
+                             'ip' => '10.154.5.6',
+                             'interfaces' => {
+                               'br-9f2a' => { 'ip' => '172.20.0.1' },
+                               'docker0' => { 'ip' => '172.17.0.1' },
+                               'eno2' => { 'ip' => '10.154.5.6' },
+                               'lo' => { 'ip' => '127.0.0.1' },
+                             },
+                           ))
+          end
+          let(:params) { { manage_nginx_core: false } }
+
+          it {
+            expect(catalogue.resource('nginx::resource::server', 'puppetserver')[:listen_ip]).to eq('10.154.5.6')
+          }
+        end
+
+        # Same host, but Facter could not name a primary interface: the bridges
+        # must still be skipped by name.
+        context 'on a Docker host with no primary address fact' do
+          let(:facts) do
+            os_facts.merge(networking: os_facts[:networking].merge(
+                             'ip' => nil,
+                             'interfaces' => {
+                               'br-9f2a' => { 'ip' => '172.20.0.1' },
+                               'docker0' => { 'ip' => '172.17.0.1' },
+                               'eno2' => { 'ip' => '10.154.5.6' },
+                               'lo' => { 'ip' => '127.0.0.1' },
+                             },
+                           ))
+          end
+          let(:params) { { manage_nginx_core: false } }
+
+          it {
+            expect(catalogue.resource('nginx::resource::server', 'puppetserver')[:listen_ip]).to eq('10.154.5.6')
+          }
+        end
+
         context 'on a host with no private address and no listen_ip' do
           let(:facts) { os_facts.merge(networking: os_facts[:networking].merge(no_private_override)) }
           let(:params) { { manage_nginx_core: false } }
