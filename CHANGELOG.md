@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.2.0
+
+**Features**
+
+* `puppet::profile::server` gains **`manage_nginx`** and **`manage_nginx_core`**, and declares `puppet::nginx` itself. `tls_offload` now defaults from `manage_nginx`, and `allow_header_cert_info` follows it, so the proxy and the two settings it depends on are owned in one place.
+* The point is not convenience. nginx terminating TLS while Puppet Server still expects to do so, or Puppet Server trusting `X-Client-*` headers that nothing sets, are both broken states - the first refuses to start, the second accepts every request as unauthenticated. Deriving them from a single switch makes those states **unreachable** rather than merely discouraged. Callers set one boolean.
+* `listen_ip` is deliberately not passed through, so it still comes from the host's own data by automatic lookup.
+
 ## Release 1.1.1
 
 **Bugfixes**

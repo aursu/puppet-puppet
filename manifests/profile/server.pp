@@ -81,6 +81,22 @@
 #   same request into an issued certificate. Treat a change here as a security
 #   decision, not a convenience one. Accepts a path for policy-based autosigning.
 #
+# @param manage_nginx
+#   Front Puppet Server with the nginx proxy in `puppet::nginx`, so client
+#   certificate policy can differ per request path - the CA reachable without a
+#   certificate, everything else not.
+#
+#   This is the single switch for that arrangement. `tls_offload` and
+#   `allow_header_cert_info` default from it, and the proxy class is declared
+#   here, so a caller cannot end up with nginx terminating TLS while Puppet
+#   Server still expects to do it, or with Puppet Server trusting identity
+#   headers that nothing sets. Those states are not merely discouraged - they are
+#   unreachable through this parameter.
+#
+# @param manage_nginx_core
+#   Passed to `puppet::nginx`. Whether that class manages nginx core, or leaves
+#   it to whatever already owns it on the host.
+#
 # @param client_auth
 #   Whether Puppet Server requires a client certificate at the TLS layer. `need`
 #   rejects a certificate-less client during the handshake, before any
@@ -154,7 +170,9 @@ class puppet::profile::server (
   Boolean $r10k_crontab_setup = false,
   Puppet::Autosign $autosign = false,
   Enum['need', 'want', 'none'] $client_auth = 'want',
-  Boolean $tls_offload = false,
+  Boolean $manage_nginx = false,
+  Boolean $manage_nginx_core = true,
+  Boolean $tls_offload = $manage_nginx,
   Stdlib::IP::Address $webserver_host = '127.0.0.1',
   Optional[Boolean] $allow_header_cert_info = undef,
   Boolean $restrict_csr_read = false,
@@ -201,14 +219,35 @@ class puppet::profile::server (
     manage_config => false,
   }
 
+  if $manage_nginx {
+    # Declared here rather than by the calling site profile: the proxy and the
+    # two settings above are one arrangement, and owning all three in one place
+    # is what keeps them consistent. listen_ip is deliberately not passed, so it
+    # still comes from the host's own data by automatic lookup.
+    class { 'puppet::nginx':
+      manage_nginx_core => $manage_nginx_core,
+    }
+    contain puppet::nginx
+  }
+
   class { 'puppet::server::install': }
+
+  # Header trust follows the proxy: with nginx terminating TLS, Puppet Server has
+  # to read the client identity from the headers nginx sets, and without it the
+  # setting stays whatever the caller asked for - undef meaning unmanaged.
+  if $manage_nginx {
+    $header_cert_info = true
+  }
+  else {
+    $header_cert_info = $allow_header_cert_info
+  }
 
   class { 'puppet::config':
     server_mode              => true,
     client_auth              => $client_auth,
     tls_offload              => $tls_offload,
     webserver_host           => $webserver_host,
-    allow_header_cert_info   => $allow_header_cert_info,
+    allow_header_cert_info   => $header_cert_info,
     restrict_csr_read        => $restrict_csr_read,
     ca_server                => $ca_server,
     manage_webserver_conf    => $manage_webserver_conf,
