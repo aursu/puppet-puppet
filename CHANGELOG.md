@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.2.1
+
+**Bugfixes**
+
+* ⚠ **`puppet::service` now runs before `puppet::nginx`.** nginx serves `<address>:8140` while Puppet Server moves to `127.0.0.1:8140` - same port, different addresses, deliberately, so a proxy that accidentally binds all interfaces collides and refuses to start. The cost is that ordering matters at cutover: until Puppet Server has restarted onto loopback it still holds the wildcard, and nginx cannot bind. Without this edge the first run on a master fails with `bind() ... Address already in use` and nginx has to be started by hand. Observed on both masters.
+
 ## Release 1.2.0
 
 **Features**

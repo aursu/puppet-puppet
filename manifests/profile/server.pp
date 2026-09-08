@@ -332,5 +332,19 @@ class puppet::profile::server (
 
   class { 'puppet::service': }
 
+  if $manage_nginx {
+    # nginx serves <address>:8140 while Puppet Server moves to 127.0.0.1:8140.
+    # Same port, different addresses - deliberately, so a proxy that accidentally
+    # binds all interfaces collides and refuses to start rather than listening
+    # where it should not. The cost is that ordering matters at cutover: until
+    # Puppet Server has actually restarted onto loopback it still holds the
+    # wildcard, and nginx cannot bind.
+    #
+    # Observed on both masters without this edge - nginx failed with
+    # "bind() ... Address already in use" on the first run and had to be started
+    # by hand afterwards.
+    Class['puppet::service'] -> Class['puppet::nginx']
+  }
+
   Class['puppet::agent'] -> Class['puppet::config']
 }
