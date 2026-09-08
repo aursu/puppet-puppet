@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.1.0
+
+**Features**
+
+* `puppet::config` and `puppet::profile::server` expose **`client_auth`**, **`tls_offload`**, **`webserver_host`**, **`allow_header_cert_info`** and **`restrict_csr_read`**, so a site profile can state them in code rather than reaching component classes through data. Every default preserves current behaviour.
+* Together they describe **one arrangement**, not five knobs. With a TLS-terminating proxy in front (`puppet::nginx`), Puppet Server serves plain HTTP on loopback and takes the client identity from the headers the proxy sets. ⚠ `tls_offload` without `allow_header_cert_info` means every request arrives unauthenticated; `allow_header_cert_info` without the loopback binding means anything able to reach Puppet Server can claim to be any node, including the CLI-auth extension. Deriving all three from a single "is there a proxy" decision in the calling profile is the way to keep them consistent.
+* `puppet::config::webserver` is now declared resource-like inside `puppet::config` so those values can be passed. It remains `contain`ed, so a change still restarts the server.
+
 ## Release 1.0.1
 
 **Documentation**

@@ -125,6 +125,30 @@
 #   certname directive value (default - $facts['networking']['fqdn'])
 #   (https://www.puppet.com/docs/puppet/7/configuration.html#certname)
 #
+# @param client_auth
+#   Passed to `puppet::config::webserver`. Whether Puppet Server requires a
+#   client certificate at the TLS layer. Ignored when `tls_offload` is set, since
+#   the proxy then owns client verification.
+#
+# @param tls_offload
+#   Passed to `puppet::config::webserver`. Render a plain HTTP listener on
+#   `webserver_host` instead of an SSL one, for use behind a TLS-terminating
+#   proxy. Threaded through this class so a site profile can state it in code
+#   alongside the proxy it belongs with, rather than as a detached data key.
+#
+# @param webserver_host
+#   Address for that plain HTTP listener. Loopback by default, and it should stay
+#   that way: with TLS offloaded it is the control that stops anyone forging the
+#   identity headers the proxy sets.
+#
+# @param allow_header_cert_info
+#   Passed to `puppet::server::ca::allow`. Whether Puppet Server reads client
+#   identity from `X-Client-*` headers. `undef` leaves it unmanaged.
+#
+# @param restrict_csr_read
+#   Passed to `puppet::server::ca::allow`. Require authorisation to read
+#   certificate requests while leaving submission open.
+#
 # @param manage_webserver_conf
 #   Whether to manage /etc/puppetlabs/puppetserver/conf.d/webserver.conf or not
 #   It is basic management aimed to add SSL settings into webserver.conf
@@ -144,6 +168,11 @@ class puppet::config (
   Boolean $server_mode = $puppet::master,
   String $server = $puppet::server,
   Optional[String] $ca_server = $puppet::ca_server,
+  Enum['need', 'want', 'none'] $client_auth = 'want',
+  Boolean $tls_offload = false,
+  Stdlib::IP::Address $webserver_host = '127.0.0.1',
+  Optional[Boolean] $allow_header_cert_info = undef,
+  Boolean $restrict_csr_read = false,
   Boolean $use_common_env = $puppet::use_common_env,
   String $common_envname = $puppet::common_envname,
   Optional[Stdlib::Absolutepath] $basemodulepath = $puppet::basemodulepath,
@@ -199,8 +228,10 @@ class puppet::config (
     include puppet::server::install
 
     class { 'puppet::server::ca::allow':
-      server    => $server,
-      ca_server => $ca_server,
+      server                 => $server,
+      ca_server              => $ca_server,
+      allow_header_cert_info => $allow_header_cert_info,
+      restrict_csr_read      => $restrict_csr_read,
     }
     contain puppet::server::ca::allow
 
@@ -218,6 +249,11 @@ class puppet::config (
       # was rewritten without restarting the service, so a changed setting stayed
       # inert while the file on disk looked correct - a silent no-op for anyone who
       # verifies by reading the file. Its sibling below was already contained.
+      class { 'puppet::config::webserver':
+        client_auth => $client_auth,
+        tls_offload => $tls_offload,
+        host        => $webserver_host,
+      }
       contain puppet::config::webserver
     }
 
