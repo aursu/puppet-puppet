@@ -1,12 +1,30 @@
 webserver: {
     # Log webserver access to a specific file.
     access-log-config: <%= @server_confdir %>/request-logging.xml
+<% if @tls_offload -%>
+    # TLS is terminated by a proxy in front of this service, so this listener is
+    # plain HTTP bound to the loopback address only. That binding is not a
+    # tidiness measure: with TLS offloaded, authorisation comes from the
+    # X-Client-* headers the proxy sets, and anything able to reach this port
+    # directly could forge them. Loopback IS the control.
+    #
+    # The port is deliberately the same one the proxy serves publicly. A proxy
+    # config that accidentally listens on all interfaces then collides with this
+    # bind and refuses to start - louder, and safer, than quietly listening
+    # where it should not.
+    #
+    # A local probe expecting HTTPS here gets a TLS handshake error rather than
+    # a refused connection. That is this listener being plain HTTP, not a
+    # certificate fault.
+    host: <%= @host %>
+    port: <%= @port %>
+<% else -%>
     # Require a valid certificate from the client.
     client-auth: <%= @client_auth %>
-    # Listen for HTTPS traffic on all available hostnames.
-    ssl-host: 0.0.0.0
-    # Listen for HTTPS traffic on port 8140.
-    ssl-port: 8140
+    # Address to bind to.
+    ssl-host: <%= @ssl_host %>
+    # Port to bind to.
+    ssl-port: <%= @ssl_port %>
     ssl-cert: <%= @ssl_cert %>
     ssl-key: <%= @ssl_key %>
     ssl-ca-cert: <%= @ssl_ca_cert %>
@@ -14,4 +32,5 @@ webserver: {
     ssl-cert-chain: <%= @ssl_cert_chain %>
     <% end -%>
     ssl-crl-path: <%= @ssl_crl_path %>
+<% end -%>
 }

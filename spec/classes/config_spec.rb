@@ -3,9 +3,22 @@ require 'spec_helper'
 describe 'puppet::config' do
   let(:pre_condition) { 'include puppet' }
 
+  # Since 1.0.0 the webserver listener defaults to the host's first private
+  # address and fails closed when there is none, so the fact set needs one.
+  # Merged into networking rather than replacing it - fqdn lives there too.
+  let(:private_networking) do
+    {
+      'ip' => '10.154.5.6',
+      'interfaces' => {
+        'lo' => { 'ip' => '127.0.0.1' },
+        'eth0' => { 'ip' => '10.154.5.6' },
+      },
+    }
+  end
+
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { os_facts.merge(networking: os_facts[:networking].merge(private_networking)) }
       let(:params) do
         {
           sameca: true,

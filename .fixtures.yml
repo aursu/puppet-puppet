@@ -51,6 +51,13 @@ fixtures:
     yumrepo_core:
       repo: puppetlabs/yumrepo_core
       puppet_version: ">= 6.0.0"
+    nginx:
+      repo: aursu/nginx
+      ref: 7.0.2
+    lsys_nginx:
+      repo: aursu/lsys_nginx
+      ref: 0.48.0
+  repositories:
     bsys:
-      repo: aursu/bsys
-      ref: 0.10.3
+      repo: https://github.com/aursu/puppet-bsys.git
+      ref: v0.12.1

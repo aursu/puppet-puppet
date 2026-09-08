@@ -19,6 +19,74 @@ the Puppet server operates efficiently and remains up-to-date.
 
 Additionally, the module includes functionality to manage the Puppet agent as well.
 
+## ⚠ Upgrading to 1.0.0
+
+**Puppet Server no longer binds `0.0.0.0`.** `puppet::config::webserver::ssl_host`
+now defaults to the host's first RFC 1918 private address, and the catalogue
+**fails** rather than falling back to a wildcard if the host has no private
+address and none was given.
+
+Binding a wildcard puts a fleet's control plane on every interface a host has,
+including ones added later — a failure mode that stays invisible until somebody
+scans the wrong network. On a single-homed host the effective result is
+unchanged; on a multi-homed one, Puppet Server stops answering on interfaces it
+was never meant to serve.
+
+If you need a specific address, set it:
+
+```puppet
+class { 'puppet::config::webserver':
+  ssl_host => '10.0.0.10',
+}
+```
+
+## Serving the CA and catalogues under different rules
+
+Certificate enrolment is inherently certificate-less: a node contacts the CA
+precisely because it does not have a certificate yet. Puppet Server applies a
+single `client-auth` value to every path it serves, so requiring certificates for
+catalogues also blocks enrolment, and permitting enrolment leaves catalogues open
+to certificate-less callers.
+
+`puppet::nginx` resolves that by terminating TLS in nginx and deciding policy per
+request path — `/puppet-ca` reachable without a client certificate, everything
+else requiring one. Agents are unaffected: nginx answers on the port they already
+use, presenting the same certificate.
+
+```puppet
+class { 'puppet::config::webserver':
+  tls_offload => true,          # plain HTTP on loopback; the proxy owns TLS
+}
+
+class { 'puppet::nginx':
+  manage_nginx_core => true,    # false where something else already owns nginx
+  listen_ip         => '10.0.0.10',
+}
+
+class { 'puppet::server::ca::allow':
+  allow_header_cert_info => true,
+  restrict_csr_read      => true,
+}
+```
+
+⚠ **These three go together or not at all.** With TLS terminated in nginx, Puppet
+Server no longer sees the client certificate: identity arrives as `X-Client-*`
+headers, and it must be told to trust them. From that point anything able to
+reach Puppet Server directly can forge that identity, so the loopback binding is
+not hygiene — it is the control the arrangement rests on. Two consequences worth
+stating plainly:
+
+* Puppet Server must listen on loopback only (`tls_offload` does this).
+* Every proxy location must overwrite the `X-Client-*` headers, including the CA
+  one. `puppet::nginx` does this for the locations it manages; a hand-added
+  location that forwards a client-supplied `X-Client-DN` is an authentication
+  bypass.
+
+With `manage_nginx_core => false`, `class nginx` must still be declared somewhere
+in the catalogue — the nginx resource types read core variables from it. This
+module deliberately does not declare it, because doing so before whatever owns
+nginx core would be a duplicate declaration.
+
 ## Setup
 
 This module can be utilized in two primary ways:
@@ -30,13 +98,13 @@ This module can be utilized in two primary ways:
    ```
    mod 'puppet',
      git: 'https://github.com/aursu/puppet-puppet.git',
-     tag: 'v0.19.1'
+     tag: 'v1.0.0'
    ```
 
    Alternatively, you can specify the version directly if it’s available from the module repository on [Puppet Forge](https://forge.puppet.com/modules/aursu/puppet/readme):
 
    ```
-   mod 'aursu/puppet', '0.19.1'
+   mod 'aursu/puppet', '1.0.0'
    ```
 
 2. **As a Puppet Server Bootstrap Tool Using Puppet Bolt**

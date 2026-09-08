@@ -1,6 +1,7 @@
 require 'hocon/config_factory'
 require 'hocon/parser/config_document_factory'
 require 'hocon/config_value_factory'
+require File.expand_path(File.join(__dir__, '..', '..', '..', 'puppet_x', 'puppetserver', 'auth_conf'))
 
 Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
   @doc = 'Puppet auth.conf rules'
@@ -12,46 +13,25 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
 
   mk_resource_methods
 
+  # File handling is shared with puppet_auth_setting through PuppetX::Puppetserver::AuthConf
+  # so both types mutate ONE parsed document. A private copy here would mean
+  # whichever provider flushed last rendered its own version over the whole file
+  # and silently dropped the other's changes.
   def self.auth_conf_file_name
-    # @file_name is for unit testing
-    @file_name ||= '/etc/puppetlabs/puppetserver/conf.d/auth.conf' if File.exist?('/etc/puppetlabs/puppetserver/conf.d/auth.conf')
-    @file_name ||= '/etc/puppet/puppetserver/conf.d/auth.conf' if File.exist?('/etc/puppet/puppetserver/conf.d/auth.conf')
-    @file_name ||= '/etc/puppetlabs/puppetserver/conf.d/auth.conf'
+    PuppetX::Puppetserver::AuthConf.file_name
   end
 
   # Optional defaults file
   def self.auth_conf_file
-    @conf ||= File.read(auth_conf_file_name) if File.exist?(auth_conf_file_name)
+    PuppetX::Puppetserver::AuthConf.content
   end
 
   def self.base_auth_rule
-    { 'deny' => '*',
-      'match-request' => {
-        'path' => '/',
-        'type' => 'path',
-      },
-      'name' => 'puppetlabs deny all',
-      'sort-order' => 999 }
-  end
-
-  def self.base_conf_object
-    empty = Hocon::Parser::ConfigDocumentFactory.parse_string('')
-    auth_base = empty.set_value('authorization.version', '1')
-    base_auth_rule_object = Hocon::ConfigValueFactory.from_map(base_auth_rule)
-    rule_list = Hocon::ConfigValueFactory.from_any_ref([base_auth_rule_object])
-    auth_base.set_config_value('authorization.rules', rule_list)
+    PuppetX::Puppetserver::AuthConf.base_rule
   end
 
   def self.auth_conf_object
-    return @data if @data
-
-    # read file content and remove shell quotes
-    @data = if auth_conf_file
-              Hocon::Parser::ConfigDocumentFactory.parse_string(auth_conf_file)
-            else
-              base_conf_object
-            end
-    @data
+    PuppetX::Puppetserver::AuthConf.document
   end
 
   def self.auth_rules
@@ -72,7 +52,7 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
 
     rule_list = Hocon::ConfigValueFactory.from_any_ref(rules.compact, nil)
 
-    @data = auth_conf_object.set_config_value('authorization.rules', rule_list)
+    PuppetX::Puppetserver::AuthConf.document = auth_conf_object.set_config_value('authorization.rules', rule_list)
   end
 
   def self.update_auth_rules(rule)
@@ -87,10 +67,7 @@ Puppet::Type.type(:puppet_auth_rule).provide(:ruby) do
   def self.sync_file
     sync_auth_rules
 
-    data = auth_conf_object.render
-    File.open(auth_conf_file_name, 'w') do |fh|
-      fh.puts(data)
-    end
+    PuppetX::Puppetserver::AuthConf.save
   end
 
   def self.instances

@@ -22,8 +22,14 @@ describe Puppet::Type.type(:puppet_auth_rule).provider(:ruby) do
   let(:tmppath) { Tempfile.new('auth.conf', '/tmp').path }
 
   before(:each) do
-    described_class.instance_variable_set('@file_name', tmppath)
-    described_class.instance_variable_set('@conf', File.read(Dir.pwd + '/spec/fixtures/files/auth.conf'))
+    # auth.conf handling moved into PuppetX::Puppetserver::AuthConf so that this type and
+    # puppet_auth_setting share one parsed document; the seam the tests drive
+    # moved with it.
+    PuppetX::Puppetserver::AuthConf.reset!
+    PuppetX::Puppetserver::AuthConf.file_name = tmppath
+    PuppetX::Puppetserver::AuthConf.content = File.read(Dir.pwd + '/spec/fixtures/files/auth.conf')
+    described_class.instance_variable_set('@auth_rules', nil)
+    described_class.instance_variable_set('@instances', nil)
   end
 
   context 'check auth rules' do

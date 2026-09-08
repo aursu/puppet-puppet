@@ -251,4 +251,33 @@ class puppet::globals (
     $hostpubkey,
     $signed_cert,
   ]
+
+  # First private address on this host, in interface-name order so the choice is
+  # stable between runs rather than dependent on fact ordering. `undef` when the
+  # host has none.
+  #
+  # Computed once here because more than one class needs to know what this server
+  # should be reachable on, and each deriving it separately is how two answers to
+  # the same question appear. Loopback is excluded - bsys::is_private_ip treats it
+  # as private only when asked - because a service that binds it is unreachable,
+  # which is a different intent and should be stated explicitly.
+  # dig() rather than chained subscripts: the interfaces fact is absent on hosts
+  # where Facter could not enumerate them, and calling .keys on undef aborts the
+  # catalogue for every class that inherits this one.
+  $network_interfaces = $facts.dig('networking', 'interfaces')
+
+  if $network_interfaces =~ Hash {
+    $internal_addresses = $network_interfaces.keys.sort.map |$iface| {
+      $network_interfaces[$iface]['ip']
+    }.filter |$ip| {
+      $ip =~ NotUndef and bsys::is_private_ip(String($ip))
+    }
+  }
+  else {
+    $internal_addresses = []
+  }
+
+  # Indexing past the end yields undef, so no selector is needed for the
+  # no-private-address case.
+  $internal_ip = $internal_addresses[0]
 }

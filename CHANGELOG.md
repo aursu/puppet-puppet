@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.0.0
+
+⚠ **Breaking change: `puppet::config::webserver` no longer binds `0.0.0.0`.**
+
+`ssl_host` now defaults to the host's first RFC 1918 private address instead of the wildcard, and the catalogue **fails** if the host has no private address and none was given, rather than falling back to a wildcard. Upgrading changes the address Puppet Server binds to on any host that relied on the old default. On a single-homed host the effective result is the same; on a multi-homed one, Puppet Server stops answering on every interface it happens to have - which is the point. Set `puppet::config::webserver::ssl_host` explicitly if you need a specific address, or `127.0.0.1` when a proxy fronts the service.
+
+The reasoning: binding a wildcard puts a fleet's control plane on every interface a host has, including ones added after the fact. That is not a default a module should ship for this service, and the failure mode it creates is invisible until someone scans the wrong network.
+
+**Features**
+
+* **`puppet::nginx`** - front Puppet Server with an nginx TLS-terminating proxy, so client-certificate policy can be decided per request path. Certificate enrolment is inherently certificate-less: a node contacts the CA precisely because it has none yet, and a single Jetty listener applies one `client-auth` value to every path, so requiring certificates for catalogues also blocks enrolment. With this, `/puppet-ca` accepts a certificate-less client while everything else rejects one. Agents are unaffected - nginx answers on the port they already use, presenting the same certificate. `manage_nginx_core` follows the convention used elsewhere: true manages nginx core, false leaves it to whatever already owns it on the host.
+* **`puppet::config::webserver::tls_offload`** - render a plain HTTP listener on loopback instead of an SSL one, for use with the above. When enabled, `client_auth`, `ssl_host`, `ssl_port` and the certificate paths are not rendered: the proxy owns all of it.
+* **`puppet_auth_setting`** - new type and provider for settings in the `authorization` section of auth.conf, beside the `rules` list `puppet_auth_rule` owns. Exists because the rule type can only reach `authorization.rules`, leaving siblings such as `allow-header-cert-info` outside configuration management.
+* **`puppet::server::ca::allow::allow_header_cert_info`** - manage that setting. `undef` by default, meaning unmanaged.
+* **`puppet::server::ca::allow::restrict_csr_read`** - require authorisation to *read* certificate requests while leaving submission open. `GET` on `/puppet-ca/v1/certificate_request` returns a pending CSR and nothing in normal operation needs it; `PUT` is how a node enrols and must stay open. Default `false`, preserving the rule Puppet Server ships.
+* **`puppet::globals::internal_ip`** - the host's first private address, computed once so that everything asking "what is this server reachable on" gets the same answer.
+
+⚠ **Read before enabling the proxy.** Terminating TLS in nginx means Puppet Server no longer sees the client certificate: identity arrives as `X-Client-*` headers and Puppet Server must be told to trust them. Anything able to reach Puppet Server directly can then forge that identity, so the loopback binding stops being hygiene and becomes the control the whole arrangement rests on. Enable `tls_offload`, `puppet::nginx` and `allow_header_cert_info` together, or not at all.
+
+**Bugfixes**
+
+* `puppet_auth_rule` and `puppet_auth_setting` now share one parsed auth.conf document through `PuppetX::Puppetserver::AuthConf`. Previously each provider parsed its own copy and rendered it back over the whole file, so a catalogue containing both a rule change and a setting change would have the second flush silently discard the first.
+
+**Dependencies**
+
+* `aursu/bsys` >= 0.12.0, for `bsys::is_private_ip`.
+* `aursu/nginx` and `aursu/lsys_nginx`, used only by `puppet::nginx`.
+
 ## Release 0.43.0
 
 **Features**
