@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 1.0.1
+
+**Documentation**
+
+Makes the address restriction, and the way to override it, prominent in both the README and this file - it was documented only in the class reference, which is the wrong place for a default that can fail a catalogue.
+
+Both listeners this module manages are restricted to **RFC 1918 private space** (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`): `puppet::config::webserver::ssl_host` defaults to the host's first private address and fails the catalogue if there is none, and `puppet::nginx::listen_ip` is rejected if it is not private.
+
+**To serve on a public address, set `puppet::nginx::use_external_ip => true`.** That waives both checks - an explicit public `listen_ip` is accepted, and a host with no private address falls back to its primary address instead of failing. Off by default, because the failure it prevents is a Puppet Server reachable from the internet.
+
 ## Release 1.0.0
 
 ⚠ **Breaking change: `puppet::config::webserver` no longer binds `0.0.0.0`.**

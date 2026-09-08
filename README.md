@@ -21,6 +21,36 @@ Additionally, the module includes functionality to manage the Puppet agent as we
 
 ## ⚠ Upgrading to 1.0.0
 
+### Addresses must be private by default - and how to override that
+
+Both listeners this module manages are restricted to **RFC 1918 private space**
+(`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) unless you say otherwise:
+
+* `puppet::config::webserver::ssl_host` defaults to the host's first private
+  address and **fails the catalogue** if there is none, instead of falling back
+  to a wildcard.
+* `puppet::nginx::listen_ip` must be a private address, and the catalogue fails
+  if it is not - or if none was given and the host has no private address.
+
+**To serve on a public address, set `puppet::nginx::use_external_ip => true`.**
+That waives both checks: an explicit public `listen_ip` is accepted, and a host
+with no private address falls back to its primary address rather than failing.
+It is off by default because the failure it prevents - a Puppet Server reachable
+from the internet - is not one you want to find out about later.
+
+```puppet
+class { 'puppet::nginx':
+  listen_ip       => '203.0.113.10',
+  use_external_ip => true,          # required, or the catalogue fails
+}
+```
+
+Range membership is checked with `bsys::is_private_ip`, which compares addresses
+using `IPAddr` rather than string prefixes - `172.16.0.0/12` is `172.16` through
+`172.31` only, and a naive `172.` check would accept public space.
+
+### The wildcard default is gone
+
 **Puppet Server no longer binds `0.0.0.0`.** `puppet::config::webserver::ssl_host`
 now defaults to the host's first RFC 1918 private address, and the catalogue
 **fails** rather than falling back to a wildcard if the host has no private
