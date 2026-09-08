@@ -43,17 +43,6 @@
 # @param cipher_suites
 #   Array of SSL/TLS cipher suites to enable
 #
-# @param ssl_client_auth
-#   Whether the Jetty SSL connector requires a client certificate during the TLS
-#   handshake — `need`, `want` or `none`, written as `ssl-client-auth` into
-#   `jetty.ini`. Default is `undef`, which leaves the setting unmanaged and Jetty on
-#   its own default. `need` rejects a client without a CA-signed certificate at the
-#   handshake, before any `auth.conf` rule is consulted; combined with PuppetDB's
-#   deny-by-default `auth.conf` that gives two enforcing layers.
-#
-#   `puppetlabs-puppetdb` does not manage this setting, so it is declared here as an
-#   `ini_setting` alongside the ones the upstream module owns.
-#
 # @param ssl_listen_address
 #   Address the Jetty SSL connector binds to, passed through to `puppetdb`. Default is
 #   `127.0.0.1`, so the port is not offered to the network at all — this **deliberately
@@ -89,7 +78,6 @@ class puppet::puppetdb (
     'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384',
     'TLS_DHE_RSA_WITH_AES_128_GCM_SHA256',
   ],
-  Optional[Enum['need', 'want', 'none']] $ssl_client_auth = undef,
   Stdlib::IP::Address $ssl_listen_address = '127.0.0.1',
   Boolean $manage_firewall = false,
   Boolean $manage_cron = true,
@@ -148,28 +136,16 @@ class puppet::puppetdb (
   }
   contain puppetdb
 
-  # ssl-client-auth is not a setting puppetlabs-puppetdb manages, so it is declared
-  # here. The upstream module writes jetty.ini with individual ini_setting resources
-  # rather than from a template, so adding one does not fight it for ownership of the
-  # file. Its Ini_setting resource defaults are scoped to puppetdb::server::jetty and
-  # do not reach here, hence the explicit path and section.
+  # ⚠ There is deliberately no client-auth setting here. PuppetDB's webserver has
+  # no equivalent of Puppet Server's `client-auth`: trapperkeeper-webserver-jetty10
+  # validates its configuration strictly and rejects `ssl-client-auth` as a
+  # disallowed key, so writing it into jetty.ini makes the service refuse to start
+  # (measured on PuppetDB 8.1.0). That is also why no version of
+  # puppetlabs-puppetdb exposes a parameter for it.
   #
-  # Ordering: after the jetty class so the file and its other settings are already in
-  # place, and notifying the service so the change is picked up. Requiring the whole
-  # puppetdb class instead would deadlock — the service is contained in it.
-  if $ssl_client_auth {
-    include puppetdb::params
-
-    ini_setting { 'puppetdb_ssl_client_auth':
-      ensure  => present,
-      path    => "${puppet::puppetdb::globals::confdir}/jetty.ini",
-      section => 'jetty',
-      setting => 'ssl-client-auth',
-      value   => $ssl_client_auth,
-      require => Class['puppetdb::server::jetty'],
-      notify  => Service[$puppetdb::params::puppetdb_service],
-    }
-  }
+  # The controls available on this service are the listen address above, which
+  # removes the listener rather than putting a check in front of it, and the
+  # deny-all rule PuppetDB's own auth.conf already ships.
 
   include puppet::puppetdb::compat
 

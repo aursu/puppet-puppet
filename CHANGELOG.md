@@ -12,12 +12,11 @@ This is the same change [1.0.0](#release-100) made to `puppet::config::webserver
 
 **Features**
 
-* **`puppet::puppetdb::ssl_client_auth`** - manage `ssl-client-auth` in `jetty.ini`: `need`, `want` or `none`. `undef` by default, meaning unmanaged, so Jetty keeps its own default and existing consumers see no change. `need` rejects a client without a CA-signed certificate during the TLS handshake, before any authorisation rule is consulted; with the deny-all rule PuppetDB already ships, that gives two enforcing layers instead of one. `puppetlabs-puppetdb` exposes no parameter for this setting, so it is declared here as an `ini_setting` beside the ones the upstream module owns - which is safe precisely because that module writes `jetty.ini` as individual settings rather than from a template, so nothing contends for ownership of the file.
 * **`puppet::puppetdb::ssl_listen_address`** - see the breaking change above. Passed to the `puppetdb` class unconditionally, which makes the `puppetdb::ssl_listen_address` Hiera key inert; set the wrapper's parameter instead.
 
-**Dependencies**
+**Notes**
 
-* `puppetlabs/inifile` >= 6.0.0 < 7.0.0, for the `ssl-client-auth` setting. It was already present as a test fixture and an implicit transitive dependency; using it in shipped code makes it a declared one.
+* ⚠ **PuppetDB has no client-auth setting, and this module deliberately does not offer one.** `trapperkeeper-webserver-jetty10` validates its configuration strictly and rejects `ssl-client-auth` as a *disallowed key*, so writing it into `jetty.ini` makes the service refuse to start - measured on PuppetDB 8.1.0. That is also why no version of `puppetlabs-puppetdb` exposes a parameter for it. Puppet Server's `client-auth` has no PuppetDB equivalent; do not reason by analogy from one to the other. The controls available on this service are the listen address above, which removes the listener rather than putting a check in front of it, and the deny-all rule PuppetDB's own `auth.conf` already ships.
 
 ## Release 1.2.1
 
