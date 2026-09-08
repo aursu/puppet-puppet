@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 2.0.0
+
+⚠ **Breaking change: `puppet::puppetdb` no longer binds `0.0.0.0`.**
+
+`ssl_listen_address` is a new parameter defaulting to **`127.0.0.1`**, passed through to `puppetdb`, which upstream defaults to the wildcard. Upgrading changes the address PuppetDB's SSL connector binds to on any host that relied on the old default. Where PuppetDB serves only the Puppet Server on the same host - the topology the upstream documentation calls scenario 1, and the common case - loopback is the correct binding and needs no configuration. **Set `puppet::puppetdb::ssl_listen_address` to a reachable address for a split topology**, a PuppetDB on its own host as in scenario 2, or the Puppet Server will not reach it; `0.0.0.0` restores the previous behaviour exactly.
+
+This is the same change [1.0.0](#release-100) made to `puppet::config::webserver`, one layer down, and for the same reason: binding a wildcard puts a fleet's control plane on every interface a host has, including ones added after the fact. It matters more here than it looks, because PuppetDB's shipped `auth.conf` is **not** uniformly deny-by-default - `/status/v1/services` and `/status/v1/simple` are `allow-unauthenticated`, and `/metrics` is `allow: "*"`, which means any certificate the CA ever signed. On a wildcard binding those three endpoints are offered to whatever can route to the host. Loopback closes them outright, which no authorisation rule does.
+
+**Features**
+
+* **`puppet::puppetdb::ssl_client_auth`** - manage `ssl-client-auth` in `jetty.ini`: `need`, `want` or `none`. `undef` by default, meaning unmanaged, so Jetty keeps its own default and existing consumers see no change. `need` rejects a client without a CA-signed certificate during the TLS handshake, before any authorisation rule is consulted; with the deny-all rule PuppetDB already ships, that gives two enforcing layers instead of one. `puppetlabs-puppetdb` exposes no parameter for this setting, so it is declared here as an `ini_setting` beside the ones the upstream module owns - which is safe precisely because that module writes `jetty.ini` as individual settings rather than from a template, so nothing contends for ownership of the file.
+* **`puppet::puppetdb::ssl_listen_address`** - see the breaking change above. Passed to the `puppetdb` class unconditionally, which makes the `puppetdb::ssl_listen_address` Hiera key inert; set the wrapper's parameter instead.
+
+**Dependencies**
+
+* `puppetlabs/inifile` >= 6.0.0 < 7.0.0, for the `ssl-client-auth` setting. It was already present as a test fixture and an implicit transitive dependency; using it in shipped code makes it a declared one.
+
 ## Release 1.2.1
 
 **Bugfixes**
