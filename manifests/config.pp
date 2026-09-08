@@ -216,7 +216,7 @@ class puppet::config (
       # `Class['puppet::config'] ~> Service['puppet-server']`, and that edge only
       # reaches resources *contained* in this class. Under `include`, webserver.conf
       # was rewritten without restarting the service, so a changed setting stayed
-      # inert while the file on disk looked correct — a silent no-op for anyone who
+      # inert while the file on disk looked correct - a silent no-op for anyone who
       # verifies by reading the file. Its sibling below was already contained.
       contain puppet::config::webserver
     }

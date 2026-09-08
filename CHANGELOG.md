@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.43.0
+
+**Features**
+
+* `puppet::profile::server` exposes **`autosign`**, defaulting to `false`, and passes it to the `puppet` class. Previously the setting reached `puppet.conf` only through the `puppet` class's own data default, so nothing between a site profile and the CA stated it — a security-relevant value was invisible at the layer operators actually read, and a change to module data would have altered CA behaviour on every server built from this profile. Documented as a security decision rather than a convenience: with autosign off, an unauthenticated certificate request produces only a pending CSR that an operator must approve; with it on, the same request yields an issued certificate. Accepts a path for policy-based autosigning. **Not** added to `puppet::profile::compiler`, which sets `sameca => false` and therefore runs no CA — a parameter there could only enable something with no effect.
+
+**Bugfixes**
+
+* ⚠ **`puppet::config::webserver` is now `contain`ed rather than `include`d, so a change to `webserver.conf` actually restarts the server.** `puppet::service` declares `Class['puppet::config'] ~> Service['puppet-server']`, and that edge only reaches resources *contained* in `puppet::config`. Under `include` the webserver class sat outside the containment boundary: the file was rewritten on disk and the running service kept the previous settings. The failure mode is quiet — the file is correct, the agent reports the change, and anyone verifying by reading the file concludes the setting is in force, while the service still has the old value until something else restarts it. Observed with `client-auth`, where the difference between `want` and `need` decides whether an unauthenticated TLS client is refused. The sibling `puppet::config::fileserver` was already contained; this brings the two into line.
+
 ## Release 0.42.0
 
 **Bugfixes**
