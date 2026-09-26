@@ -76,7 +76,7 @@ describe 'puppet::agent::install' do
         }
       end
 
-      context 'with puppet7 platform' do
+      context 'with puppet7 platform', unless: openvox_default?(os) do
         let(:pre_condition) do
           <<-PRECOND
           class { 'puppet::globals': platform_name => 'puppet7', }

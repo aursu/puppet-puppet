@@ -114,7 +114,7 @@ describe 'puppet::repo' do
         }
       end
 
-      context 'check deccomission packages for Puppet 7' do
+      context 'check deccomission packages for Puppet 7', unless: openvox_default?(os) do
         let(:pre_condition) do
           <<-PRECOND
           class { 'puppet::globals': platform_name => 'puppet7', }
@@ -195,6 +195,28 @@ describe 'puppet::repo' do
           }
         else
           it { is_expected.not_to contain_exec('puppet-release-apt-update') }
+        end
+      end
+
+      context 'with a Puppet Inc platform where Puppet Inc publishes nothing', if: openvox_default?(os) do
+        let(:pre_condition) { "class { 'puppet::globals': platform_name => 'puppet8' } include puppet" }
+
+        it {
+          is_expected.to compile.and_raise_error(
+            %r{platform puppet8 has no release package .* Set puppet::globals::platform_name to openvox7 or openvox8},
+          )
+        }
+
+        context 'when the repository is managed elsewhere' do
+          let(:pre_condition) { "class { 'puppet::globals': platform_name => 'puppet8' } class { 'puppet': manage_repo => false }" }
+
+          it { is_expected.to compile }
+        end
+
+        context 'when platform_repository points at a mirror' do
+          let(:params) { { platform_repository: 'https://mirror.example.com/puppet8-release.noarch.rpm' } }
+
+          it { is_expected.to compile }
         end
       end
 

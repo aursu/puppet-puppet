@@ -86,6 +86,17 @@ class puppet::repo (
   $source_repos    = $puppet::globals::platform_name
 
   if $manage_repo {
+    # Puppet Inc publishes no release package for these releases: the curl
+    # below gets a 404, and everything ordered after Class['puppet::repo'] -
+    # the agent package among it - is skipped at apply time as a dependency
+    # failure. Refuse at compile time instead, and name the fix. A consumer
+    # pointing platform_repository at its own mirror is left alone.
+    $no_puppet_repo = !$puppet::globals::is_openvox and $source_release in ['el-10', 'fedora-41']
+    if $no_puppet_repo and $platform_repository == $puppet::globals::platform_repository {
+      $problem = "platform ${source_repos} has no release package for ${source_release} (${platform_repository} does not exist)"
+      fail("puppet::repo: ${problem}. Set puppet::globals::platform_name to openvox7 or openvox8.")
+    }
+
     # use own tmp directory to not interferre with puppet_agent module
     file { $tmpdir:
       ensure => directory,
