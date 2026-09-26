@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 2.1.0
+
+⚠ **Behaviour change on Rocky 10 and Fedora 41.** Puppet Inc publishes no release package for `el-10` or `fedora-41` (`yum.puppet.com/puppet8-release-el-10.noarch.rpm` answers 404), so a `puppet7`/`puppet8` platform there compiled a catalogue that failed on apply: `Exec['puppet-release']` got the 404 and the agent package was skipped as a dependency failure. Both halves of that are changed below. Nothing changes on any other operating system.
+
+**Features**
+
+* **OpenVox 8 is the default platform on Rocky 10 and Fedora 41.** Per-OS module data (`data/os/Rocky/10.yaml`, `data/os/Fedora/41.yaml`) sets `platform_name: openvox8` for `puppet::globals` and for every `puppet::profile::*` class that carries a `platform_name` default. It only reaches a node that names no platform; such a node could not install an agent there before.
+
+**Bugfixes**
+
+* ⚠ **`puppet::repo` refuses a Puppet Inc platform where Puppet Inc publishes nothing.** With `puppet7`/`puppet8` named explicitly on Rocky 10 or Fedora 41 and the repository managed by the module, compilation now fails with a message naming the fix: set `puppet::globals::platform_name` (or the profile's `platform_name`) to `openvox7` or `openvox8`. A catalogue that used to compile and then fail on apply now fails at compile time. Not affected: `manage_repo => false` (the repository is managed elsewhere, the platform then only names a package), and a `platform_repository` pointing at a mirror.
+
+**Removed**
+
+* The CentOS/Rocky 6 and 7 branch in `puppet::params`. Those releases are not in `metadata.json`; the branch was dead code. The `'CentOS'` label itself stays, since CentOS Stream takes the same path as Rocky.
+
+**Tests**
+
+* `facterdb ~> 4.5` and `rspec-puppet-facts ~> 6.0`, set through `.sync.yml`. `metadata.json` declared Rocky 10, but facterdb 3 has no rocky-10 factset, so `on_supported_os` produced no Rocky 10 examples and the suite passed without testing it. The Rocky 10 branches that then ran for the first time were asserting the 404 URL above; those expectations are gone.
+
 ## Release 2.0.0
 
 ⚠ **Breaking change: `puppet::puppetdb` no longer binds `0.0.0.0`.**
