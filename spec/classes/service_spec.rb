@@ -4,6 +4,8 @@ describe 'puppet::service' do
   let(:pre_condition) { 'include puppet' }
 
   on_supported_os.each do |os, os_facts|
+    server_package = openvox_default?(os) ? 'openvox-server' : 'puppetserver'
+
     context "on #{os}" do
       let(:facts) { os_facts }
 
@@ -23,7 +25,7 @@ describe 'puppet::service' do
         is_expected.to contain_package('puppet-server')
           .with(
             ensure: 'installed',
-            name: 'puppetserver',
+            name: server_package,
           )
       }
 

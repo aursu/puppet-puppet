@@ -4,6 +4,8 @@ describe 'puppet::agent::install' do
   let(:pre_condition) { 'include puppet' }
 
   on_supported_os.each do |os, os_facts|
+    agent_package = openvox_default?(os) ? 'openvox-agent' : 'puppet-agent'
+
     context "on #{os}" do
       let(:facts) { os_facts }
 
@@ -11,7 +13,7 @@ describe 'puppet::agent::install' do
 
       it {
         is_expected.to contain_package('puppet-agent')
-          .with_name('puppet-agent')
+          .with_name(agent_package)
           .with_ensure('installed')
       }
 
@@ -29,13 +31,13 @@ describe 'puppet::agent::install' do
           os_version = os_facts[:os]['release']['major']
           it {
             is_expected.to contain_package('puppet-agent')
-              .with_name('puppet-agent')
+              .with_name(agent_package)
               .with_ensure("7.26.0-1.el#{os_version}")
           }
         when 'Ubuntu', 'Debian'
           it {
             is_expected.to contain_package('puppet-agent')
-              .with_name('puppet-agent')
+              .with_name(agent_package)
               .with_ensure('7.26.0')
           }
         end
@@ -52,7 +54,7 @@ describe 'puppet::agent::install' do
 
         it {
           is_expected.to contain_package('puppet-agent')
-            .with_name('puppet-agent')
+            .with_name(agent_package)
             .with_ensure('latest')
         }
       end

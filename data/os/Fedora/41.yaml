@@ -1,0 +1,13 @@
+---
+# Puppet Inc publishes no fedora-41 release package, so the module-wide
+# default platform, puppet8, cannot install anything on Fedora 41. OpenVox
+# can. Every class that declares its own platform_name default is listed:
+# the profiles pass theirs to puppet::globals resource-like, so setting the
+# globals key alone would be overridden. A consumer that names a platform
+# explicitly is not affected by this file.
+puppet::globals::platform_name: openvox8
+puppet::profile::agent::platform_name: openvox8
+puppet::profile::compiler::platform_name: openvox8
+puppet::profile::puppet::platform_name: openvox8
+puppet::profile::puppetdb::platform_name: openvox8
+puppet::profile::server::platform_name: openvox8

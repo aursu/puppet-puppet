@@ -9,6 +9,7 @@ describe 'puppet::repo' do
     # do it, but it fails the resource via `apt-mark` once the repository is
     # gone, so the package stays `absent` on every platform.
     debian = os.match?(%r{^(ubuntu|debian)-})
+    release_package = openvox_default?(os) ? 'openvox8-release' : 'puppet8-release'
 
     context "on #{os}" do
       let(:facts) { os_facts }
@@ -93,7 +94,7 @@ describe 'puppet::repo' do
         it {
           is_expected.to contain_package('puppet-release')
             .without_ensure
-            .with_name('puppet8-release')
+            .with_name(release_package)
         }
 
         it {
@@ -334,23 +335,12 @@ describe 'puppet::repo' do
               end
             end
           end
+        # Rocky 10 and Fedora 41 are absent on purpose: Puppet Inc has no
+        # release package for them, and the module defaults them to OpenVox.
         when 'RedHat'
           case os_facts[:os]['name']
-          when 'Fedora'
-            case os_facts[:os]['release']['major']
-            when '41'
-              it 'downloads puppet8 repository package for Fedora 41' do
-                is_expected.to contain_exec('puppet-release')
-                  .with_command('curl https://yum.puppet.com/puppet8-release-fedora-41.noarch.rpm -f -s -o /tmp/puppet-puppet/puppet8-release-fedora-41.noarch.rpm')
-              end
-            end
           when 'Rocky'
             case os_facts[:os]['release']['major']
-            when '10'
-              it 'downloads puppet8 repository package for Rocky 10' do
-                is_expected.to contain_exec('puppet-release')
-                  .with_command('curl https://yum.puppet.com/puppet8-release-el-10.noarch.rpm -f -s -o /tmp/puppet-puppet/puppet8-release-el-10.noarch.rpm')
-              end
             when '9'
               it 'downloads puppet8 repository package for Rocky 9' do
                 is_expected.to contain_exec('puppet-release')
