@@ -72,17 +72,7 @@ class puppet::params {
   $puppetdb_version = 'installed'
 
   case $os_name {
-    'CentOS', 'Rocky': {
-      if $os_version in ['6', '7'] {
-        $manage_init_config   = false # not implemented
-        $init_config_template = undef
-      }
-      else {
-        $manage_init_config = true
-        $init_config_template = 'puppet/init/puppetserver.epp'
-      }
-    }
-    'Ubuntu': {
+    'CentOS', 'Rocky', 'Ubuntu': {
       $manage_init_config = true
       $init_config_template = 'puppet/init/puppetserver.epp'
     }

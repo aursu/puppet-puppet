@@ -382,14 +382,6 @@ describe 'puppet::repo' do
                   .with_command('curl https://yum.puppet.com/puppet8-release-amazon-2023.noarch.rpm -f -s -o /tmp/puppet-puppet/puppet8-release-amazon-2023.noarch.rpm')
               end
             end
-          when 'CentOS'
-            case os_facts[:os]['release']['major']
-            when '7'
-              it 'downloads puppet8 repository package for CentOS 7' do
-                is_expected.to contain_exec('puppet-release')
-                  .with_command('curl https://yum.puppet.com/puppet8-release-el-7.noarch.rpm -f -s -o /tmp/puppet-puppet/puppet8-release-el-7.noarch.rpm')
-              end
-            end
           end
         end
       end
