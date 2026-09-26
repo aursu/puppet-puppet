@@ -1,0 +1,13 @@
+---
+# facterdb carries the OS factsets the unit tests compile against, and the
+# template's pin predates Rocky 10: rocky-10 first appears in facterdb 4.2,
+# rspec-puppet-facts 4 requires facterdb ~> 2.1, and only rspec-puppet-facts 6
+# widens the requirement to >= 3.1, < 5.0. Both are raised together; neither
+# moves on its own. Without them `on_supported_os` yields no Rocky 10 examples
+# at all, although metadata.json declares it.
+Gemfile:
+  overrides:
+    - gem: 'facterdb'
+      version: '~> 4.5'
+    - gem: 'rspec-puppet-facts'
+      version: '~> 6.0'
