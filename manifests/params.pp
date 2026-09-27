@@ -50,6 +50,10 @@ class puppet::params {
           $os_abbreviation = 'fedora'
           $package_build = "1.fc${os_version}"
         }
+        'Amazon': {
+          $os_abbreviation = 'amazon'
+          $package_build = "1.amazon${os_version}"
+        }
         default: {
           $os_abbreviation = 'el'
           $package_build = "1.el${os_version}"

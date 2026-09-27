@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'puppet::agent::install' do
   let(:pre_condition) { 'include puppet' }
 
-  on_supported_os.each do |os, os_facts|
+  on_supported_os_with_amazon.each do |os, os_facts|
     agent_package = openvox_default?(os) ? 'openvox-agent' : 'puppet-agent'
 
     context "on #{os}" do
@@ -33,6 +33,12 @@ describe 'puppet::agent::install' do
             is_expected.to contain_package('puppet-agent')
               .with_name(agent_package)
               .with_ensure("7.26.0-1.el#{os_version}")
+          }
+        when 'Amazon'
+          it {
+            is_expected.to contain_package('puppet-agent')
+              .with_name(agent_package)
+              .with_ensure('7.26.0-1.amazon2023')
           }
         when 'Ubuntu', 'Debian'
           it {

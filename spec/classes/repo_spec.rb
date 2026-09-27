@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'puppet::repo' do
   let(:pre_condition) { 'include puppet' }
 
-  on_supported_os.each do |os, os_facts|
+  on_supported_os_with_amazon.each do |os, os_facts|
     # Debian keeps conffiles on remove, so removing the package is not what
     # decommissions the repository - the file removals below are. Purging would
     # do it, but it fails the resource via `apt-mark` once the repository is
