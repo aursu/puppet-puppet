@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 2.1.1
+
+**Bugfixes**
+
+* ⚠ **Amazon Linux 2023 installs again.** `puppet::params` had no branch for Amazon, so it fell through to the EL default and built `el-2023`: the release package URL (`puppet8-release-el-2023`, `openvox8-release-el-2023`) answered 404 on both platforms, and a bare agent version became `<version>-1.el2023`, a build no repository carries. Both platforms publish `amazon-2023` release packages and `1.amazon2023` builds, and those are what the module now uses.
+
+**Tests**
+
+* Amazon Linux 2023 is tested. facterdb carries `amazon-2023` only for Facter 5, and `on_supported_os` selects factsets for the running Facter 4, so the release `metadata.json` declares was silently absent and its expectations in `repo_spec` never ran. `repo_spec` and `agent/install_spec` add it explicitly.
+
 ## Release 2.1.0
 
 ⚠ **Behaviour change on Rocky 10 and Fedora 41.** Puppet Inc publishes no release package for `el-10` or `fedora-41` (`yum.puppet.com/puppet8-release-el-10.noarch.rpm` answers 404), so a `puppet7`/`puppet8` platform there compiled a catalogue that failed on apply: `Exec['puppet-release']` got the 404 and the agent package was skipped as a dependency failure. Both halves of that are changed below. Nothing changes on any other operating system.
